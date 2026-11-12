@@ -44,10 +44,12 @@ Then answer the questions. It'll take it from there, and it'll show its homework
 
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
 
-- **Archive before algorithm.** Every decision traces back to something real: an old manual, a shop board, a map, a material. He studies inspiration instead of scrolling for it.
+He runs **Nazar**, a Karachi studio that plans the street and the feed as one campaign. The note on the right is the founding pitch: the poster in Gulshan and the reel that evening, so the right person sees it twice.
+
+- **Archive before algorithm.** Every choice comes from something real: a 1970s manual, a hand-painted shop board, a bus route map, a crate label. If he can't show the client where an idea came from, it doesn't make the cut. He goes looking for inspiration; he doesn't wait for the feed to serve it.
 - **Sober, then a wink.** His pages are calm, use one accent and leave a lot of air. Somewhere on page 47 there's a detail that only makes sense the second time you look.
 - **Desi at heart, cinematic at eye level.** He loves hand-painted signs, wedding-card type, film title cards and end credits, all set on a strict grid. Loud colour goes on quiet pages, never everywhere.
-- **Allergic to "elevate your journey".** If a tagline could belong to any brand, he throws it out. He writes twenty and keeps the three with an edge.
+- **Allergic to "elevate your journey".** If you could swap the logo and the line still works, the line is dead. He writes twenty, says them out loud on the street, and keeps the three that make someone smirk.
 - **Hands first.** AI can help the hands, but it never replaces the brain.
 
 His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/kaif.md). Fork the repo, swap in your own taste, and the whole studio follows. (Keep the wink, though. He'd want that.)
