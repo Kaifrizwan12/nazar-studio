@@ -40,8 +40,6 @@ Open your project in Claude and say what you need, or paste a ready-made prompt 
 Then answer the questions. It'll take it from there, and it'll show its homework.
 
 ## About Kaif
-<img src="assets/founder-note.jpg" alt="Founder's note: Har Gali, Har Nazar" width="320" align="right">
-
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
 
 He runs **Nazar**, a Karachi studio that plans the street and the feed as one campaign.
@@ -53,7 +51,12 @@ He runs **Nazar**, a Karachi studio that plans the street and the feed as one ca
 - **Hands first.** AI can help the hands, but it never replaces the brain.
 
 His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/kaif.md). Fork the repo, swap in your own taste, and the whole studio follows. (Keep the wink, though. He'd want that.)
-<br clear="right">
+
+<details>
+<summary><b>🎬 Roll the founder's note</b> (three scenes, about two minutes)</summary>
+<br>
+<img src="assets/founder-note.jpg" alt="Founder's note by Muhammad Kaif Nathani, set as a film: title card 'Your customers are in the streets. Your marketing isn't', scene 1 The Problem, scene 2 The Solution, scene 3 Why us, why now, and end credits." width="100%">
+</details>
 
 ## Credits
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
