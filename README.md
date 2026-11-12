@@ -1,4 +1,4 @@
-# nazar-studio 👁️👁️
+# nazar-studio 
 
 > A whole design studio, in folders. It asks before it draws, reads old archives instead of scrolling trends, and won't let a widow sneak into a headline.
 
