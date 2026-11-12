@@ -55,7 +55,7 @@ His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/
 
 ### The founder's note
 
-<img src="assets/founder-note.jpg" alt="Founder's note by Muhammad Kaif Nathani, set as the front page of a bilingual paper, The Nazar: banner headline 'Your customers are in the streets. Your marketing isn't', the full note in four columns under The Problem, The Solution, and Why us, why now, with a before/after figure of street and screen." width="100%">
+<img src="assets/founder-note-v2.jpg" alt="Founder's note by Muhammad Kaif Nathani, set as the front page of a bilingual paper, The Nazar: banner headline 'Your customers are in the streets. Your marketing isn't', the full note in four columns under The Problem, The Solution, and Why us, why now, with a before/after figure of street and screen." width="100%">
 
 ## Credits
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
