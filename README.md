@@ -52,11 +52,9 @@ He runs **Nazar**, a Karachi studio that plans the street and the feed as one ca
 
 His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/kaif.md). Fork the repo, swap in your own taste, and the whole studio follows. (Keep the wink, though. He'd want that.)
 
-<details>
-<summary><b>🎬 Roll the founder's note</b> (three scenes, about two minutes)</summary>
-<br>
+### 🎬 The founder's note
+
 <img src="assets/founder-note.jpg" alt="Founder's note by Muhammad Kaif Nathani, set as a film: title card 'Your customers are in the streets. Your marketing isn't', scene 1 The Problem, scene 2 The Solution, scene 3 Why us, why now, and end credits." width="100%">
-</details>
 
 ## Credits
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
