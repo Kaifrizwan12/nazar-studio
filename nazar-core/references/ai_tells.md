@@ -43,7 +43,7 @@ The root cause is the same everywhere: generators and unbriefed designers fall b
 |---|---|
 | "Delve", "elevate", "seamless", "leverage", "robust", "tapestry", "unlock", "journey" | Plain, specific words in the brand's voice |
 | "It's not just X, it's Y" / "More than just…" | Say what it is |
-| Everything in threes | Vary the rhythm. Use two, or four, or one. |
+| Reflexive threes in every sentence | Vary the rhythm. A deliberate house cadence (short beats that land a point) is a voice, not a tell. Keep it where the writer chose it. |
 | Em dashes everywhere | Use punctuation for its purpose, not as a habit |
 | Placeholder names (John Doe, Acme, Lorem) left in | Real or clearly marked sample content |
 | A line that could belong to any brand | Kaif's rule: if you could swap the logo and it still works, it's dead |
