@@ -5,6 +5,7 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 ## A. Methods: look at each page in all these ways
 | Method | How | Catches |
 |---|---|---|
+| **Fresh build first** | Delete the old output, rebuild, confirm the build exited cleanly and the file's timestamp is new, then look | Reviewing a stale file after a failed build and calling it fixed |
 | **Full size** | Open each PNG at 100% | Overlaps, glyphs, kerning, small type |
 | **Contact sheet** | `exports/sheet.png`, as Kaif sees it | Rhythm, consistency, odd pages out, empty or crowded pages |
 | **Squint / blur** | Blur the page heavily (or squint) | Hierarchy: is the focal point clear? Do things that look alike belong together? [NN/g squint test] |
@@ -38,6 +39,9 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 - [ ] **Continuity:** leaders, routes and arrows guide the eye without crossing text or each other.
 - [ ] **Balance:** visual weight is deliberate. Symmetrical pages are truly symmetrical (measured), and asymmetrical pages are balanced by a clear counterweight.
 - [ ] Negative space is intentional, not left over. No quadrant looks unfinished.
+- [ ] **Collisions are cleared or made deliberate.** A glyph running through a rule, text sitting on a line, a tail touching a label: either give it air, or make the break intentional (a knockout gap in the rule).
+- [ ] **Paired figures share one layout** (before/after, A/B, then/now), so the only thing that changes is the point being made.
+- [ ] Graphics, lines and their labels stay inside their own column or frame, and each label sits at the thing it names.
 
 ## E. Grid and alignment
 - [ ] Every block starts on the margin or a column line, and the same kind of block starts at the same x on every page.
@@ -65,7 +69,7 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 - [ ] Good rag: no deep holes, no shapes (wedges, steps) in ragged text. No more than 2 hyphens in a row (ladders), and no hyphenated names.
 - [ ] No rivers of white in justified text (avoid justifying short measures at all).
 - [ ] Kerning is even in display sizes and the logo-adjacent type. Fix any default kerning that gaps (T, V, W, Y, quote marks).
-- [ ] Real typographic characters: curly quotes and apostrophes, en dash for ranges (9–5), em dash or spaced en dash for breaks, × for dimensions, real ellipsis, proper minus.
+- [ ] Real typographic characters: curly quotes and apostrophes (check all-caps and display lines too; uppercasing in code keeps straight quotes), en dash for ranges (9–5), em dash or spaced en dash for breaks, × for dimensions, real ellipsis, proper minus.
 - [ ] Figures: tabular figures in tables and specs, consistent figure style.
 - [ ] No missing glyphs or tofu. Run `missing(role, text)` on unusual strings (diacritics, IPA, currency symbols, arrows).
 - [ ] Small text meets the minimum (about 12 px on screen pages; check print minimums with the printer).
@@ -110,6 +114,8 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 - [ ] Voice matches the voice page. No filler words ("elevate", "seamless", "curated").
 - [ ] Numbers are real or marked "sample". Fictional businesses are labelled fictional.
 - [ ] Contacts, URLs and handles are correct and current.
+- [ ] No line is repeated on the same page unless the repeat adds something. On short pieces a pull quote usually just echoes the body.
+- [ ] Supplied copy matches the source exactly, including paragraph breaks. Diff it against the original.
 
 ## N. Consistency across the book
 - [ ] Contents page numbers match (run the build twice), and any "see page N" reference is right.
@@ -136,6 +142,7 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 - [ ] PNGs are at full resolution and named `NN_<pid>.png`.
 - [ ] The asset pack matches the kit's deliverables file naming, and the README is updated.
 - [ ] `SPEC.md` matches the built book.
+- [ ] When replacing an already-published image (README, website, CDN), give it a new filename (`-v2`). Caches keep serving the old file under the old name.
 
 ## R. Triage and report
 Rate each issue, fix all **P1** and **P2** before showing, and list any P3s you chose to leave.
