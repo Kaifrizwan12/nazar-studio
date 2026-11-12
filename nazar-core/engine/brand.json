@@ -1,0 +1,92 @@
+{
+  "name": "Example Co.",
+  "year": 2026,
+  "page": {
+    "w": 1920,
+    "h": 1080,
+    "margin": 120,
+    "columns": 12,
+    "gutter": 24,
+    "heading": {
+      "running": 92,
+      "kicker": 152,
+      "title": 212,
+      "title_lead": 62
+    },
+    "_note": "Derive these per format (references/04_book_anatomy.md section 5). Print A4 at 300 dpi: w 2480, h 3508."
+  },
+  "colours": {
+    "base": {
+      "name": "Ink",
+      "meaning": "base",
+      "hex": "#1B1A17",
+      "share": 55
+    },
+    "light": {
+      "name": "Paper",
+      "meaning": "light",
+      "hex": "#EFE9DF",
+      "share": 30
+    },
+    "secondary": {
+      "name": "Stone",
+      "meaning": "secondary text",
+      "hex": "#A39C90",
+      "share": 5
+    },
+    "secondary_dark": {
+      "name": "Stone dark",
+      "meaning": "small text on Paper",
+      "hex": "#6B655B"
+    },
+    "accent": {
+      "name": "Signal",
+      "meaning": "the one accent",
+      "hex": "#E8572A",
+      "share": 10
+    }
+  },
+  "fonts_dir": "fonts",
+  "fonts": {
+    "text": "SpaceGrotesk-Regular.ttf",
+    "text-l": "SpaceGrotesk-Light.ttf",
+    "text-m": "SpaceGrotesk-Medium.ttf",
+    "label": "SpaceMono-Regular.ttf",
+    "display": "Anton-Regular.ttf"
+  },
+  "logos": {
+    "mark": "example/logo/mark.svg",
+    "device": "example/logo/device.svg"
+  },
+  "sections": [
+    [
+      "00",
+      "Front"
+    ],
+    [
+      "01",
+      "Why, idea, how"
+    ],
+    [
+      "02",
+      "Logo"
+    ],
+    [
+      "03",
+      "Colour"
+    ],
+    [
+      "04",
+      "Type"
+    ],
+    [
+      "09",
+      "Close"
+    ]
+  ],
+  "page_modules": [
+    "pages_example"
+  ],
+  "reveal_pid": "09.1",
+  "exports": "../exports"
+}
