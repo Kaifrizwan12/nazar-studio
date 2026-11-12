@@ -39,7 +39,7 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 - **Research precedents for the content, not just the brand.** Before designing a piece, find how that *kind* of content has been done well (a long text, a launch, a list, a quote, a number) and build on that tradition.
 - **Ask where it will live before designing.** Different destinations (feed, document, page, print, screen) have different sizes, reading distances and rules. One question up front saves a redesign.
 - **Read the relevant kit and the brand's book before each new piece.**
-- **"Exact copy" means every word, unchanged.** Typographic fixes are fine; rewording and trimming are not.
+- **"Exact copy" means every word, unchanged.** Typographic fixes are fine; rewording and trimming are not. When he allows edits, tune lines to the brand book's voice rules (its sentence shapes, language mix, devices), offer a few options with a pick, and list every line that changed.
 - **Files may be edited by others.** Pull before pushing, keep their edits, never overwrite with an older version.
 - **A strong negative reaction means rethink, not patch.** Restate what was wrong in one line, go back to research, and propose a new direction with options.
 
