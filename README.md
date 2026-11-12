@@ -44,7 +44,7 @@ Then answer the questions. It'll take it from there, and it'll show its homework
 
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
 
-He runs **Nazar**, a Karachi studio that plans the street and the feed as one campaign. The note on the right is the founding pitch: the poster in Gulshan and the reel that evening, so the right person sees it twice.
+He runs **Nazar**, a Karachi studio that plans the street and the feed as one campaign.
 
 - **Archive before algorithm.** Every choice comes from something real: a 1970s manual, a hand-painted shop board, a bus route map, a crate label. If he can't show the client where an idea came from, it doesn't make the cut. He goes looking for inspiration; he doesn't wait for the feed to serve it.
 - **Sober, then a wink.** His pages are calm, use one accent and leave a lot of air. Somewhere on page 47 there's a detail that only makes sense the second time you look.
