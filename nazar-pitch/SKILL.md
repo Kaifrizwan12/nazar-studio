@@ -11,6 +11,7 @@ Read `../nazar-core/SKILL.md` first. Good process protects the work: a clear sco
 1. **A value conversation before the price** (Blair Enns): understand what the outcome is worth to the client before proposing [SRC].
 2. **Three options that differ in outcome and approach,** not three sizes of the same deliverables [SRC].
 3. **Nothing starts without a signed agreement and a deposit.**
+- **Decks and proposals pass the AI test too.** No template slides, gradient title cards or "unlock your potential" copy; clients read them as generated (`../nazar-core/references/ai_tells.md`).
 4. **One decision-maker,** named in the agreement.
 5. **Revision rounds are limited and defined;** extra work goes through a change request.
 6. **IP transfers on full payment;** licensed elements (fonts, images, music) are listed separately.

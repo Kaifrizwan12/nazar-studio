@@ -13,7 +13,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 3. **Research before concept.** Follow `references/research_path.md`. Tag findings [ARCH] / [SRC] / [KNOWN] / [TREND] / [IDEA]. No reference, no decision.
 4. **Ideas before looks.** Generate concepts with `references/ideation.md` (at least 3 methods), then cluster them into territories and 3 routes.
 5. **Judge like the masters.** `references/masters.md`: meaning, distinctiveness, the blur and shelf tests, remove before adding.
-6. **No AI slop.** No AI-generated or stock imagery in deliverables. Build from the brand's own parts, real places, real type and real data. Mockups are spec sheets unless a licensed mockup or real photo is used.
+6. **No AI slop, and no AI look.** No AI-generated or stock imagery in deliverables. Build from the brand's own parts, real places, real type and real data. Mockups are spec sheets unless a licensed mockup or real photo is used. Run the 30-second test in `references/ai_tells.md` on everything: no unexplained gradients or glows, no default fonts, no centred-everything skeletons, no "elevate".
 7. **The client's logo is sacred.** Use exact artwork, and never redraw it unless the job *is* the logo (`nazar-logo`).
 8. **Lock before you build.** The name, tagline and core idea are locked in writing before production. Changes after that cost a rebuild, so say so.
 9. **QA before showing.** `references/qa_design.md` (methods, checks, P1/P2/P3 triage), plus the kit's own QA list. Report what you fixed.
@@ -28,6 +28,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | `references/masters.md` | Practices of the masters, each with how to apply it |
 | `references/ideation.md` | Concept methods: reframing, word→image collisions, semiotics, lateral thinking, SCAMPER, matrices, analogy, kill list |
 | `references/qa_design.md` | Design QA: 10 ways of looking, ~90 checks, triage |
+| `references/ai_tells.md` | What makes work look AI-made (colour, layout, type, images, copy, process), the 30-second test, sources |
 | `references/sources.md` | Archives and references by topic |
 | `references/studio_flow.md` | How every Kaif job runs: brief → research → routes → build → QA → handover |
 | `templates/research_log.md` | Research log format |
@@ -42,6 +43,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | The identity system and brand book | `nazar-brand-book` |
 | Packs, labels, ranges, print production | `nazar-packaging` |
 | Instagram / TikTok / LinkedIn systems and content | `nazar-social` |
+| Static backdrops for routine posts (dark/light, every format) from a brand book | `nazar-backdrops` |
 | Billboards, transit, vehicles, walls, screens, guerrilla | `nazar-ooh` |
 | Logo animation, motion system, video idents | `nazar-motion` |
 | Brand websites and landing pages | `nazar-web` |

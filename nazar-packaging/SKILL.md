@@ -10,7 +10,7 @@ Read `../nazar-core/SKILL.md` first. Packaging is the brand in the customer's ha
 ## Rules
 1. **Shelf first, then hand.** Design for findability (it's found when sought) and visibility (it catches the eye) among real competitors, then for the detail up close [SRC].
 2. **A brand block plus variant clarity.** A consistent brand block across the range, and one variant cue that never breaks it.
-3. **The product is the hero.** Windows, real colour, real form. Graphics serve the product, not the other way round.
+3. **The product is the hero.** Windows, real colour, real form. Graphics serve the product, not the other way round. No generated product shots or "lifestyle" renders: real photography or honest illustration (`../nazar-core/references/ai_tells.md` §4).
 4. **Front of pack: less.** Brand → product name → variant → one key benefit. Everything else goes on the back or side.
 5. **Keep known assets on a refresh.** Don't throw away what shoppers recognise (Tropicana's 2009 redesign was reportedly reversed after a sales drop) [SRC].
 6. **The printer and converter are the final authority.** Get their spec before final artwork.

@@ -8,7 +8,7 @@ description: Nazar Studio's motion kit. Use for logo animation, motion identity 
 Read `../nazar-core/SKILL.md` first. Motion is how the brand behaves. It should feel like the brand's idea in action: the mark builds the way the idea works. Kaif loves cinematic nuance (title cards, credits, grain, the light of a scene), so offer it where the brand fits.
 
 ## Rules
-1. **The behaviour comes from the idea.** Ask what the brand *does* (opens, syncs, grows, travels, stamps) and animate that. Not random spins and bounces.
+1. **The behaviour comes from the idea.** Ask what the brand *does* (opens, syncs, grows, travels, stamps) and animate that. Not random spins and bounces, and not the AI-video look (glowing particles, light sweeps, floaty camera drift with no reason) (`../nazar-core/references/ai_tells.md`).
 2. **Three constants:** one signature easing, a small duration palette, one entrance pattern [SRC].
 3. **Real physics, branded:** ease in and out (nothing moves linearly in life); overshoot and squash only if the personality allows it [SRC].
 4. **Short:** logo animations of about 1–2 s for most uses, longer only for film idents [SRC, a rule of thumb].

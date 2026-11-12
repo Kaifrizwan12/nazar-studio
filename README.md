@@ -20,6 +20,7 @@ No AI slop, no stock photos, no cartoon mockups, and no "elevate your journey".
 | `nazar-brand-book` | The identity system and the book (with hidden things to find) |
 | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
 | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
+| `nazar-backdrops` | Brand book in, a year of routine-post backdrops out: dark and light, every format |
 | `nazar-ooh` | Billboards, walls, vehicles and screens that read in one breath |
 | `nazar-motion` | Logos that move like they mean it |
 | `nazar-web` | Brand sites that are fast, accessible and a little bit extra |
@@ -52,9 +53,9 @@ He runs **Nazar**, a Karachi studio that plans the street and the feed as one ca
 
 His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/kaif.md). Fork the repo, swap in your own taste, and the whole studio follows. (Keep the wink, though. He'd want that.)
 
-### 🎬 The founder's note
+### The founder's note
 
-<img src="assets/founder-note.jpg" alt="Founder's note by Muhammad Kaif Nathani, set as a film: title card 'Your customers are in the streets. Your marketing isn't', scene 1 The Problem, scene 2 The Solution, scene 3 Why us, why now, and end credits." width="100%">
+<img src="assets/founder-note.jpg" alt="Founder's note by Muhammad Kaif Nathani, set as a long-copy press ad: a street map on top, the headline 'Your customers are in the streets. Your marketing isn't', and the full note in three columns under The Problem, The Solution, and Why us, why now." width="100%">
 
 ## Credits
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).

@@ -8,7 +8,7 @@ description: Nazar Studio's brand website kit. Use for brand sites, landing page
 Read `../nazar-core/SKILL.md` first. A brand site is the identity *in use*: it should feel unmistakably like the brand, load fast, work for everyone, and make the next step obvious.
 
 ## Rules
-1. **Content first.** Real copy and real images drive the layout. No lorem ipsum in reviews.
+1. **Content first.** Real copy and real images drive the layout. No lorem ipsum in reviews. Never the default AI site: no purple/indigo gradients, no Inter-by-default, no centred hero plus three icon cards, no glassmorphism, no "New" pill badges (`../nazar-core/references/ai_tells.md` §1–3).
 2. **One job per page.** Every page has one primary action.
 3. **Tokens, not one-offs.** Colour, type, spacing, radius and motion live as tokens shared with the brand system [SRC].
 4. **Accessible by default:** WCAG 2.2 AA contrast, keyboard use, focus states, alt text, reduced motion.

@@ -10,7 +10,7 @@ Read `../nazar-core/SKILL.md` first. Outdoor is read in seconds, at a distance, 
 ## Rules
 1. **One idea per board.** About 6–7 words is the common rule of thumb (not a law): say it in one breath [SRC].
 2. **Legibility is physics:** letter height vs viewing distance, contrast, time to read (`references/legibility.md`). The media owner's spec governs.
-3. **Context is the medium.** Design for *this* site: the road, speed, angle, light, neighbourhood, time of day. The location can be part of the joke.
+3. **Context is the medium.** Design for *this* site: the road, speed, angle, light, neighbourhood, time of day. The location can be part of the joke. Street audiences now spot generated posters instantly; run the 30-second test in `../nazar-core/references/ai_tells.md`.
 4. **Street to screen.** Every outdoor idea should have a screen twin (the photo people take, a reel, a geo-targeted ad, a QR worth scanning).
 5. **Permits and safety are real.** Guerrilla ideas must be legal, safe and respectful, and the client approves the risk.
 6. **The dial-up route:** outdoor loves pop culture, local wit and cinematic scale. Offer one bold route (see core `kaif.md`).

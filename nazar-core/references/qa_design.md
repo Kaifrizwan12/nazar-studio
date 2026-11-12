@@ -100,6 +100,9 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 - [ ] Maps are real, styled by road class, with a true-scale bar. Private coordinates are rounded. The credit appears once.
 - [ ] Diagrams use the house style (1 px lines, dotted leaders, mono labels). There are no 3D or pie charts.
 - [ ] Placeholders are clearly labelled ("PHOTO: …") and none remain in the final book.
+- [ ] **The AI-look pass.** Run the 30-second test in `ai_tells.md`. No soft glows or radial gradients behind type, no neon on near-black, no default fonts, and not everything centred and evenly spaced. Two or more fails is a P1.
+- [ ] **Every graphic illustrates its own line.** Cover the text and ask what the graphic says. If it could sit next to any paragraph, replace it.
+- [ ] **The grid fits the medium.** A strict, symmetric grid is for the book; campaign pieces, films and social posts vary their composition frame by frame.
 
 ## M. Copy and content
 - [ ] Proofread every word, then read it once more backwards (word by word) for typos.

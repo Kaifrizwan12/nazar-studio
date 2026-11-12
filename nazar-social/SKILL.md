@@ -14,6 +14,9 @@ Read `../nazar-core/SKILL.md` and `../nazar-core/references/kaif.md` (especially
 4. **Real over generated.** Real people, places, products and process. No AI images, no stock. The slop test runs on every post.
 5. **Savvy lines.** Hooks and captions that are specific, witty and local. If a caption could be posted by any brand, rewrite it.
 6. **Platform specs change.** Verify sizes and safe zones in each app's own preview before final export.
+7. **Long copy changes the format, not the type size.** Body ≥ ~40 px on a 1080 canvas. If it doesn't fit, it becomes a carousel or a document, never a 16 px wall.
+8. **Not the book's grid.** The book is a guide. Posts borrow the brand's colours, type and devices, but the design of each one comes from what the post says and what the brief asks. Each is composed for the feed: asymmetric, one idea per frame, no "AI look" (glows, centred everything). Run the AI-look pass in `../nazar-core/references/qa_design.md` §L.
+9. **Static backdrops come from `nazar-backdrops`.** The routine-post frames (dark and light, every format) are built there once and reused; this kit decides what goes on them.
 
 ## Workflow
 | Phase | Do | Output |

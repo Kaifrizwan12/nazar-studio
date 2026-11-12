@@ -10,7 +10,7 @@ Read `../nazar-core/SKILL.md` and `kaif.md` (cinematic taste: the light of a sce
 ## Rules
 1. **A point of view in one line.** E.g. "Close, warm, mid-action, never posed." Every image is judged against it.
 2. **Name what you like in references** (the lighting, grade, crop, composition). Vague words like "clean" or "modern" mean different things to different photographers [SRC].
-3. **Real over generated:** real people, places, products. No stock, no AI images in deliverables.
+3. **Real over generated:** real people, places, products. No stock, no AI images in deliverables. Brief photographers *away* from the AI look too: no teal-and-orange grade, no glossy HDR, no waxy retouching, no light from nowhere (`../nazar-core/references/ai_tells.md` §1, §4).
 4. **Rights and releases** for every person, location and image, recorded.
 5. **Systems, not one-offs:** photo style rules, an illustration style guide and an icon grid, so anyone can extend them.
 

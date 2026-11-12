@@ -10,7 +10,7 @@ Read `../nazar-core/SKILL.md` first, plus the locked strategy if `nazar-strategy
 ## Rules
 1. **Reframe before drawing** (Bob Gill: "the problem is the problem"). Rewrite the brief until it's interesting.
 2. **A logo designates; it needn't depict** (Rand). Don't cram the product in.
-3. **Distinctive beats different** (Sharp & Romaniuk). It must point to this brand alone, fast.
+3. **Distinctive beats different** (Sharp & Romaniuk). It must point to this brand alone, fast. Generators average toward the same marks (gradient orbs, abstract swooshes, neat geometric monograms), so a mark that looks "AI-clean" is a red flag (`../nazar-core/references/ai_tells.md`).
 4. **Concepts with method:** at least 3 generators from `../nazar-core/references/ideation.md`. Go wide (50–100 thumbnails), then 3 routes.
 5. **Construct, then correct by eye.** Grids for logic, optics for truth.
 6. **Test like it's already in the world:** blur, 16 px, one colour, reversed, embroidered, stamped, at 20 m.

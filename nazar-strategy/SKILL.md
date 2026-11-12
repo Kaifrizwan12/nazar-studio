@@ -8,7 +8,7 @@ description: Nazar Studio's brand strategy kit. Use for positioning, the "onlyne
 Read `../nazar-core/SKILL.md` first. Strategy comes before visuals: a beautiful identity on the wrong idea is a failure. The output is short, sharp and usable by a designer the next day, not a 60-page consultant deck.
 
 ## Rules
-1. **Plain words.** No jargon ("synergy", "best-in-class", "elevate"). If a sentence could describe any brand, cut it.
+1. **Plain words.** No jargon ("synergy", "best-in-class", "elevate"). If a sentence could describe any brand, cut it. Strip the AI-copy tells too: "delve", "seamless", "unlock", "it's not just X, it's Y", reflexive threes, em dashes as a habit (`../nazar-core/references/ai_tells.md` §5).
 2. **Evidence or label it.** Claims about the market come from research (`../nazar-core/references/research_path.md`), or they're marked as assumptions.
 3. **One idea.** Strategy ends in **one sentence** the whole identity hangs on, plus the tension behind it.
 4. **Decisions, not options forever.** Offer 2–3 options at each fork with a recommendation, then lock.
