@@ -40,6 +40,8 @@ Open your project in Claude and say what you need, or paste a ready-made prompt 
 Then answer the questions. It'll take it from there, and it'll show its homework.
 
 ## About Kaif
+<img src="assets/founder-note.jpg" alt="Founder's note: Har Gali, Har Nazar" width="320" align="right">
+
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
 
 - **Archive before algorithm.** Every decision traces back to something real: an old manual, a shop board, a map, a material. He studies inspiration instead of scrolling for it.
@@ -49,6 +51,7 @@ Then answer the questions. It'll take it from there, and it'll show its homework
 - **Hands first.** AI can help the hands, but it never replaces the brain.
 
 His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/kaif.md). Fork the repo, swap in your own taste, and the whole studio follows. (Keep the wink, though. He'd want that.)
+<br clear="right">
 
 ## Credits
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
