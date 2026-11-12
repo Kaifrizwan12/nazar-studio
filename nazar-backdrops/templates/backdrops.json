@@ -1,0 +1,18 @@
+{
+  "_note": "Pack config for engine/backdrops.py. Tokens (colours, fonts, logos) come from nazar-core/engine/brand.json. See references/set.md.",
+  "handle": "@exampleco",
+  "logo": "mark",
+  "formats": ["feed_4x5", "feed_1x1", "story", "reel_cover", "highlight", "avatar"],
+  "roles": ["single", "cover", "text", "image", "end", "quote", "stat", "story", "reel_cover", "highlight", "avatar"],
+  "modes": ["dark", "light"],
+  "carousel_slides": 5,
+  "band": "left",
+  "rtl": false,
+  "margin": 0.067,
+  "band_ratio": 0.012,
+  "logo_ratio": 0.15,
+  "swipe_cue": true,
+  "continuity": true,
+  "grain": false,
+  "out": null
+}

@@ -35,12 +35,13 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 - He wants all the questions up front, with options and a recommendation, then focused building.
 - "You tell" / "which is better" means: give a decision and a one-line reason.
 - Show work section by section, as a contact sheet.
-- **The brand book is a guide, not a template.** Later pieces (posts, ads, READMEs, campaigns) take the book's tokens (colour, type, logo, voice, devices) but never its page designs. Each piece is designed from **what it says and what the brief asks**, and its references come from that content (a long note → long-copy ad tradition; a launch → its own precedents).
-- **Ask where it will live before designing.** A README, an Instagram post, a LinkedIn document and a print page are different objects with different sizes, reading distances and rules. One question up front saves a full redesign.
-- **Read the kit and the brand's book first, every time.** Before a new piece, re-read the relevant kit and look at the book's contact sheets. He can tell when work wasn't built from them.
-- **"Exact message" means every word, unchanged.** Typographic fixes (curly quotes, proper dashes) are fine; rewording, trimming and "tightening" are not.
-- **He edits live files himself** (for example a README directly on GitHub). Pull before pushing, keep his edits, and never overwrite them with an older version.
-- **A blunt reaction ("awful", "so AI") means rethink, not patch.** Restate what was wrong in one line, go back to the kits and the book, and propose a new direction instead of nudging the old one.
+- **The brand book is a guide, not a template.** Later pieces take the book's tokens (colour, type, logo, voice, devices) but not its page designs. Each piece is designed from what it says and what the brief asks.
+- **Research precedents for the content, not just the brand.** Before designing a piece, find how that *kind* of content has been done well (a long text, a launch, a list, a quote, a number) and build on that tradition.
+- **Ask where it will live before designing.** Different destinations (feed, document, page, print, screen) have different sizes, reading distances and rules. One question up front saves a redesign.
+- **Read the relevant kit and the brand's book before each new piece.**
+- **"Exact copy" means every word, unchanged.** Typographic fixes are fine; rewording and trimming are not.
+- **Files may be edited by others.** Pull before pushing, keep their edits, never overwrite with an older version.
+- **A strong negative reaction means rethink, not patch.** Restate what was wrong in one line, go back to research, and propose a new direction with options.
 
 ## What he rejects
 - Cartoon or "cute" mockups of objects
@@ -50,10 +51,12 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 - Empty corners that look unfinished, small text sidelined next to a huge graphic, uneven gaps, overlapping lines, inconsistent text starts
 - Repeated credits or legal lines on every page (credit once, on the sources page)
 - **The "AI look":** soft glows, radial gradients behind type, neon-on-near-black, everything centred, everything evenly spaced, generic glassy polish. Use flat brand colour, deliberate texture and a composition someone clearly chose. The full list of tells and the 30-second test are in `ai_tells.md`.
-- **A wall of text with a logo on top.** If the copy is long, change the format (a carousel, a film strip, a document), never the type size. Body text follows the kit's minimums (for example ≥ 40 px on a 1080 social canvas).
-- **Graphics that don't illustrate the sentence.** Every graphic has to show the specific line it sits next to (the poster and the reel for "sees it twice"), not a generic prop (a receipt reading "1").
-- **The brand book's grid copied into everything.** Symmetry and strict grids belong to the book. Films, social posts, READMEs and campaign pieces are composed frame by frame: asymmetric, varied, cut by hand.
-- **Over-specific detail nobody asked for.** Clock times, street names and coordinates make a piece feel like a log. Stay high level unless the brief is about a place or a time.
+- **A wall of text with a logo on top.** If the copy is long, change the format, never shrink the type below the kit's minimums.
+- **Graphics that decorate instead of argue.** A graphic should make the idea's point (a change, a tension, a before/after), not repeat items or add a generic prop. Cover the text: if the graphic could sit next to any paragraph, it's wrong.
+- **Repetition mistaken for a concept.** Many copies of the same element is a list, not an idea. Show the relationship instead.
+- **Default hero placement.** A graphic goes where its argument happens in the reading order, not automatically on top.
+- **The brand book's grid copied into everything.** Strict symmetric grids belong to the book; other pieces are composed for their own medium.
+- **Over-specific detail nobody asked for.** Times, addresses and coordinates make a piece feel like a log. Stay high level unless the brief is about the detail.
 
 ## Judgement: risks to flag (once, gently, then follow his call)
 1. **Late changes to the name, tagline or idea.** Every change ripples through the whole book. → Lock all three in intake round 2 and say "changing this later costs a rebuild."
