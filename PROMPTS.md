@@ -54,6 +54,17 @@ Converter: <name or "recommend">. Special: <window / clear film / metallised / f
 Ask the dieline intake first. Research structures (category in 3D, archive and craft forms, award galleries; refs saved privately in research/structure/refs/ with source notes). Give me 3 structure routes (standard code, modified standard, unorthodox), each with its one-line reason, board area, rough nesting and risks. Draw concept dielines with the engine. Then make MVP drafts on the chosen structure with our brand tokens and the client's exact logo file: front, sides, back, top, with copy and barcode placeholders, and windows if the product should show. Show me the flat, the folded view and (for film) the white plate, and fix every P1 in the draft QA before I see it. End with the structure spec for the converter.
 ```
 
+## 4c. Sketch → vector (nazar-core trace)
+```
+Trace my sketch at <path to photo or scan> with nazar-core/engine/trace.py (width <mm>). Show me the compare sheet, recommend tight / balanced / smooth, then refine the chosen one by eye: nodes on extremes, rebuild what was meant to be geometric, keep the wobble that carries character. Run the logo stress tests. For package art with shading, use --levels 3 and recolour to our tokens.
+```
+
+## 4d. Illustration (nazar-illustration)
+```
+Use nazar-illustration. It's for: <where it's seen, size>. It must say: <the message>.
+Propose 3 small concepts (metaphor, gesture, mechanism) with your pick; sober with one wink, not cute. After I choose, write the concept lock (idea, focal, light, budget) and draw it with engine/ink.py, then look at it and fix one fault at a time (max 4 rounds). If the concept needs a complex figurative scene, say so and also give me a ready image prompt for Gemini (only used with client approval).
+```
+
 ## 5. Social (nazar-social)
 ```
 Use nazar-social. Brand: <name>. Platforms: <IG / TikTok / LinkedIn>. Who posts: <…>. Capacity: <posts/week, video yes/no>.

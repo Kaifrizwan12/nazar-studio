@@ -8,12 +8,13 @@ description: Shared foundation for every Nazar Studio kit (brand book, strategy,
 Every `nazar-*` kit builds on this folder. Read it first, every time.
 
 ## The studio rules (all kits)
+0. **The user's prompt leads.** Kits are add-ons: pull the pieces that serve the request (a rule, a checklist, an engine), skip the rest, and never let a kit's workflow override what was asked. If a kit and the prompt disagree, follow the prompt and mention the trade-off in one line.
 1. **Read `references/kaif.md`.** It covers who Kaif is, his taste, how he reviews, what he rejects, and the risks to flag.
 2. **Ask before building.** Each kit has its own intake: 3 rounds at most, every question with options and a recommended pick first. Facts (names, contacts, prices, legal text) are asked as plain text, never invented.
 3. **Research before concept.** Follow `references/research_path.md`. Tag findings [ARCH] / [SRC] / [KNOWN] / [TREND] / [IDEA]. No reference, no decision.
 4. **Ideas before looks.** Generate concepts with `references/ideation.md` (at least 3 methods), then cluster them into territories and 3 routes.
 5. **Judge like the masters.** `references/masters.md`: meaning, distinctiveness, the blur and shelf tests, remove before adding.
-6. **No AI slop, and no AI look.** No AI-generated or stock imagery in deliverables. Build from the brand's own parts, real places, real type and real data. Mockups are spec sheets unless a licensed mockup or real photo is used. Run the 30-second test in `references/ai_tells.md` on everything: no unexplained gradients or glows, no default fonts, no centred-everything skeletons, no "elevate".
+6. **No AI slop, and no AI look.** No stock imagery; AI-generated imagery only with the client's written approval (disclosed, licences checked), and for complex scenes Claude may hand over a ready image prompt as an alternative to code drawing. Build from the brand's own parts, real places, real type and real data. Mockups are spec sheets unless a licensed mockup or real photo is used. Run the 30-second test in `references/ai_tells.md` on everything: no unexplained gradients or glows, no default fonts, no centred-everything skeletons, no "elevate".
 7. **The client's logo is sacred.** Use exact artwork, and never redraw it unless the job *is* the logo (`nazar-logo`).
 8. **Lock before you build.** The name, tagline and core idea are locked in writing before production. Changes after that cost a rebuild, so say so.
 9. **QA before showing.** `references/qa_design.md` (methods, checks, P1/P2/P3 triage), plus the kit's own QA list. Report what you fixed.
@@ -50,5 +51,6 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | Logo animation, motion system, video idents | `nazar-motion` |
 | Brand websites and landing pages | `nazar-web` |
 | Photography, illustration and icon direction | `nazar-art-direction` |
+| Drawing in code: spot illustrations, icons, patterns, pen-and-ink, math art | `nazar-illustration` |
 | Proposals, pricing, presenting, feedback, contracts, handover | `nazar-pitch` |
 A full identity job usually chains: pitch → strategy → logo → brand book → (packaging + dieline / social / OOH / motion / web / art direction) → pitch (handover).
