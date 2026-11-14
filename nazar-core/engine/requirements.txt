@@ -3,3 +3,4 @@ fonttools==4.60.2
 CairoSVG==2.8.2
 pillow==11.3.0
 pypdf==6.21.1
+numpy>=1.24

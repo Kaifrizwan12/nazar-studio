@@ -34,6 +34,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | `templates/research_log.md` | Research log format |
 | `templates/brand.json` | Engine config template |
 | `engine/` | The renderer: outlined type (harfbuzz, RTL-safe), exact logos, OSM maps, PNG + PDF + contact sheet |
+| `engine/trace.py` | Sketch → vector: hand drawings and lettering to clean Bézier SVG (variants, compare sheet, multi-tone `--levels`) for logos and package art |
 
 ## Which kit for which job
 | Job | Kit |

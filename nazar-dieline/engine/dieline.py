@@ -782,7 +782,7 @@ def write_spec(d, path, bbox):
     cut = sum(length(o, True) for o in d.outlines) + sum(length(h, True) for h in d.holes) + sum(length(l) for l in d.lines["CUT"])
     crease = sum(length(l) for l in d.lines["CREASE"])
     sheet = p.get("sheet", [720, 1020] if d.style in ("rte", "ste", "sleeve", "tray", "pillow") else [1600, 2400] if d.style in ("rsc", "hsc", "mailer") else None)
-    rows = [("Style", TITLES[d.style]), ("Inputs", ", ".join(f"{k}={v}" for k, v in p.items() if k not in ("name", "style", "notes", "art", "_base_dir")))]
+    rows = [("Style", TITLES[d.style]), ("Inputs", ", ".join(f"{k}={v}" for k, v in p.items() if k not in ("name", "style", "notes", "art", "_base_dir", "_figma")))]
     rows += [("Flat size", f"{fw:.1f} × {fh:.1f} mm"), ("Board area (one-up)", f"{board / 1e6:.4f} m²  ({board / 100:.0f} cm²)"),
              ("Cut rule", f"{cut:.0f} mm"), ("Crease rule", f"{crease:.0f} mm"), ("Bleed / safe", f"{p.get('bleed', 3)} / {p.get('safe', 3)} mm")]
     if sheet and d.style not in ("cone_label", "wrap_label", "pouch", "sleeve_grid", "flowwrap"):
@@ -813,6 +813,10 @@ def build(job, out):
     if job.get("art"):
         import art as _art
         _art.render_art(d, out)
+    if job.get("_figma"):
+        import figma as _fig
+        fp, n = _fig.plan(d, out)
+        print(f"  → Figma plan: {os.path.relpath(fp)} ({n} talk-to-figma steps)")
     for w in d.warn: print(f"  ! {d.name}: {w}")
     return base
 
@@ -841,6 +845,7 @@ def main():
     ap.add_argument("--style"); ap.add_argument("--name")
     for k in ("L", "W", "D", "caliper", "bleed", "safe"): ap.add_argument(f"--{k}", type=float)
     ap.add_argument("--flute")
+    ap.add_argument("--figma", action="store_true", help="also write <name>_figma.json for claude-talk-to-figma-mcp")
     a = ap.parse_args()
     if a.config:
         cfg = json.load(open(a.config))
@@ -855,6 +860,7 @@ def main():
     built = []
     for j in jobs:
         job = {**defaults, **j}
+        if a.figma: job["_figma"] = True
         job.setdefault("_base_dir", os.path.dirname(os.path.abspath(a.config)) if a.config else os.getcwd())
         if a.only and job.get("name") != a.only: continue
         base = build(job, out)

@@ -25,7 +25,7 @@ Read `../nazar-core/SKILL.md` first, plus the locked strategy if `nazar-strategy
 | 1 | Intake (`references/intake.md`) | `SPEC.md` |
 | 2 | Research: competitor marks wall, category archive, the name, place (`references/process.md` §2) | `research/logo/` |
 | 3 | Concept session: reframe, generators, territories (`references/process.md` §3, core `ideation.md`) | idea sheets |
-| 4 | Sketching → 6–9 candidates → 3 routes (`references/process.md` §4–5) | route sheets |
+| 4 | Sketching by hand → 6–9 candidates → 3 routes (`references/process.md` §4–5); trace the chosen sketches into vectors (`references/trace.md`) | route sheets + traced SVGs |
 | 5 | Construction and optical refinement (`references/craft.md`) | construction drawings |
 | 6 | Stress tests (`references/testing.md`) | test sheets |
 | 7 | First-pass trademark check (`references/testing.md` §5) | `research/logo/clearance.md` |
@@ -37,6 +37,7 @@ Read `../nazar-core/SKILL.md` first, plus the locked strategy if `nazar-strategy
 - `references/process.md`: brief, research, concept session, sketching, development
 - `references/types.md`: kinds of marks and when each fits
 - `references/craft.md`: construction, optical corrections, wordmark craft, bilingual lockups
+- `references/trace.md`: sketch → vector with `../nazar-core/engine/trace.py` (draw, capture, trace, refine)
 - `references/testing.md`: stress tests, small sizes, motion and material tests, trademark first pass
 - `references/presenting.md`: showing routes, rationale, feedback
 - `references/files.md`: lockups, clear space, colour versions, the export matrix, naming

@@ -25,7 +25,7 @@ Read `../nazar-core/SKILL.md` first. Structure, dielines and drafting art onto t
 | 3 | Range architecture and the information hierarchy (`references/system.md`) | architecture sheet |
 | 4 | Concepts: 3 routes drafted on a real dieline with the `nazar-dieline` engine (art mode), shown flat, folded and in a shelf line-up (core `ideation.md`) | route boards |
 | 5 | Structure and substrate choice with the converter (`references/structure.md`, `../nazar-dieline/`) | structure spec |
-| 6 | Artwork: front, back, sides, mandatory panels (`references/system.md` §4) | artwork files |
+| 6 | Artwork: front, back, sides, mandatory panels (`references/system.md` §4). Hand-drawn art and lettering: draw, then trace with `../nazar-core/engine/trace.py` (`../nazar-logo/references/trace.md`), multi-tone with `--levels` | artwork files |
 | 7 | Production: colour, finishes, preflight, proofs (`references/production.md`) | print-ready PDFs |
 | 8 | Prototype and test: a physical mock-up, the shelf test, a scan test (`references/qa.md`) | test notes |
 | 9 | Press check, handover, the range template for future SKUs | `assets/packaging/` |
