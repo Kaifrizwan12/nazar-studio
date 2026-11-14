@@ -19,6 +19,7 @@ No AI slop, no stock photos, no cartoon mockups, and no "elevate your journey".
 | `nazar-logo` | Marks, from 100 thumbnails to the blur test to every export file |
 | `nazar-brand-book` | The identity system and the book (with hidden things to find) |
 | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
+| `nazar-dieline` | Box styles, real dielines from L × W × D (14 structures, from tuck boxes to chips packets), and MVP pack designs drafted on them: folded previews, windows, white-ink plates, automatic checks |
 | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
 | `nazar-backdrops` | Brand book in, a year of routine-post backdrops out: dark and light, every format |
 | `nazar-ooh` | Billboards, walls, vehicles and screens that read in one breath |
@@ -26,6 +27,11 @@ No AI slop, no stock photos, no cartoon mockups, and no "elevate your journey".
 | `nazar-web` | Brand sites that are fast, accessible and a little bit extra |
 | `nazar-art-direction` | Photo briefs, illustration guides, icon grids |
 | `nazar-pitch` | Proposals, pricing, contracts, feedback (and how to survive it) |
+
+### Dielines, drawn and dressed
+`nazar-dieline` draws concept dielines from inside dimensions (14 structures: tuck-end cartons, trays, slotted cases, mailers, pillow packs, rigid boxes, cone and wrap labels, stand-up pouches, chips packets, shrink-sleeve maps), then drafts the pack design on them. Every panel reads the right way up when folded, windows become real die-cuts, clear film gets a white-ink plate, and a QA file flags tiny type, weak contrast, misplaced barcodes and windows too close to a crease. Want a structure it doesn't know? Your Claude can add it: [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md).
+
+<img src="assets/dieline-mvp.jpg" alt="Draft pack designs generated on concept dielines: a reverse-tuck carton flat and folded, a carton with a die-cut window and film patch, a chips flow-wrap packet with split back and crimped seals, and a clear stand-up pouch with its white-ink plate." width="100%">
 
 ## Install (30 seconds, 0 drama)
 ```bash

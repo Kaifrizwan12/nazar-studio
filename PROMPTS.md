@@ -46,6 +46,14 @@ Legal text, certifications, barcodes and nutrition data will come from the clien
 Do shelf research and a category-codes sheet (keep / break / own), then range architecture options on a shelf line-up, then 3 concept routes on the real dieline. Test at 2–3 m in greyscale among competitors, and as an online thumbnail. Then production: get the printer's spec, colour strategy (CMYK / spot / white ink), finishes for meaning, preflight, proofs on the real substrate, press check notes. Hand over a range template for future SKUs.
 ```
 
+## 4b. Dieline, structure and MVP drafts (nazar-dieline)
+```
+Use nazar-dieline. Product: <…>, measured size of the largest sample: <L × W × H mm>, weight: <g>.
+Channel: <shelf / e-commerce / gift / shelf-ready / display>. Filling: <hand / machine: model>. Quantities: <first run / yearly>.
+Converter: <name or "recommend">. Special: <window / clear film / metallised / food contact / pharma braille / CR / TE>.
+Ask the dieline intake first. Research structures (category in 3D, archive and craft forms, award galleries; refs saved privately in research/structure/refs/ with source notes). Give me 3 structure routes (standard code, modified standard, unorthodox), each with its one-line reason, board area, rough nesting and risks. Draw concept dielines with the engine. Then make MVP drafts on the chosen structure with our brand tokens and the client's exact logo file: front, sides, back, top, with copy and barcode placeholders, and windows if the product should show. Show me the flat, the folded view and (for film) the white plate, and fix every P1 in the draft QA before I see it. End with the structure spec for the converter.
+```
+
 ## 5. Social (nazar-social)
 ```
 Use nazar-social. Brand: <name>. Platforms: <IG / TikTok / LinkedIn>. Who posts: <…>. Capacity: <posts/week, video yes/no>.

@@ -21,6 +21,7 @@ For each brand colour, record: HEX/RGB · CMYK coated · CMYK uncoated · Panton
 Matte or soft-touch lamination · gloss varnish · **spot UV** on one element · hot or cold **foil** · emboss or deboss · die-cut window · registered matte and gloss. Each finish is a **separate layer** in its own named spot colour (`SPOT_UV`, `FOIL`, `EMBOSS`), set to overprint, at 100%.
 
 ## 4. Dielines
+Full structural method, layer conventions and the concept-dieline engine: `../../nazar-dieline/` (`references/layers.md`, `references/engineering.md`).
 - **The converter supplies the dieline.** Draw your own only for concepts.
 - Put it on its own layer, in a uniquely named spot colour (`DIELINE`). The overprint or non-printing setting follows the converter's convention. It must never print [SRC].
 - Mark cuts (solid), folds and creases (dashed), seals, zipper, tear notch, hang hole, window, glue areas (no ink), bleed (often 3 mm for print; packaging can need more) and safe area (text 3–5 mm inside folds and cuts).

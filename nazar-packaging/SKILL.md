@@ -1,11 +1,11 @@
 ---
 name: nazar-packaging
-description: Nazar Studio's packaging kit. Use for product packaging, labels, pouches, cartons, bottles, tins, gift boxes, range and SKU systems, shelf strategy, structural choices, mandatory panels, dielines and print production (colour management, CMYK and Pantone, substrates, finishes, preflight, proofing, press checks).
+description: Nazar Studio's packaging kit. Use for product packaging, labels, pouches, cartons, bottles, tins, gift boxes, range and SKU systems, shelf strategy, structural choices, mandatory panels, and print production (colour management, CMYK and Pantone, substrates, finishes, preflight, proofing, press checks). For structure, dielines and MVP drafts on the dieline, pair it with nazar-dieline.
 ---
 
 # Kaif packaging
 
-Read `../nazar-core/SKILL.md` first. Packaging is the brand in the customer's hand: it has to win at shelf distance in 2 seconds, then reward up close. Production is half the job. A beautiful pack that prints muddy, or a barcode that won't scan, is a failed job.
+Read `../nazar-core/SKILL.md` first. Structure, dielines and drafting art onto the dieline live in `../nazar-dieline/` (this kit decides what the pack says and how it looks; that kit decides its shape and where everything sits). Packaging is the brand in the customer's hand: it has to win at shelf distance in 2 seconds, then reward up close. Production is half the job. A beautiful pack that prints muddy, or a barcode that won't scan, is a failed job.
 
 ## Rules
 1. **Shelf first, then hand.** Design for findability (it's found when sought) and visibility (it catches the eye) among real competitors, then for the detail up close [SRC].
@@ -23,8 +23,8 @@ Read `../nazar-core/SKILL.md` first. Packaging is the brand in the customer's ha
 | 1 | Intake (`references/intake.md`) | `SPEC.md` |
 | 2 | Shelf research: store visits or photos, the competitor shelf, category codes (`references/shelf.md`) | `research/pack/` |
 | 3 | Range architecture and the information hierarchy (`references/system.md`) | architecture sheet |
-| 4 | Concepts: 3 routes on a real dieline, shown in a shelf line-up (core `ideation.md`) | route boards |
-| 5 | Structure and substrate choice with the converter (`references/structure.md`) | structure spec |
+| 4 | Concepts: 3 routes drafted on a real dieline with the `nazar-dieline` engine (art mode), shown flat, folded and in a shelf line-up (core `ideation.md`) | route boards |
+| 5 | Structure and substrate choice with the converter (`references/structure.md`, `../nazar-dieline/`) | structure spec |
 | 6 | Artwork: front, back, sides, mandatory panels (`references/system.md` §4) | artwork files |
 | 7 | Production: colour, finishes, preflight, proofs (`references/production.md`) | print-ready PDFs |
 | 8 | Prototype and test: a physical mock-up, the shelf test, a scan test (`references/qa.md`) | test notes |
