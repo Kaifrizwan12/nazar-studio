@@ -67,28 +67,41 @@ You get three variants (tight, balanced, smooth), a compare sheet and a node rep
 - **Concept first:** every illustration starts with a one-sentence idea, a focal point, a light direction and a budget.
 - **Honest about limits:** for complex scenes, Claude also hands you a ready image prompt (used only with client approval).
 
-### 🧠 And the rest of the studio
-Positioning and taglines with an edge, logos from 100 thumbnails to the export matrix, brand books with hidden things to find, social systems, billboards, motion, websites, art direction and pitching. Each kit has its own intake, research path and QA.
+### 🧠 The whole studio, as one floor
 
-| Kit | Does |
-|---|---|
-| `nazar-core` | The brain everything shares: profile, research path, ideation, masters' practices, QA, AI tells, the renderer, **sketch → vector** |
-| `nazar-strategy` | Positioning, names, taglines that actually have an edge |
-| `nazar-logo` | Marks, from 100 thumbnails to the blur test to every export file (plus the tracing workflow) |
-| `nazar-brand-book` | The identity system and the book (with hidden things to find) |
-| `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
-| `nazar-dieline` | Structures, real dielines, MVP pack drafts, transparency, Figma bridge |
-| `nazar-illustration` | Drawing in code: spot illustrations, icons, patterns, pen-and-ink, math art |
-| `nazar-type` | Font sourcing, licensing, Urdu/Nastaliq pairing, which-font-when |
-| `nazar-colour` | Palettes from archives and craft, OKLCH ramps, contrast, print-safe |
-| `nazar-prompts` | AI image/video prompts (Gemini, Flow, Veo…), only with written client approval |
-| `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
-| `nazar-backdrops` | Brand book in, a year of routine-post backdrops out: dark and light, every format |
-| `nazar-ooh` | Billboards, walls, vehicles and screens that read in one breath |
-| `nazar-motion` | Logos that move like they mean it |
-| `nazar-web` | Brand sites that are fast, accessible and a little bit extra |
-| `nazar-art-direction` | Photo briefs, illustration guides, icon grids |
-| `nazar-pitch` | Proposals, pricing, contracts, feedback (and how to survive it) |
+Think of `nazar-studio` as a real studio floor, not a toolbox. A job walks through it the same way it would walk through an actual agency — front desk, then the brain, then each desk in order:
+
+```
+            ┌──────────────────────── nazar-core ────────────────────────┐
+            │   the shared brain: taste, research method, QA, the renderer  │
+            └────────────────────────────┬─────────────────────────────┘
+  front desk          the think tank               the drawing boards            production floor          out the door
+ nazar-pitch ──▶ nazar-strategy ──▶ nazar-logo / nazar-illustration ──▶ nazar-dieline / nazar-packaging ──▶ nazar-social / ooh / motion / web
+ (brief, price)    (name, idea)     nazar-type / nazar-colour            nazar-brand-book                   nazar-art-direction / backdrops
+                                     (marks, art, type, palette)         nazar-prompts* (*client-approved only)
+```
+
+| Desk | Kit | Does |
+|---|---|---|
+| Front desk | `nazar-pitch` | Proposals, pricing, contracts, feedback |
+| Think tank | `nazar-strategy` | Positioning, names, taglines with an edge |
+| Drawing board | `nazar-logo` | Marks: 100 thumbnails → the blur test → every export file |
+| Drawing board | `nazar-illustration` | Drawing in code: spot art, icons, patterns, pen-and-ink, math art |
+| Drawing board | `nazar-type` | Font sourcing, licensing, Urdu/Nastaliq pairing |
+| Drawing board | `nazar-colour` | Palettes from archives and craft, print-safe, contrast-checked |
+| Bindery | `nazar-brand-book` | The identity system and the book (with hidden things to find) |
+| Production floor | `nazar-dieline` | Structures, real dielines, MVP pack drafts, Figma bridge |
+| Production floor | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
+| Mailroom (client-approved only) | `nazar-prompts` | AI image/video prompts, used only with written sign-off |
+| Out the door | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
+| Out the door | `nazar-backdrops` | A year of routine-post backdrops, dark and light, every format |
+| Out the door | `nazar-ooh` | Billboards, walls, vehicles, screens that read in one breath |
+| Out the door | `nazar-motion` | Logos that move like they mean it |
+| Out the door | `nazar-web` | Brand sites that are fast, accessible, a little bit extra |
+| Out the door | `nazar-art-direction` | Photo briefs, illustration guides, icon grids |
+| The brain (everywhere) | `nazar-core` | Research method, taste, QA, the renderer, sketch → vector |
+
+Claude doesn't walk every desk on every job — it reads the brief and only pulls the desks it needs.
 
 ## Install (30 seconds, 0 drama)
 ```bash
