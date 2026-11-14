@@ -79,6 +79,9 @@ Positioning and taglines with an edge, logos from 100 thumbnails to the export m
 | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
 | `nazar-dieline` | Structures, real dielines, MVP pack drafts, transparency, Figma bridge |
 | `nazar-illustration` | Drawing in code: spot illustrations, icons, patterns, pen-and-ink, math art |
+| `nazar-type` | Font sourcing, licensing, Urdu/Nastaliq pairing, which-font-when |
+| `nazar-colour` | Palettes from archives and craft, OKLCH ramps, contrast, print-safe |
+| `nazar-prompts` | AI image/video prompts (Gemini, Flow, Veo…), only with written client approval |
 | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
 | `nazar-backdrops` | Brand book in, a year of routine-post backdrops out: dark and light, every format |
 | `nazar-ooh` | Billboards, walls, vehicles and screens that read in one breath |

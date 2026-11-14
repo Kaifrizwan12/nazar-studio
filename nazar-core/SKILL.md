@@ -1,6 +1,6 @@
 ---
 name: nazar-core
-description: Shared foundation for every Nazar Studio kit (brand book, strategy, logo, packaging, dieline, social, OOH, motion, web, art direction, pitch). Holds who Kaif is, the archive-backed research method, the masters' practices, the design QA checklist, sources, and the local SVG→PNG/PDF engine. Load it whenever any nazar-* skill is used.
+description: Shared foundation for every Nazar Studio kit (brand book, strategy, logo, packaging, dieline, illustration, type, colour, prompts, social, OOH, motion, web, art direction, pitch). Holds who Kaif is, the archive-backed research method, the masters' practices, the design QA checklist, sources, and the local SVG→PNG/PDF engine. Load it whenever any nazar-* skill is used.
 ---
 
 # Kaif core
@@ -52,5 +52,8 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | Brand websites and landing pages | `nazar-web` |
 | Photography, illustration and icon direction | `nazar-art-direction` |
 | Drawing in code: spot illustrations, icons, patterns, pen-and-ink, math art | `nazar-illustration` |
+| Choosing, sourcing and QA-ing typefaces (incl. Urdu/Nastaliq bilingual) | `nazar-type` |
+| Building a palette (archive-sourced, print-safe, contrast-checked) | `nazar-colour` |
+| AI image/video prompts, only with written client approval | `nazar-prompts` |
 | Proposals, pricing, presenting, feedback, contracts, handover | `nazar-pitch` |
 A full identity job usually chains: pitch → strategy → logo → brand book → (packaging + dieline / social / OOH / motion / web / art direction) → pitch (handover).

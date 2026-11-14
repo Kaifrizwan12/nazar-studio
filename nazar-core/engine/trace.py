@@ -31,8 +31,23 @@ VARIANTS = {   # tolerance is in px at a 1000 px working size; corner angle in d
 
 # ----------------------------------------------------------------------------- 1. clean the photo
 
-def load(path, max_px=2000, crop=None):
-    im = ImageOps.exif_transpose(Image.open(path)).convert("L")
+def _open(path):
+    """Open any photo, including iPhone HEIC (via pillow-heif if installed, else macOS `sips`)."""
+    try:
+        return Image.open(path)
+    except Exception:
+        try:
+            import pillow_heif; pillow_heif.register_heif_opener(); return Image.open(path)
+        except Exception:
+            import subprocess, tempfile, shutil
+            if not shutil.which("sips"): raise SystemExit(f"Can't read {path}: convert it to JPG/PNG (or pip install pillow-heif)")
+            tmp = os.path.join(tempfile.mkdtemp(), "photo.jpg")
+            subprocess.run(["sips", "-s", "format", "jpeg", path, "--out", tmp], check=True, capture_output=True)
+            return Image.open(tmp)
+
+def load(path, max_px=2000, crop=None, rotate=0):
+    im = ImageOps.exif_transpose(_open(path)).convert("L")
+    if rotate: im = im.rotate(rotate, expand=True)
     if crop: im = im.crop(crop)
     s = min(1.0, max_px / max(im.size))
     if s < 1: im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
@@ -270,8 +285,8 @@ def path_d(curves, s, ox=0, oy=0):
     for c in curves: d += " C" + " ".join(f(q) for q in c[1:])
     return d + " Z"
 
-def trace(path, out, name, variants, fill, width_mm, threshold, invert, crop, min_area, max_px):
-    im = load(path, max_px, crop)
+def trace(path, out, name, variants, fill, width_mm, threshold, invert, crop, min_area, max_px, rotate=0):
+    im = load(path, max_px, crop, rotate)
     ink, t = binarise(im, threshold, invert)
     scale = max(im.size) / 1000
     loops = [l for l in loops_from(ink) if abs(signed_area(l)) >= min_area * scale * scale]
@@ -382,7 +397,8 @@ def main():
     ap.add_argument("--width-mm", type=float, help="scale output to this width in mm (default: px)")
     ap.add_argument("--threshold", type=int, help="0-255; default Otsu after light flattening")
     ap.add_argument("--invert", action="store_true", help="light drawing on dark ground")
-    ap.add_argument("--crop", help="x0,y0,x1,y1 in source pixels")
+    ap.add_argument("--crop", help="x0,y0,x1,y1 in source pixels (after --rotate)")
+    ap.add_argument("--rotate", type=int, default=0, help="rotate the photo first: 90 = counter-clockwise, -90 = clockwise")
     ap.add_argument("--min-area", type=float, default=30, help="drop specks/holes smaller than this (px² at 1000 px)")
     ap.add_argument("--max-px", type=int, default=2000)
     ap.add_argument("--levels", type=int, help="multi-tone trace with N tone layers (package art, shaded sketches)")
@@ -395,7 +411,7 @@ def main():
         pal = [c.strip() for c in a.palette.split(",")] if a.palette else None
         trace_levels(a.image, a.out, name, a.levels, pal, a.width_mm, crop, a.min_area, a.max_px)
     else:
-        trace(a.image, a.out, name, vs, a.fill, a.width_mm, a.threshold, a.invert, crop, a.min_area, a.max_px)
+        trace(a.image, a.out, name, vs, a.fill, a.width_mm, a.threshold, a.invert, crop, a.min_area, a.max_px, a.rotate)
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,44 @@
+# Assets to attach, the iteration log, disclosure
+
+## Every job
+- [ ] Written client approval of AI use (date, signatory), filed with the job
+- [ ] Brand palette sheet (hex + words); a style frame or palette reference image
+- [ ] Rights confirmed for every attached asset; no third-party IP; releases for any real person
+- [ ] References in the **output aspect ratio**, JPEG/PNG, ≥ 1920 px on the long side [studio rule]
+- [ ] Products and subjects on plain or segmented backgrounds, no extra subjects (Flow guidance)
+
+## Packaging hero (image)
+- [ ] Flat front-label artwork (high-res PNG): "preserve exactly"
+- [ ] 1–3 real photos of the physical pack (front, 3/4, top) on a seamless background
+- [ ] One lighting or style reference (Pro takes up to 3)
+- [ ] Surface and prop references
+- [ ] A layout sketch with the copy-safe zone
+- [ ] The vector logo, kept for post (not for generation)
+- [ ] Output spec: ratio, 2K/4K
+
+## Social reel (9:16)
+- [ ] Character sheet: front, 3/4 and profile on a plain background (≤ 3 per character, ≤ 2 characters on Omni)
+- [ ] Product references; a location plate with no people
+- [ ] Shot list with durations (≤ 8 s Veo, ≤ 15 s Omni); dialogue timed to fit
+- [ ] Start and end frames for each transition
+- [ ] Music and VO in post unless native audio is approved; Instagram safe-zone overlay
+
+## Product video (16:9 / 9:16)
+- [ ] Product turnaround stills (3 asset references, the Veo maximum)
+- [ ] First and last frames per shot, made in Nano Banana from those references
+- [ ] Storyboard + timestamp breakdown; a style frame
+- [ ] End card built in post with the real logo and legal copy
+- [ ] Extension note: describe again anything outside the last 10 s
+
+## OOH visual
+- [ ] Media spec: size, viewing distance, DPI
+- [ ] Generate the closest ratio (21:9, 4:1, 8:1, 1:4, 1:8 available) at 4K, then upscale and retouch in post
+- [ ] Product and palette references; bleed and safe template
+- [ ] **The headline is never AI-rendered**; disclosure label placed where required
+
+## Iteration log (`research/ai/log.md`, one row per run)
+| Date | Tool | Model ID + version | Settings (ratio, size, duration, seed) | Full prompt | Attached files (names + hashes) | Output file | Keep / kill | Why |
+|---|---|---|---|---|---|---|---|---|
+
+## Delivery note (disclosure)
+"Images/video in this delivery were generated with [tool, model] on [dates] from Nazar's art direction and prompts, then retouched and finished by Nazar. AI use approved by [client signatory] on [date]. Generated content may not be exclusive; provenance metadata (SynthID/C2PA) is preserved."
