@@ -65,6 +65,25 @@ Use nazar-illustration. It's for: <where it's seen, size>. It must say: <the mes
 Propose 3 small concepts (metaphor, gesture, mechanism) with your pick; sober with one wink, not cute. After I choose, write the concept lock (idea, focal, light, budget) and draw it with engine/ink.py, then look at it and fix one fault at a time (max 4 rounds). If the concept needs a complex figurative scene, say so and also give me a ready image prompt for Gemini (only used with client approval).
 ```
 
+## 4e. Type (nazar-type)
+```
+Use nazar-type. Brand: <name>. Uses: <packaging legal text / signage / web / app / social video / logo>.
+Languages/scripts: <e.g. English + Urdu Nastaliq>. Mood: <sober/contemporary/warm desi/technical>. Budget: <free only / paid OK>.
+Give me 8–12 candidates with licences checked for every listed use, specimens at real sizes (headline, body, packaging legal, signage at distance), and a bilingual pairing if needed (visual size match, leading, no template Nastaliq bold). Flag anything overused (Inter/Poppins/Montserrat) or unclear for commercial use (e.g. Jameel Noori). Recommend 1–2 families, file the licence, and run the QA checklist (glyph coverage, kerning, embedding).
+```
+
+## 4f. Colour (nazar-colour)
+```
+Use nazar-colour. Brand: <name>. What it sells, where, to whom: <…>. Mood: <…>. Print needed: <packaging/signage/none>.
+Source from our own material and regional archives (ajrak, truck art, kashi, miniature, Wada/Werner/Vanderpoel) before any trend tool. Give me 2–3 palette routes with proportions (ground/ink/one accent/supports), each colour named with OKLCH + hex + CMYK coated/uncoated + Pantone C/U (+ RAL if it's built physically). Run WCAG + APCA contrast, a colour-blind check, and the Albers relativity test. No purple-blue gradients, neon-on-black, teal/orange, or pastel rainbows.
+```
+
+## 4g. AI image/video prompt (nazar-prompts — only with written client approval)
+```
+Use nazar-prompts. Client approved AI use in writing on <date>, approver <name>. Job: <packaging hero / reel / product video / OOH>, ratio <…>, platform <Nano Banana / Veo / Flow / Midjourney / …>.
+Write one master description (scene, not keywords), then translate it for <model>. Attach: <plain-background product/subject refs, style frame, palette ref>, all in the output ratio at ≥1920px. No AI-rendered logo, legal copy or final headline — those go in post. Avoid AI tells (unmotivated glow, teal/orange, centred symmetry, "8K masterpiece"). Log the run (model ID, settings, full prompt, assets, keep/kill + why) and give me the disclosure note.
+```
+
 ## 5. Social (nazar-social)
 ```
 Use nazar-social. Brand: <name>. Platforms: <IG / TikTok / LinkedIn>. Who posts: <…>. Capacity: <posts/week, video yes/no>.
