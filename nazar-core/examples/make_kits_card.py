@@ -32,8 +32,8 @@ cy, cma, pack_png, pack_qa, out = sys.argv[1:6]
 W, M, RH = 2400, 100, 430
 im = Image.new("RGB", (W, 330 + 5 * RH + 90), PAPER)
 d = ImageDraw.Draw(im)
-d.text((M, 70), "FIVE MORE KITS, RUN ON REAL WORK", font=anton(92), fill=INK)
-d.text((M, 190), "each engine runs live on public-domain art (The Met, Cleveland Museum of Art, CC0). verdict colours: orange = a finding, green = passes", font=grot(25), fill=GREY)
+d.text((M, 70), "PACKAGING · BILLBOARDS · SOCIAL · WEB · MOTION", font=anton(84), fill=INK)
+d.text((M, 190), "five kits, each with its own engine, run live on public-domain art (The Met, Cleveland Museum of Art, CC0). orange = a finding, green = passes", font=grot(25), fill=GREY)
 mark = lambda lvl: ACC if lvl in ("fail", "warn", "P1", "P2") else GOOD
 
 
