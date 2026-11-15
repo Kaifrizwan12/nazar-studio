@@ -31,9 +31,6 @@ No AI slop, no stock photos, no "elevate your journey". AI imagery is used only 
 <td width="33%"><a href="#1-find-your-pattern"><img src="assets/demo-type.jpg" alt="Type QA on real fonts"></a><br><sub><b>Type QA</b> on real fonts, incl. real Urdu</sub></td>
 <td width="33%"><a href="#4-put-it-out"><img src="assets/demo-backdrops.jpg" alt="Archive colour to backdrops"></a><br><sub><b>Archive → tokens → backdrops</b></sub></td>
 </tr>
-<tr>
-<td colspan="3"><a href="#4-put-it-out"><img src="assets/demo-kits.jpg" alt="Out-of-home, social, web and motion run on real work"></a><br><sub><b>Out-of-home, social, web, motion</b>, each with its own engine, run on real work</sub></td>
-</tr>
 </table>
 
 ### Which kit does what
