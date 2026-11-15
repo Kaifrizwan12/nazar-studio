@@ -84,6 +84,12 @@ Use nazar-prompts. Client approved AI use in writing on <date>, approver <name>.
 Write one master description (scene, not keywords), then translate it for <model>. Attach: <plain-background product/subject refs, style frame, palette ref>, all in the output ratio at ≥1920px. No AI-rendered logo, legal copy or final headline — those go in post. Avoid AI tells (unmotivated glow, teal/orange, centred symmetry, "8K masterpiece"). Log the run (model ID, settings, full prompt, assets, keep/kill + why) and give me the disclosure note.
 ```
 
+## 4h. Your pattern (nazar-voiceprint)
+```
+Use nazar-voiceprint. My own pre-AI work is in <folder> (docx/pdf/scripts/reels/portfolio). Next I want to make: <memos / academic writing / a script / reels / posters / illustrations>. Languages: <…>.
+Ingest it with the pre-AI date filter and show me what was held back. Run the words, story and visual layers that apply, mark habit vs genre, then confirm the findings with me in plain statements and ask for my never list. Write THE PATTERN, test-drive it on a short sample, measure the sample with the same engine, and fix what fails before showing me.
+```
+
 ## 5. Social (nazar-social)
 ```
 Use nazar-social. Brand: <name>. Platforms: <IG / TikTok / LinkedIn>. Who posts: <…>. Capacity: <posts/week, video yes/no>.

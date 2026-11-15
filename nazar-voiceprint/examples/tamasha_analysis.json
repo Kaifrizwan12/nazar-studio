@@ -1,0 +1,70 @@
+{
+  "profiles": [
+    {
+      "source": "Tamasha (2015, dir. Imtiaz Ali) — central monologue, ~415 words; text not redistributed",
+      "lang": "hi-romanized",
+      "n_words": 415,
+      "sentence_rhythm": {
+        "n_sentences": 94,
+        "mean_words": 4.41,
+        "stdev_words": 3.67,
+        "min_words": 1,
+        "max_words": 18,
+        "rhythm": "mixed — short bursts against longer run-ons"
+      },
+      "punctuation": {
+        "ellipses_per_1000w": 120.5,
+        "question_marks_per_1000w": 48.2,
+        "exclamations_per_1000w": 0.0,
+        "em_dashes_per_1000w": 2.4,
+        "semicolons_per_1000w": 0.0,
+        "slash_breaks_per_1000w": 31.3
+      },
+      "paragraphing": {
+        "n_paragraphs": 16,
+        "mean_words_per_paragraph": 25.9
+      },
+      "lexical_richness": {
+        "type_token_ratio": 0.48,
+        "n_tokens": 415
+      },
+      "function_words": {
+        "skipped": "no function-word baseline for lang='hi-romanized' — add one to FUNCTION_WORDS_EN's sibling table before trusting this layer; language-agnostic features below are still valid."
+      },
+      "refrains_and_repetition": [
+        {
+          "phrase": "race mein",
+          "repeats": 5
+        },
+        {
+          "phrase": "kaun si race hai",
+          "repeats": 3
+        },
+        {
+          "phrase": "walk stop smile please",
+          "repeats": 3
+        },
+        {
+          "phrase": "kaun si race",
+          "repeats": 3
+        },
+        {
+          "phrase": "si race hai",
+          "repeats": 3
+        },
+        {
+          "phrase": "walk stop smile",
+          "repeats": 3
+        },
+        {
+          "phrase": "stop smile please",
+          "repeats": 3
+        },
+        {
+          "phrase": "bhaag raha",
+          "repeats": 3
+        }
+      ]
+    }
+  ]
+}

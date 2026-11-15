@@ -55,5 +55,6 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | Choosing, sourcing and QA-ing typefaces (incl. Urdu/Nastaliq bilingual) | `nazar-type` |
 | Building a palette (archive-sourced, print-safe, contrast-checked) | `nazar-colour` |
 | AI image/video prompts, only with written client approval | `nazar-prompts` |
+| Someone's own pattern (words, story, visual) from their pre-AI archive, to make any AI write/script/design like them | `nazar-voiceprint` |
 | Proposals, pricing, presenting, feedback, contracts, handover | `nazar-pitch` |
 A full identity job usually chains: pitch → strategy → logo → brand book → (packaging + dieline / social / OOH / motion / web / art direction) → pitch (handover).

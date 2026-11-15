@@ -67,6 +67,28 @@ You get three variants (tight, balanced, smooth), a compare sheet and a node rep
 - **Concept first:** every illustration starts with a one-sentence idea, a focal point, a light direction and a budget.
 - **Honest about limits:** for complex scenes, Claude also hands you a ready image prompt (used only with client approval).
 
+### 🫆 Your pattern, not the machine's
+<img src="assets/demo-voiceprint.jpg" alt="nazar-voiceprint card. Left: an original monologue written to an extracted pattern, measured over three passes: pass 1 too even with too few questions, pass 2 overcorrected, pass 3 converging on the pattern's sentence-length spread, question rate and ellipsis rate. Right: the visual pattern read from five of Nazar's own outputs: an 85% pale ground, 8% support, 3% ink, 3% hot accent, with readings of lots of air, asymmetry, one accent, expressive line-led drawing and muted colour. Footer: archive, pre-AI filter, words/story/visual, habit vs genre, confirm, the pattern, test drive." width="100%">
+
+**Every AI has a pattern, and everyone can smell it now.** `nazar-voiceprint` pulls *yours* out of the work you made before AI, checks it with you, and hands any AI a file that makes your pattern win over its own.
+
+Drop an archive: a decade of office `.docx` files, a director's scripts, a reel-maker's old scripts, an illustrator's portfolio. You get back **THE PATTERN**, one portable file for Claude, ChatGPT or Gemini.
+
+| Layer | What it reads | Engine |
+|---|---|---|
+| **Words** | Rhythm (mean *and* spread), punctuation, paragraphing, function-word lean, and the **signature phrases that recur across your documents** (your openers, pivots, sign-offs) | `analyze.py` |
+| **Story** | Where your turns land, dialogue cadence, refrains, code-switching, frame breaks, reel pacing from *your own* catalogue | guided read + `analyze.py` |
+| **Visual** | Palette habit (ground, accent, shares), air, balance, line weight and its swing, hatching direction, angular vs. rounded, tone and warm/cool lean | `visual.py` |
+
+**How it works:**
+1. **Pre-AI filter.** `ingest.py` reads every document's real creation date and holds back anything from after 30 Nov 2022, so your pattern doesn't learn a chatbot's. You decide what goes back in.
+2. **Habit vs. genre.** Every feature is tested across the whole archive and marked *habit*, *varies* or *document-driven*. Only habits make it into the pattern. Research on cross-genre idiolect is mixed, so it's tested, never assumed.
+3. **Confirm loop.** You get about ten plain statements to say yes or no to, plus *your* never list ("I'd never write *please don't hesitate to reach out*. I'd write *shout if anything looks off*"). Motifs and intent come from you; the research is clear that software can't extract them.
+4. **Override-grade output.** The pattern opens with a precedence block, carries real quoted exemplars, pairs every "never" with a "do instead", and makes the AI **draft → check → revise** and re-anchor on your exemplars every few paragraphs, because style drifts back to the model's default the longer it writes.
+5. **Test drive.** It writes a sample, measures its *own* output with the same engine, and fixes what fails. In the demo, a Hinglish monologue for an engineering student who secretly loves design went from *"short, flat, even"* (an AI's default cadence) to matching the target rhythm in three passes. Reading: [`examples/tamasha_pattern.md`](nazar-voiceprint/examples/tamasha_pattern.md).
+
+The demo pattern was read from a famous monologue (*Tamasha*, 2015). Only numbers and short fragments are kept; the script isn't redistributed. A real job profiles **your own** archive. It's honest about the ceiling: 2025–26 research shows prompted style still sits a measurable step away from true authorship, so you get a strong first draft in your voice, not a clone. Built on Mosteller & Wallace, Burrows' Delta, Biber, STRAP, Gatys and Cinemetrics; the citations are in [`nazar-voiceprint/references`](nazar-voiceprint/references).
+
 ### 🧠 The whole studio, as one floor
 
 Think of `nazar-studio` as a real studio floor, not a toolbox: a front desk, a think tank, a few drawing boards, a production floor, and a door it all goes out through — with one shared brain (`nazar-core`) that every desk reads from. A job doesn't walk every desk; Claude reads the brief and only pulls the ones it needs.
@@ -82,6 +104,7 @@ Think of `nazar-studio` as a real studio floor, not a toolbox: a front desk, a t
 | Bindery | `nazar-brand-book` | The identity system and the book (with hidden things to find) |
 | Production floor | `nazar-dieline` | Structures, real dielines, MVP pack drafts, Figma bridge |
 | Production floor | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
+| Drawing board | `nazar-voiceprint` | Your pattern from your own archive (words, story, visual), overriding any AI's default style |
 | Drawing board (sign-off required) | `nazar-prompts` | AI image/video prompts, used only with written client sign-off |
 | Out the door | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
 | Out the door | `nazar-backdrops` | A year of routine-post backdrops, dark and light, every format |
