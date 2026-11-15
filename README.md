@@ -13,50 +13,15 @@
 
 No AI slop, no stock photos, no "elevate your journey". AI imagery is used only when a client says yes in writing.
 
-## The studio at a glance
+## What each kit does
 
-<table>
-<tr>
-<td width="33%"><a href="#3-package-it"><img src="assets/demo-structures.jpg" alt="Nine concept dielines"></a><br><sub><b>Dielines</b> from three numbers</sub></td>
-<td width="33%"><a href="#3-package-it"><img src="assets/demo-pack.jpg" alt="Real art on a real dieline"></a><br><sub><b>Real art</b> on a real dieline, with QA</sub></td>
-<td width="33%"><a href="#2-make-the-marks"><img src="assets/demo-trace-fine.jpg" alt="Etching to vector"></a><br><sub><b>Etching → vector</b>, fine-line mode</sub></td>
-</tr>
-<tr>
-<td width="33%"><a href="#1-find-your-pattern"><img src="assets/demo-voiceprint.jpg" alt="Voiceprint"></a><br><sub><b>Your pattern</b>, not the machine's</sub></td>
-<td width="33%"><a href="#1-find-your-pattern"><img src="assets/demo-voiceprint-designers.jpg" alt="Can the engines tell designers apart"></a><br><sub><b>Tell designers apart?</b> 35 real prints, blind</sub></td>
-<td width="33%"><a href="#1-find-your-pattern"><img src="assets/demo-voiceprint-real.jpg" alt="Real photographs read blind"></a><br><sub><b>Real photographs</b>, 24 CC0, read blind</sub></td>
-</tr>
-<tr>
-<td width="33%"><a href="#1-find-your-pattern"><img src="assets/demo-colour.jpg" alt="Palette from archive"></a><br><sub><b>Palettes</b> from real archives, checked</sub></td>
-<td width="33%"><a href="#1-find-your-pattern"><img src="assets/demo-type.jpg" alt="Type QA on real fonts"></a><br><sub><b>Type QA</b> on real fonts, incl. real Urdu</sub></td>
-<td width="33%"><a href="#4-put-it-out"><img src="assets/demo-backdrops.jpg" alt="Archive colour to backdrops"></a><br><sub><b>Archive → tokens → backdrops</b></sub></td>
-</tr>
-</table>
+Seventeen kits, one shared brain (`nazar-core`: taste, research method, QA). A job never uses all of them: Claude reads the brief and pulls only what it needs.
 
-### Which kit does what
-
-Think of `nazar-studio` as a real studio floor, not a toolbox: a front desk, a think tank, a few drawing boards, a production floor, and a door it all goes out through — with one shared brain (`nazar-core`) that every desk reads from. A job doesn't walk every desk; Claude reads the brief and only pulls the ones it needs.
-
-| Desk | Kit | Does |
-|---|---|---|
-| Front desk | `nazar-pitch` | Proposals, pricing, contracts, feedback |
-| Think tank | `nazar-strategy` | Positioning, names, taglines with an edge |
-| Drawing board | `nazar-logo` | Marks: 100 thumbnails → the blur test → every export file |
-| Drawing board | `nazar-illustration` | Drawing in code: spot art, icons, patterns, pen-and-ink, math art |
-| Drawing board | `nazar-type` | Font sourcing, licensing, Urdu/Nastaliq pairing |
-| Drawing board | `nazar-colour` | Palettes from archives and craft, print-safe, contrast-checked |
-| Bindery | `nazar-brand-book` | The identity system and the book (with hidden things to find) |
-| Production floor | `nazar-dieline` | Structures, real dielines, MVP pack drafts, Figma bridge |
-| Production floor | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
-| Drawing board | `nazar-voiceprint` | Your pattern from your own archive (words, story, visual), overriding any AI's default style |
-| Drawing board (sign-off required) | `nazar-prompts` | AI image/video prompts, used only with written client sign-off |
-| Out the door | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
-| Out the door | `nazar-backdrops` | A year of routine-post backdrops, dark and light, every format |
-| Out the door | `nazar-ooh` | Billboards, walls, vehicles, screens that read in one breath |
-| Out the door | `nazar-motion` | Logos that move like they mean it |
-| Out the door | `nazar-web` | Brand sites that are fast, accessible, a little bit extra |
-| Out the door | `nazar-art-direction` | Photo briefs, illustration guides, icon grids |
-| The brain (everywhere) | `nazar-core` | Research method, taste, QA, the renderer, sketch → vector |
+- **Think:** `nazar-strategy` finds the positioning, the name and the line with an edge. `nazar-pitch` writes proposals, pricing and contracts and handles feedback.
+- **Know whose pattern it is:** `nazar-voiceprint` reads your own old work and writes a file that makes any AI write, script or design like *you*, not like itself. `nazar-colour` builds palettes from real archives and checks contrast and colour-blindness. `nazar-type` chooses and checks fonts, Urdu included. `nazar-art-direction` briefs photography, illustration and icons.
+- **Make the marks:** `nazar-logo` takes a mark from 100 thumbnails to every export file. `nazar-illustration` draws in code, like a hand. `nazar-brand-book` turns the identity into a system and a book. `nazar-prompts` writes AI image prompts, only with the client's written yes.
+- **Package it:** `nazar-dieline` draws real dielines and puts art on them. `nazar-packaging` makes packs that win the shelf and print cleanly.
+- **Put it out:** `nazar-social` for feeds, `nazar-backdrops` for a year of routine posts, `nazar-ooh` for billboards and walls, `nazar-web` for sites, `nazar-motion` for logos that move.
 
 ## Quick start
 
@@ -76,18 +41,129 @@ Then answer the questions. It'll take it from there, and it'll show its homework
 
 **Extend it for your product:** the engines are plain Python. [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) tells your Claude how to add a structure, a design block or a QA check, and how to test it.
 
-## How the work flows
+## The results, in order of importance
 
-A job moves through four stages, and each stage below shows its kits **working on real, public-domain material**, not mock-ups:
+Each card below is a real engine run on real, public-domain material, with its headline number and what that number means. The independent results come first; the group of five engines comes last.
 
-1. **[Find your pattern](#1-find-your-pattern):** whose voice, whose palette, whose type.
-2. **[Make the marks](#2-make-the-marks):** sketch to vector, drawing in code.
-3. **[Package it](#3-package-it):** dielines and the art on them.
-4. **[Put it out](#4-put-it-out):** backdrops, billboards, captions, sites, motion.
+### 1. Can the engines tell designers apart?
 
-## 1. Find your pattern
+<img src="assets/demo-voiceprint-designers.jpg" alt="Leave-one-out test on 35 public-domain prints by Steinlen, Chéret, Mucha and Toulouse-Lautrec from the Cleveland Museum of Art. Blind accuracy 60 percent against 37 percent for always guessing the biggest group and 25 percent for chance. Steinlen 10 of 13, Chéret 6 of 9, Mucha 3 of 6, Lautrec 2 of 7, with the misses marked under each print." width="100%">
 
-Whose voice, whose palette, whose type: the decisions everything else follows.
+> **The result:** 60% of 35 real prints attributed to the right maker, blind.
+>
+> **What it means:** Each designer's measurable habits are learned from the *other* prints, then the engine names the maker of the hidden one. The bar to beat is **37%** (always guessing Steinlen, who has 13 of the 35), not 25% (pure chance). It works for consistent makers (Steinlen 10/13, Chéret 6/9) and fails for Lautrec (2/7), whose work spans three modes. These numbers are only the measurable layer: *why* is the maker's to say.
+
+Hide one print, learn each designer from the rest, name the maker: **60% against 37% for always guessing the biggest group and 25% for chance**, on 35 real CC0 prints. Steinlen (10/13) and Chéret (6/9) have a consistent measurable look. Lautrec (2/7) doesn't: his works span flat-colour posters, a pale line print and a dark black-and-white stage poster, so the engine sees three modes, not one hand. That's the right answer, and it's why the VLM pass and the maker's confirmation exist. Credits are in [`cma_credits.json`](nazar-voiceprint/examples/cma_credits.json). Every print was reviewed by eye, and `fetch_cma_designers.py` uses an approved allowlist so nothing unreviewed can slip in.
+
+### 2. Real photographs, read blind
+
+<img src="assets/demo-voiceprint-real.jpg" alt="24 public-domain photographs from The Met, grouped by the process each catalogue record names: ten cyanotypes read as a blue single-hue soft look, six albumen prints and six salted-paper prints read as warm-toned prints, two autochromes only partly read. A footer states the limits." width="100%">
+
+> **The result:** 24 public-domain photographs graded by the engine, which never saw the label (each object's own catalogue record).
+>
+> **What it means:** All 10 cyanotypes read as one blue hue (about 238°); albumen and salted paper read as warm-toned prints (about 67–69°) but can't be told apart; autochrome is only partly read. It reads the *look*, not the chemistry, and says so.
+
+Synthetic tests prove the maths; real work proves the use. 24 public-domain (CC0) photographs from The Met, grouped by the process **each object's own catalogue record names**, and the engine never sees that label. Cyanotypes come out blue, single-hue and soft; albumen and salted paper come out as warm-toned prints. It can't yet separate albumen from salted paper, and autochrome grain needs full-resolution scans, and the card says so. The real test also caught a bug the synthetic one hid: blue cyanotypes on warm paper were being named "teal & orange". Fixed, retested, and the synthetic teal-and-orange grade is still caught. Credits for every image are in [`met_credits.json`](nazar-voiceprint/examples/met_credits.json). Every photo was checked by eye before use, and `fetch_met.py` is paced and backs off politely.
+
+### 3. Type QA on real fonts, including real Urdu
+
+<img src="assets/demo-type.jpg" alt="Four fonts checked: Anton, Space Grotesk, Space Mono and the real Gulzar Urdu font. Latin and Urdu lines set through each: the Latin-only fonts show empty boxes for Urdu while Gulzar sets proper joined Nastaliq. Coverage bars, shaping features, kerning, licence and the smallest legal size for a 1.2 mm x-height, with the findings listed." width="100%">
+
+> **The result:** 4 real fonts checked: none of the studio's 3 fonts has the ₨ sign, and Gulzar covers only 4 of 15 Sindhi letters.
+>
+> **What it means:** Coverage is the share of the characters a job needs that the font actually contains; a missing one prints as an empty box. 1.2 mm is the EU minimum x-height for small print (Art. 13): Gulzar needs **7.7 pt** to reach it, Anton only **4.6 pt**.
+
+`nazar-type/engine/type_check.py` runs the type kit's own checklist on real font files: licence and embedding as the file declares them, coverage per script (Latin, transliteration, pack symbols, Urdu, Sindhi, Devanagari), whether the Arabic-script shaping features exist, kerning, and the **smallest size at which the x-height reaches the 1.2 mm EU rule**. Then a real shaped Urdu line goes through each font, so you can *see* what coverage means. It found real things: none of the studio's own fonts has the **₨ sign**; **Gulzar** sets Urdu beautifully but covers only 4 of 15 Sindhi letters, and needs 7.7 pt for a legal x-height against 4.6 pt for Anton; and Gulzar's file doesn't carry its licence text, so the OFL file from its repository must be filed beside it (confirmed from the source: OFL 1.1). Coverage % says nothing about whether the shapes are good, and the card says so.
+
+### 4. A palette from real archive work, then checked
+
+<img src="assets/demo-colour.jpg" alt="Ten public-domain cyanotypes from The Met reduced to a five-colour palette in OKLab, with contrast ratios and colour-blind checks: one pair passes WCAG AA for text, two for large text or UI only, seven fail, and none collapse under protan, deutan or tritan simulation." width="100%">
+
+> **The result:** 10 cyanotypes become a 5-colour palette in which only 1 of 10 colour pairs can carry body text.
+>
+> **What it means:** WCAG contrast of **4.5:1** is the minimum for body text, 3:1 for large text and UI. Real archive colour is often too narrow to carry type, which is exactly why a palette is checked before it becomes a brand.
+
+`nazar-colour/engine/palette_check.py` does what the colour kit promises: archive images in, palette out (k-means in OKLab), then every pair checked.
+
+- **Contrast:** WCAG 2 ratios, with a verdict per pair. The maths is verified against published values (black on white is 21:1; `#777` on white is 4.48:1, the classic near-miss).
+- **Colour-blind:** protan, deutan and tritan simulation (Machado, Oliveira & Fernandes 2009); flags any pair that collapses for a viewer.
+- **Greyscale:** pairs that depend on hue alone.
+- **Honest on APCA:** deliberately not used, because its place in WCAG 3 is unresolved as of April 2026.
+
+Real archive colour is often *worse* than a designed palette: in this one, only 1 of 10 pairs carries body text. That's the finding, not a flaw, and it's why the kit checks before it ships.
+
+### 5. Archive colour → brand tokens → backdrops
+
+<img src="assets/demo-backdrops.jpg" alt="Real cyanotype plates reduced to a palette, assigned to brand roles by contrast, and run through the backdrops engine. The accent works on the dark ground at 4.92:1 but is 1.02:1 on the light ground, so light mode is refused; a dark-mode set of cover, text, quote, end and story backdrops is produced." width="100%">
+
+> **The result:** the accent is 4.92:1 on the dark ground and 1.02:1 on the light one, so light mode is refused and 5 dark backdrops are built.
+>
+> **What it means:** 1.02:1 is invisible. The engine now refuses a mode whose accent can't be seen (under 2:1) and warns under 3:1. This test found **two engine bugs**, both fixed.
+
+Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `nazar-backdrops`. Real data exposed two engine bugs, both fixed: the backdrops engine **offered light mode whatever the accent contrast** (here 1.02:1, invisible), and role assignment picked a mid-blue "secondary" at **1.55:1**, so the handle text vanished. Roles are now assigned **by contrast** (`derive_tokens`), and a mode is skipped when its accent is invisible. The archive supports a dark set only, and it says so. The mark is the example brand's placeholder, left unaltered on purpose: **client logos are never recoloured or redrawn**.
+
+### 6. Etching → vector
+
+<img src="assets/demo-trace-fine.jpg" alt="A Rembrandt etching (public domain, The Met) traced with the fine-line mode: the original, the local-threshold step that keeps every hatched line, and the traced vector." width="100%">
+
+> **The result:** one Rembrandt etching (public domain) becomes 562 shapes and 5,908 nodes with `--fine`; it traced to noise before.
+>
+> **What it means:** A node is one anchor on a vector curve: fewer nodes mean a cleaner, more editable shape. Plain mode is for bold marker and pencil; `--fine` is for hairlines and engraving.
+
+`nazar-core/engine/trace.py`: **hands first.** Kaif draws, the machine cleans up.
+
+1. **Clean the photo:** flatten the uneven light, threshold it automatically, despeckle.
+2. **Find the corners:** checked at two scales, and pinned so smoothing can't round them off.
+3. **Place nodes on the true extremes,** where the curve is really horizontal or vertical, the way a professional vector artist would.
+4. **Fit the curves:** Schneider least-squares Béziers, giving a single SVG path with holes kept.
+
+**Hairlines and engraving: `--fine`.** A global threshold loses lines under ~2 px and the despeckle step erased what was left, so a Rembrandt etching traced to noise. `--fine` upscales, uses a *local* threshold (darker than its own neighbourhood) and skips the opening step; the same etching (CC0, The Met) now keeps its tree, figure and hatching. It stays noisy in the darkest shadow, so raise `--min-area` to drop dust. Plain mode is still right for bold marker and pencil. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
+
+### 7. Dielines, and real art on them
+
+<img src="assets/demo-structures.jpg" alt="Nine concept dielines generated by the engine: a reverse tuck carton, a tuck-front mailer, a pillow pack, a rigid box blank and wrap, a cone label, a stand-up pouch layout, a chips flow-wrap packet, a shrink-sleeve shrink map and a glued tray." width="100%">
+
+> **The result:** the pack engine's own QA flagged 3 problems on the first real pack and passes clean after fixing.
+>
+> **What it means:** It checks the *art* (safe area, contrast, type size, missing logo files), not just the box. One flag was my own spec mistake: an image block's `y` is its centre, and the engine was right.
+
+`nazar-dieline/engine/dieline.py`: give it the inside dimensions (L × W × D) and the board, and it draws a **concept dieline**.
+
+- **Formats:** layered SVG, PDF, PNG, a **DXF** that opens in CAD (with CUT / CREASE / PERF / GLUE layers), and a spec sheet.
+- **14 structures:** ECMA tuck ends, sleeve, glued tray, FEFCO 0201 / 0200 / 0427, pillow, rigid set-up box (blank plus wrap with turn-ins), cone and wrap labels, stand-up pouch, chips flow-wrap, and a shrink-sleeve map.
+- **Spec sheet:** flat size, board area, cut and crease rule length (which drives die cost), rough nesting per sheet, and a McKee compression estimate for corrugated.
+- **Engineering:** caliper allowances, friction locks, tapered glue flaps, corner reliefs, and grain arrows.
+- **Testing:** every DXF passes a CAD audit with zero errors.
+
+<img src="assets/demo-pack.jpg" alt="A real Mucha plate (public domain, Cleveland Museum of Art) on a reverse-tuck carton: the folded view and the flat artwork, with the pack engine's own QA flagging one safe-area issue." width="100%">
+
+Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
+
+- **The right way up when folded.** Tucks, lids and bottoms rotate automatically.
+- **Real brand assets:** brand tokens, outlined fonts (harfbuzz), the client's exact logo file, bands, patterns that run across folds, and placeholders for copy and the GS1 barcode at true size.
+- **Folded oblique preview** of the pack.
+- **Transparency handled for real:**
+  - A carton window becomes a die-cut hole plus the film patch.
+  - Clear and metallised film get "no ink, no white" windows, a **white-ink plate**, and a preview in the product's own colour.
+  - Chips packets get the fin seal, serrated crimps and the back art split across the web.
+- **Automatic draft QA:** type size in pt, contrast measured against what's actually behind the text, copy overflow, barcode size and fit, net quantity in the bottom 30% of the principal panel, art on the glue flap, windows too close to creases or seals, and light-sensitive snacks behind windows.
+- **Send it to Figma:** `--figma` writes a step-by-step build plan for [claude-talk-to-figma-mcp](https://github.com/arinspunk/claude-talk-to-figma-mcp). Upright panels arrive as editable layers and text, and the dieline as a locked layer. The setup guide covers a pinned, localhost-only install for any user's Claude: [`nazar-dieline/FIGMA.md`](nazar-dieline/FIGMA.md).
+
+### 8. Five more engines: packaging QA, billboards, social, web, motion
+
+<img src="assets/demo-kits.jpg" alt="Five kits run live on public-domain art. Packaging: a real Mucha plate on a carton with the engine's QA. Out-of-home: four 1890s Chéret posters tested as a bulletin: only the shortest is readable in time. Social: the slop test flags a machine-style caption and passes a plain one. Web: the same real page built well passes and built badly fails eight checks. Motion: a linear and an eased reveal measured." width="100%">
+
+Five kits that had no engine now have one, each built on sources and run on real public-domain art. What each real result means:
+
+| Kit | The real result | What it means |
+|---|---|---|
+| **Packaging** | QA flagged 3 problems on a real pack; clean after fixes | The engine checks the art, not just the box |
+| **Billboards** (`ooh_check.py`) | Of four real 1890s posters, only the 5-word one is readable in time (a 4.5 s glance at 45 mph, 300 ft) | Letter height follows the road-sign rule (30 ft of distance per inch, MUTCD). The "7 words" and "6 seconds" rules are **unsourced folklore** and labelled so |
+| **Social** (`social_lint.py`) | A machine-style caption: 9 flags. A real archive caption and a plain rewrite: 0 | The slop test as code. A hit is a prompt to rewrite, never proof of anything |
+| **Web** (`web_audit.py`) | The same page built well: 0 problems. Built badly: 8 failed checks | Structure, alt text, layout shift, contrast. No real-device speed: that needs Lighthouse |
+| **Motion** (`motion_check.py`) | A linear reveal: peak speed 1.2× its end speed. An eased one: 4.8× | Measures *slow in, slow out* (Thomas & Johnston). It measures, it doesn't prescribe durations |
+
+## How the pattern engine works
 
 ### 🫆 Your pattern, not the machine's
 <img src="assets/demo-voiceprint.jpg" alt="nazar-voiceprint card. Left: an original monologue written to an extracted pattern, measured over three passes: pass 1 too even with too few questions, pass 2 overcorrected, pass 3 converging on the pattern's sentence-length spread, question rate and ellipsis rate. Right: the visual pattern read from five of Nazar's own outputs: an 85% pale ground, 8% support, 3% ink, 3% hot accent, with readings of lots of air, asymmetry, one accent, expressive line-led drawing and muted colour. Footer: archive, pre-AI filter, words/story/visual, habit vs genre, confirm, the pattern, test drive." width="100%">
@@ -136,7 +212,7 @@ Single click hi sahi na...?
 Compile... nahin. Aaj nahin.
 ```
 
-#### One engine per creative trade, each tested blind
+### One engine per creative trade, each tested blind
 <img src="assets/demo-voiceprint-genres.jpg" alt="nazar-voiceprint genre card. Six known-answer tests on original synthetic work. Colourist: six grades of one scene, named blind: neutral, teal and orange, faded film with grain, bleach bypass, monochrome, vignette with grain. Illustrator: brush strokes read as 6 tapered strokes, loose marks as sketchy, a ruled grid as confident. Graphic designer: a grid page read as left-aligned, 3 columns, type ratio 1.514 against a designed 1.5; a centred poster read as centred, ratio 1.237 against 1.25. Editor: 11 shot lengths detected within one frame. Portfolio: two hidden style modes separated, a reused mark found in exactly 6 pieces, a re-saved version caught. Camera and pose: 70% at 35mm, 65% wide open, 35% flash, mostly vertical; three skeletons read as frontal, three-quarter with contrapposto and hand on hip, and profile cropped above the knees." width="100%">
 
 Every engine was checked against the truth before it was trusted: original work built with a **known** style, then read blind. The orange text on the card is what the engines concluded, untouched. The tests caught real bugs on the way: content mistaken for a grade, skeleton spurs, a float rounding error. Each one was fixed, not hidden.
@@ -154,57 +230,14 @@ Every engine was checked against the truth before it was trusted: original work 
 
 Rerun every test yourself: [`examples/make_genre_demos.py`](nazar-voiceprint/examples/make_genre_demos.py).
 
-#### For designers and illustrators: numbers find the measurable part, then Claude *looks*
+### For designers and illustrators: numbers find the measurable part, then Claude *looks*
 Graphic design and illustration are full of patterns no engine measures. So the kit directs a vision model with a researched protocol instead of letting it free-associate:
 - **`views.py`** builds the views a VLM needs: a squint test, greyscale, a 4-colour flat, an edge map, five full-detail crops, and a contact sheet of the whole body of work. Vision models are weak at fine detail and counting (*Vision language models are blind*, 2024), so they get crops and the engines do the counting.
 - **Open discovery first** (list everything that recurs, no taxonomy), then **lenses with sources**: Morelli's habitual minor details (the method behind Ginzburg's *Clues*), Wölfflin's five pairs, Kress & van Leeuwen's grammar of visual design, McCloud's closure and abstraction, Gestalt figure-ground, plus studio lenses for subject, the wink, type-and-image, edges, texture, rhythm and frames.
 - **Evidence or it doesn't count:** every claim names a piece and a crop, a habit needs **≥3 pieces**, nothing is attributed to another artist, and *why* is asked of the maker, never guessed.
 - **A real run on ten public-domain cyanotypes:** [`examples/vlm_pass_cyanotypes.md`](nazar-voiceprint/examples/vlm_pass_cyanotypes.md). It finds the isolation, the caption convention and the hand-spaced arrangements, and refuses to claim three things a loose description would have: the process look, the museum's photography, and a "style" that was actually two makers.
-- **Can the engines tell designers apart? Yes for some, no for others, and the card shows which.**
 
-<img src="assets/demo-voiceprint-designers.jpg" alt="Leave-one-out test on 35 public-domain prints by Steinlen, Chéret, Mucha and Toulouse-Lautrec from the Cleveland Museum of Art. Blind accuracy 60 percent against 37 percent for always guessing the biggest group and 25 percent for chance. Steinlen 10 of 13, Chéret 6 of 9, Mucha 3 of 6, Lautrec 2 of 7, with the misses marked under each print." width="100%">
-
-Hide one print, learn each designer from the rest, name the maker: **60% against 37% for always guessing the biggest group and 25% for chance**, on 35 real CC0 prints. Steinlen (10/13) and Chéret (6/9) have a consistent measurable look. Lautrec (2/7) doesn't: his works span flat-colour posters, a pale line print and a dark black-and-white stage poster, so the engine sees three modes, not one hand. That's the right answer, and it's why the VLM pass and the maker's confirmation exist. Credits are in [`cma_credits.json`](nazar-voiceprint/examples/cma_credits.json). Every print was reviewed by eye, and `fetch_cma_designers.py` uses an approved allowlist so nothing unreviewed can slip in.
-
-#### Then on real photographs
-<img src="assets/demo-voiceprint-real.jpg" alt="24 public-domain photographs from The Met, grouped by the process each catalogue record names: ten cyanotypes read as a blue single-hue soft look, six albumen prints and six salted-paper prints read as warm-toned prints, two autochromes only partly read. A footer states the limits." width="100%">
-
-Synthetic tests prove the maths; real work proves the use. 24 public-domain (CC0) photographs from The Met, grouped by the process **each object's own catalogue record names**, and the engine never sees that label. Cyanotypes come out blue, single-hue and soft; albumen and salted paper come out as warm-toned prints. It can't yet separate albumen from salted paper, and autochrome grain needs full-resolution scans, and the card says so. The real test also caught a bug the synthetic one hid: blue cyanotypes on warm paper were being named "teal & orange". Fixed, retested, and the synthetic teal-and-orange grade is still caught. Credits for every image are in [`met_credits.json`](nazar-voiceprint/examples/met_credits.json). Every photo was checked by eye before use, and `fetch_met.py` is paced and backs off politely.
-
-### 🎨 A palette from real archive work, then checked
-<img src="assets/demo-colour.jpg" alt="Ten public-domain cyanotypes from The Met reduced to a five-colour palette in OKLab, with contrast ratios and colour-blind checks: one pair passes WCAG AA for text, two for large text or UI only, seven fail, and none collapse under protan, deutan or tritan simulation." width="100%">
-
-`nazar-colour/engine/palette_check.py` does what the colour kit promises: archive images in, palette out (k-means in OKLab), then every pair checked.
-
-- **Contrast:** WCAG 2 ratios, with a verdict per pair. The maths is verified against published values (black on white is 21:1; `#777` on white is 4.48:1, the classic near-miss).
-- **Colour-blind:** protan, deutan and tritan simulation (Machado, Oliveira & Fernandes 2009); flags any pair that collapses for a viewer.
-- **Greyscale:** pairs that depend on hue alone.
-- **Honest on APCA:** deliberately not used, because its place in WCAG 3 is unresolved as of April 2026.
-
-Real archive colour is often *worse* than a designed palette: in this one, only 1 of 10 pairs carries body text. That's the finding, not a flaw, and it's why the kit checks before it ships.
-
-### 🔤 Type QA on real font files
-<img src="assets/demo-type.jpg" alt="Four fonts checked: Anton, Space Grotesk, Space Mono and the real Gulzar Urdu font. Latin and Urdu lines set through each: the Latin-only fonts show empty boxes for Urdu while Gulzar sets proper joined Nastaliq. Coverage bars, shaping features, kerning, licence and the smallest legal size for a 1.2 mm x-height, with the findings listed." width="100%">
-
-`nazar-type/engine/type_check.py` runs the type kit's own checklist on real font files: licence and embedding as the file declares them, coverage per script (Latin, transliteration, pack symbols, Urdu, Sindhi, Devanagari), whether the Arabic-script shaping features exist, kerning, and the **smallest size at which the x-height reaches the 1.2 mm EU rule**. Then a real shaped Urdu line goes through each font, so you can *see* what coverage means. It found real things: none of the studio's own fonts has the **₨ sign**; **Gulzar** sets Urdu beautifully but covers only 4 of 15 Sindhi letters, and needs 7.7 pt for a legal x-height against 4.6 pt for Anton; and Gulzar's file doesn't carry its licence text, so the OFL file from its repository must be filed beside it (confirmed from the source: OFL 1.1). Coverage % says nothing about whether the shapes are good, and the card says so.
-
-## 2. Make the marks
-
-From a hand-made sketch to clean vectors, and drawing that behaves like a hand.
-
-### ✍️ Sketch on paper, get clean vectors
-<img src="assets/demo-trace-fine.jpg" alt="A Rembrandt etching (public domain, The Met) traced with the fine-line mode: the original, the local-threshold step that keeps every hatched line, and the traced vector." width="100%">
-
-`nazar-core/engine/trace.py`: **hands first.** Kaif draws, the machine cleans up.
-
-1. **Clean the photo:** flatten the uneven light, threshold it automatically, despeckle.
-2. **Find the corners:** checked at two scales, and pinned so smoothing can't round them off.
-3. **Place nodes on the true extremes,** where the curve is really horizontal or vertical, the way a professional vector artist would.
-4. **Fit the curves:** Schneider least-squares Béziers, giving a single SVG path with holes kept.
-
-**Hairlines and engraving: `--fine`.** A global threshold loses lines under ~2 px and the despeckle step erased what was left, so a Rembrandt etching traced to noise. `--fine` upscales, uses a *local* threshold (darker than its own neighbourhood) and skips the opening step; the same etching (CC0, The Met) now keeps its tree, figure and hatching. It stays noisy in the darkest shadow, so raise `--min-area` to drop dust. Plain mode is still right for bold marker and pencil. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
-
-### 🖋️ Draw like a hand, in code
+## 🖋️ Drawing in code
 <img src="assets/demo-illustration.jpg" alt="Pencil meets cursor: a graphite pencil draws a wobbly line on paper that turns into a clean vector curve with anchor nodes and one selected orange node, ending at a mouse cursor over a dot grid." width="100%">
 
 `nazar-illustration/engine/ink.py`: illustration that behaves like a pen, not a filter.
@@ -216,55 +249,6 @@ From a hand-made sketch to clean vectors, and drawing that behaves like a hand.
 - **Concept first:** every illustration starts with a one-sentence idea, a focal point, a light direction and a budget.
 - **Honest about limits:** for complex scenes, Claude also hands you a ready image prompt (used only with client approval).
 
-## 3. Package it
-
-Structure first, then the art on it.
-
-### 📦 Draw real dielines from three numbers
-<img src="assets/demo-structures.jpg" alt="Nine concept dielines generated by the engine: a reverse tuck carton, a tuck-front mailer, a pillow pack, a rigid box blank and wrap, a cone label, a stand-up pouch layout, a chips flow-wrap packet, a shrink-sleeve shrink map and a glued tray." width="100%">
-
-`nazar-dieline/engine/dieline.py`: give it the inside dimensions (L × W × D) and the board, and it draws a **concept dieline**.
-
-- **Formats:** layered SVG, PDF, PNG, a **DXF** that opens in CAD (with CUT / CREASE / PERF / GLUE layers), and a spec sheet.
-- **14 structures:** ECMA tuck ends, sleeve, glued tray, FEFCO 0201 / 0200 / 0427, pillow, rigid set-up box (blank plus wrap with turn-ins), cone and wrap labels, stand-up pouch, chips flow-wrap, and a shrink-sleeve map.
-- **Spec sheet:** flat size, board area, cut and crease rule length (which drives die cost), rough nesting per sheet, and a McKee compression estimate for corrugated.
-- **Engineering:** caliper allowances, friction locks, tapered glue flaps, corner reliefs, and grain arrows.
-- **Testing:** every DXF passes a CAD audit with zero errors.
-
-### 🎨 Draft the pack design *on* the structure
-<img src="assets/demo-pack.jpg" alt="A real Mucha plate (public domain, Cleveland Museum of Art) on a reverse-tuck carton: the folded view and the flat artwork, with the pack engine's own QA flagging one safe-area issue." width="100%">
-
-Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
-
-- **The right way up when folded.** Tucks, lids and bottoms rotate automatically.
-- **Real brand assets:** brand tokens, outlined fonts (harfbuzz), the client's exact logo file, bands, patterns that run across folds, and placeholders for copy and the GS1 barcode at true size.
-- **Folded oblique preview** of the pack.
-- **Transparency handled for real:**
-  - A carton window becomes a die-cut hole plus the film patch.
-  - Clear and metallised film get "no ink, no white" windows, a **white-ink plate**, and a preview in the product's own colour.
-  - Chips packets get the fin seal, serrated crimps and the back art split across the web.
-- **Automatic draft QA:** type size in pt, contrast measured against what's actually behind the text, copy overflow, barcode size and fit, net quantity in the bottom 30% of the principal panel, art on the glue flap, windows too close to creases or seals, and light-sensitive snacks behind windows.
-- **Send it to Figma:** `--figma` writes a step-by-step build plan for [claude-talk-to-figma-mcp](https://github.com/arinspunk/claude-talk-to-figma-mcp). Upright panels arrive as editable layers and text, and the dieline as a locked layer. The setup guide covers a pinned, localhost-only install for any user's Claude: [`nazar-dieline/FIGMA.md`](nazar-dieline/FIGMA.md).
-
-## 4. Put it out
-
-From a brand's colours to the things that go on walls, feeds, sites and screens.
-
-### 🧩 Archive colour → brand tokens → backdrops
-<img src="assets/demo-backdrops.jpg" alt="Real cyanotype plates reduced to a palette, assigned to brand roles by contrast, and run through the backdrops engine. The accent works on the dark ground at 4.92:1 but is 1.02:1 on the light ground, so light mode is refused; a dark-mode set of cover, text, quote, end and story backdrops is produced." width="100%">
-
-Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `nazar-backdrops`. Real data exposed two engine bugs, both fixed: the backdrops engine **offered light mode whatever the accent contrast** (here 1.02:1, invisible), and role assignment picked a mid-blue "secondary" at **1.55:1**, so the handle text vanished. Roles are now assigned **by contrast** (`derive_tokens`), and a mode is skipped when its accent is invisible. The archive supports a dark set only, and it says so. The mark is the example brand's placeholder, left unaltered on purpose: **client logos are never recoloured or redrawn**.
-
-### 📣 Out-of-home, social, web and motion (plus packaging QA)
-<img src="assets/demo-kits.jpg" alt="Five kits run live on public-domain art. Packaging: a real Mucha plate on a carton with the engine's QA. Out-of-home: four 1890s Chéret posters tested as a bulletin: only the shortest is readable in time. Social: the slop test flags a machine-style caption and passes a plain one. Web: the same real page built well passes and built badly fails eight checks. Motion: a linear and an eased reveal measured." width="100%">
-
-Each of these kits had no engine. Each now has a small one, built on sources and tested on real work:
-- **Packaging** (`nazar-dieline`): real art on a real structure, with the pack engine's own QA checking the *art*: safe area, contrast, type size, missing logo files. The first run caught three real problems.
-- **Out-of-home** (`nazar-ooh/ooh_check.py`): letter height from the sign-engineering rule (MUTCD: 30 ft of reading distance per inch; Clearview 40), eye-chart geometry, contrast and read time. The "7 words" rule and the "6 seconds" are **unsourced industry folklore**, and the engine labels them that way. Viewing distance and speed are inputs, because no authoritative figure exists.
-- **Social** (`nazar-social/social_lint.py`): the slop test as code: stock phrases, "not just X but Y", triads, em-dashes, emoji, hashtags. A hit is a prompt to rewrite, never proof of anything.
-- **Web** (`nazar-web/web_audit.py`): lang, title, viewport, headings, alt text, layout shift, oversized images, link text, WCAG contrast. No network or rendering, so real-device speed still needs Lighthouse.
-- **Motion** (`nazar-motion/motion_check.py`): measures *slow in and slow out* (Thomas & Johnston's principle) from a clip: peak speed against end speed, duration and holds. It separates linear (1.2×) from eased (4.8×) and recovers the exact timing. It measures; it doesn't prescribe durations, because no authoritative norms were verified.
-
 ## How it stays honest
 
 Every number on these cards came out of an engine run on real work, and several tests failed first. That's the point: the failures are fixed or written down, not hidden.
@@ -274,6 +258,28 @@ Every number on these cards came out of an engine run on real work, and several 
 | Colour palettes and contrast (24 photos, 10 cyanotypes) · type QA on 4 real fonts · designer attribution (35 prints, 60% against a 37% baseline) · backdrops from archive colour · fine-line tracing · the pack engine's own QA | `strokes.py` taper and pressure don't separate media (loose ends and straightness do; it needs ~2400 px) · plain `trace.py` is for bold marker (use `--fine`) · "7 words" and "6 seconds" for billboards are unsourced folklore, and labelled that way · coverage % says nothing about whether a typeface is *good* | Voiceprint on a full real archive · pose and camera-habit tools on real photos · video tools on real footage · anything on real Pakistani packs, shop boards or Urdu print |
 
 Rules that never bend: **a client's logo is never recoloured or redrawn**, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
+
+## At a glance
+
+Every card in one grid.
+
+<table>
+<tr>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-structures.jpg" alt="Nine concept dielines"></a><br><sub><b>Dielines</b> from three numbers</sub></td>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-pack.jpg" alt="Real art on a real dieline"></a><br><sub><b>Real art</b> on a real dieline, with QA</sub></td>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-trace-fine.jpg" alt="Etching to vector"></a><br><sub><b>Etching → vector</b>, fine-line mode</sub></td>
+</tr>
+<tr>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-voiceprint.jpg" alt="Voiceprint"></a><br><sub><b>Your pattern</b>, not the machine's</sub></td>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-voiceprint-designers.jpg" alt="Can the engines tell designers apart"></a><br><sub><b>Tell designers apart?</b> 35 real prints, blind</sub></td>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-voiceprint-real.jpg" alt="Real photographs read blind"></a><br><sub><b>Real photographs</b>, 24 CC0, read blind</sub></td>
+</tr>
+<tr>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-colour.jpg" alt="Palette from archive"></a><br><sub><b>Palettes</b> from real archives, checked</sub></td>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-type.jpg" alt="Type QA on real fonts"></a><br><sub><b>Type QA</b> on real fonts, incl. real Urdu</sub></td>
+<td width="33%"><a href="#the-results-in-order-of-importance"><img src="assets/demo-backdrops.jpg" alt="Archive colour to backdrops"></a><br><sub><b>Archive → tokens → backdrops</b></sub></td>
+</tr>
+</table>
 
 ## About Kaif
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
