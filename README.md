@@ -13,6 +13,19 @@
 
 No AI slop, no stock photos, no "elevate your journey". AI imagery is used only when a client says yes in writing.
 
+<table>
+<tr>
+<td width="33%"><a href="#-draw-real-dielines-from-three-numbers"><img src="assets/demo-structures.jpg" alt="Nine concept dielines"></a><br><sub><b>Dielines</b> from three numbers</sub></td>
+<td width="33%"><a href="#-sketch-on-paper-get-clean-vectors"><img src="assets/demo-trace.jpg" alt="Sketch to vector"></a><br><sub><b>Sketch → vector</b>, nodes on the extremes</sub></td>
+<td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint.jpg" alt="Voiceprint"></a><br><sub><b>Your pattern</b>, not the machine's</sub></td>
+</tr>
+<tr>
+<td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-genres.jpg" alt="One engine per trade"></a><br><sub><b>One engine per trade</b>, tested blind</sub></td>
+<td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-real.jpg" alt="Real photographs read blind"></a><br><sub><b>Real photographs</b>, 24 CC0, read blind</sub></td>
+<td width="33%"><a href="#-a-palette-from-real-archive-work-then-checked"><img src="assets/demo-colour.jpg" alt="Palette from archive"></a><br><sub><b>Palettes</b> from real archives, checked</sub></td>
+</tr>
+</table>
+
 ---
 
 ## What it can do
@@ -130,6 +143,23 @@ Every engine was checked against the truth before it was trusted: original work 
 | Whole portfolio | `cluster.py` | Style modes (most creatives have 2–3) and elements reused across pieces |
 
 Rerun every test yourself: [`examples/make_genre_demos.py`](nazar-voiceprint/examples/make_genre_demos.py).
+
+#### Then on real photographs
+<img src="assets/demo-voiceprint-real.jpg" alt="24 public-domain photographs from The Met, grouped by the process each catalogue record names: ten cyanotypes read as a blue single-hue soft look, six albumen prints and six salted-paper prints read as warm-toned prints, two autochromes only partly read. A footer states the limits." width="100%">
+
+Synthetic tests prove the maths; real work proves the use. 24 public-domain (CC0) photographs from The Met, grouped by the process **each object's own catalogue record names**, and the engine never sees that label. Cyanotypes come out blue, single-hue and soft; albumen and salted paper come out as warm-toned prints. It can't yet separate albumen from salted paper, and autochrome grain needs full-resolution scans, and the card says so. The real test also caught a bug the synthetic one hid: blue cyanotypes on warm paper were being named "teal & orange". Fixed, retested, and the synthetic teal-and-orange grade is still caught. Credits for every image are in [`met_credits.json`](nazar-voiceprint/examples/met_credits.json). Every photo was checked by eye before use, and `fetch_met.py` is paced and backs off politely.
+
+### 🎨 A palette from real archive work, then checked
+<img src="assets/demo-colour.jpg" alt="Ten public-domain cyanotypes from The Met reduced to a five-colour palette in OKLab, with contrast ratios and colour-blind checks: one pair passes WCAG AA for text, two for large text or UI only, seven fail, and none collapse under protan, deutan or tritan simulation." width="100%">
+
+`nazar-colour/engine/palette_check.py` does what the colour kit promises: archive images in, palette out (k-means in OKLab), then every pair checked.
+
+- **Contrast:** WCAG 2 ratios, with a verdict per pair. The maths is verified against published values (black on white is 21:1; `#777` on white is 4.48:1, the classic near-miss).
+- **Colour-blind:** protan, deutan and tritan simulation (Machado, Oliveira & Fernandes 2009); flags any pair that collapses for a viewer.
+- **Greyscale:** pairs that depend on hue alone.
+- **Honest on APCA:** deliberately not used, because its place in WCAG 3 is unresolved as of April 2026.
+
+Real archive colour is often *worse* than a designed palette: in this one, only 1 of 10 pairs carries body text. That's the finding, not a flaw, and it's why the kit checks before it ships.
 
 ### 🧠 The whole studio, as one floor
 

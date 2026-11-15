@@ -172,7 +172,9 @@ def looks(m):
         L.append("duotone / limited palette [measured]")
     if st["shadow_chroma"] > 0.02 and st["highlight_chroma"] > 0.02 and st["hue_gap"] > 60:
         L.append(f"split-toned: shadows {st['shadow_hue']}°, highlights {st['highlight_hue']}° [measured]")
-        if 160 <= st["shadow_hue"] <= 250 and 30 <= st["highlight_hue"] <= 100:
+        # a blue image on warm aged paper is split too (a real test on Met cyanotypes),
+        # but "teal & orange" names a colour grade: require a genuinely multi-hue image
+        if 160 <= st["shadow_hue"] <= 250 and 30 <= st["highlight_hue"] <= 100 and m["hue_families"] >= 3:
             L.append("teal & orange [folklore label, measured split]")
     # OKLab L is perceptual: true black reads ~0.12 after noise, so "lifted" starts higher
     if m["black_floor_P1"] >= 0.22 and m["contrast_total"] < 0.6:
