@@ -69,17 +69,7 @@ You get three variants (tight, balanced, smooth), a compare sheet and a node rep
 
 ### 🧠 The whole studio, as one floor
 
-Think of `nazar-studio` as a real studio floor, not a toolbox. A job walks through it the same way it would walk through an actual agency — front desk, then the brain, then each desk in order:
-
-```
-            ┌──────────────────────── nazar-core ────────────────────────┐
-            │   the shared brain: taste, research method, QA, the renderer  │
-            └────────────────────────────┬─────────────────────────────┘
-  front desk          the think tank               the drawing boards            production floor          out the door
- nazar-pitch ──▶ nazar-strategy ──▶ nazar-logo / nazar-illustration ──▶ nazar-dieline / nazar-packaging ──▶ nazar-social / ooh / motion / web
- (brief, price)    (name, idea)     nazar-type / nazar-colour            nazar-brand-book                   nazar-art-direction / backdrops
-                                     (marks, art, type, palette)         nazar-prompts* (*client-approved only)
-```
+Think of `nazar-studio` as a real studio floor, not a toolbox: a front desk, a think tank, a few drawing boards, a production floor, and a door it all goes out through — with one shared brain (`nazar-core`) that every desk reads from. A job doesn't walk every desk; Claude reads the brief and only pulls the ones it needs.
 
 | Desk | Kit | Does |
 |---|---|---|
@@ -100,8 +90,6 @@ Think of `nazar-studio` as a real studio floor, not a toolbox. A job walks throu
 | Out the door | `nazar-web` | Brand sites that are fast, accessible, a little bit extra |
 | Out the door | `nazar-art-direction` | Photo briefs, illustration guides, icon grids |
 | The brain (everywhere) | `nazar-core` | Research method, taste, QA, the renderer, sketch → vector |
-
-Claude doesn't walk every desk on every job — it reads the brief and only pulls the desks it needs.
 
 ## Install (30 seconds, 0 drama)
 ```bash
