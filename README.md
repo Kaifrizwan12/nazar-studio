@@ -24,6 +24,9 @@ No AI slop, no stock photos, no "elevate your journey". AI imagery is used only 
 <td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-real.jpg" alt="Real photographs read blind"></a><br><sub><b>Real photographs</b>, 24 CC0, read blind</sub></td>
 <td width="33%"><a href="#-a-palette-from-real-archive-work-then-checked"><img src="assets/demo-colour.jpg" alt="Palette from archive"></a><br><sub><b>Palettes</b> from real archives, checked</sub></td>
 </tr>
+<tr>
+<td colspan="3"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-designers.jpg" alt="Can the engines tell designers apart"></a><br><sub><b>Can the engines tell designers apart?</b> 35 real prints, blind, with the misses shown</sub></td>
+</tr>
 </table>
 
 ---
@@ -151,7 +154,11 @@ Graphic design and illustration are full of patterns no engine measures. So the 
 - **Open discovery first** (list everything that recurs, no taxonomy), then **lenses with sources**: Morelli's habitual minor details (the method behind Ginzburg's *Clues*), Wölfflin's five pairs, Kress & van Leeuwen's grammar of visual design, McCloud's closure and abstraction, Gestalt figure-ground, plus studio lenses for subject, the wink, type-and-image, edges, texture, rhythm and frames.
 - **Evidence or it doesn't count:** every claim names a piece and a crop, a habit needs **≥3 pieces**, nothing is attributed to another artist, and *why* is asked of the maker, never guessed.
 - **A real run on ten public-domain cyanotypes:** [`examples/vlm_pass_cyanotypes.md`](nazar-voiceprint/examples/vlm_pass_cyanotypes.md). It finds the isolation, the caption convention and the hand-spaced arrangements, and refuses to claim three things a loose description would have: the process look, the museum's photography, and a "style" that was actually two makers.
-- **Can the engines tell designers apart?** A leave-one-out test (`designer_test.py`) hides one poster and names its maker from habit alone. On a made-up set with three distinct habits it scores 100% against 33% chance. On real posters it's untested: the Met doesn't release poster holdings as open access, so it needs a collection that does.
+- **Can the engines tell designers apart? Yes for some, no for others, and the card shows which.**
+
+<img src="assets/demo-voiceprint-designers.jpg" alt="Leave-one-out test on 35 public-domain prints by Steinlen, Chéret, Mucha and Toulouse-Lautrec from the Cleveland Museum of Art. Blind accuracy 60 percent against 37 percent for always guessing the biggest group and 25 percent for chance. Steinlen 10 of 13, Chéret 6 of 9, Mucha 3 of 6, Lautrec 2 of 7, with the misses marked under each print." width="100%">
+
+Hide one print, learn each designer from the rest, name the maker: **60% against 37% for always guessing the biggest group and 25% for chance**, on 35 real CC0 prints. Steinlen (10/13) and Chéret (6/9) have a consistent measurable look. Lautrec (2/7) doesn't: his works span flat-colour posters, a pale line print and a dark black-and-white stage poster, so the engine sees three modes, not one hand. That's the right answer, and it's why the VLM pass and the maker's confirmation exist. Credits are in [`cma_credits.json`](nazar-voiceprint/examples/cma_credits.json). Every print was reviewed by eye, and `fetch_cma_designers.py` uses an approved allowlist so nothing unreviewed can slip in.
 
 #### Then on real photographs
 <img src="assets/demo-voiceprint-real.jpg" alt="24 public-domain photographs from The Met, grouped by the process each catalogue record names: ten cyanotypes read as a blue single-hue soft look, six albumen prints and six salted-paper prints read as warm-toned prints, two autochromes only partly read. A footer states the limits." width="100%">
