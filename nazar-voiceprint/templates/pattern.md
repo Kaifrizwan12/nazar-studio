@@ -32,6 +32,10 @@ Built from: <N documents, N words, date range, all pre-30 Nov 2022 unless noted>
 - **Palette habit:** <e.g. "pale warm ground (#F0EDE5) ~85%, one hot accent (#E76842) under 3%, near-black ink">
 - **Air and balance:** <e.g. "mostly empty frames; asymmetric; weight sits left">
 - **Texture:** <e.g. "grain and slight misregistration; no gradients, no glow">
+- **Recurring devices (VLM pass; each seen in ≥3 pieces, with evidence):**
+  | Pattern | Lens | Seen in | Evidence | Confidence | Their why |
+  |---|---|---|---|---|---|
+  | <…> | <…> | <n of N> | <crop / engine number> | <seen / likely> | <their words> |
 - **Motifs and meaning (in their words):** <…>
 - **Intent (in their words):** <…>
 

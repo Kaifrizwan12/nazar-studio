@@ -141,8 +141,17 @@ Every engine was checked against the truth before it was trusted: original work 
 | Editor, director | `video.py` | Cuts, median and distribution of shot lengths (Salt, Cinemetrics), pace, 1/f rhythm (Cutting 2010), grade across shots |
 | Anyone who poses people | `pose.py` | Facing, contrapposto, hands, crop point, headroom, from 2D keypoints (after Impett & Moretti's *Totentanz*) |
 | Whole portfolio | `cluster.py` | Style modes (most creatives have 2–3) and elements reused across pieces |
+| Designer, illustrator | the **VLM pass** (`views.py` + a researched protocol) | Everything numbers can't find: a hidden second image in the negative space, hands drawn as mittens, a recurring joke, how type sits in the image |
 
 Rerun every test yourself: [`examples/make_genre_demos.py`](nazar-voiceprint/examples/make_genre_demos.py).
+
+#### For designers and illustrators: numbers find the measurable part, then Claude *looks*
+Graphic design and illustration are full of patterns no engine measures. So the kit directs a vision model with a researched protocol instead of letting it free-associate:
+- **`views.py`** builds the views a VLM needs: a squint test, greyscale, a 4-colour flat, an edge map, five full-detail crops, and a contact sheet of the whole body of work. Vision models are weak at fine detail and counting (*Vision language models are blind*, 2024), so they get crops and the engines do the counting.
+- **Open discovery first** (list everything that recurs, no taxonomy), then **lenses with sources**: Morelli's habitual minor details (the method behind Ginzburg's *Clues*), Wölfflin's five pairs, Kress & van Leeuwen's grammar of visual design, McCloud's closure and abstraction, Gestalt figure-ground, plus studio lenses for subject, the wink, type-and-image, edges, texture, rhythm and frames.
+- **Evidence or it doesn't count:** every claim names a piece and a crop, a habit needs **≥3 pieces**, nothing is attributed to another artist, and *why* is asked of the maker, never guessed.
+- **A real run on ten public-domain cyanotypes:** [`examples/vlm_pass_cyanotypes.md`](nazar-voiceprint/examples/vlm_pass_cyanotypes.md). It finds the isolation, the caption convention and the hand-spaced arrangements, and refuses to claim three things a loose description would have: the process look, the museum's photography, and a "style" that was actually two makers.
+- **Can the engines tell designers apart?** A leave-one-out test (`designer_test.py`) hides one poster and names its maker from habit alone. On a made-up set with three distinct habits it scores 100% against 33% chance. On real posters it's untested: the Met doesn't release poster holdings as open access, so it needs a collection that does.
 
 #### Then on real photographs
 <img src="assets/demo-voiceprint-real.jpg" alt="24 public-domain photographs from The Met, grouped by the process each catalogue record names: ten cyanotypes read as a blue single-hue soft look, six albumen prints and six salted-paper prints read as warm-toned prints, two autochromes only partly read. A footer states the limits." width="100%">

@@ -65,6 +65,12 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
   - `video.py`: editors and directors. Cuts, median and distribution of shot lengths, pace trend, 1/f rhythm, grade across shots. Needs `pip install imageio-ffmpeg`, or a cut list.
   - `pose.py`: how people are posed and framed (facing, contrapposto, hands, crop, headroom). Needs `pip install "onnxruntime==1.23.2" rtmlib`, or exported keypoints.
 - Each layer reports mean ± spread across the portfolio, plus a plain reading. If there are several style modes, ask which one the pattern is for.
+- **Then the VLM pass: this is where you look, because numbers can't find most of a designer's or illustrator's patterns** (a hidden second image in the negative space, hands drawn as mittens, a recurring joke). Follow `references/vlm_protocol.md` exactly:
+  1. `engine/views.py <folder> <out>` builds a study sheet per piece (squint, grey, flat colour, edges, five full-detail crops) and a contact sheet. Read the contact sheet first.
+  2. Open discovery: list everything that recurs, with no taxonomy.
+  3. Run the lenses (Morelli's minor details, Wölfflin, Kress & van Leeuwen, McCloud, Gestalt, plus studio lenses for subject, wink, type-and-image, edges, texture, rhythm, frames).
+  4. **A finding counts only with evidence** (piece + crop), in **≥3 pieces**. Counts and measures come from the engines, never by eye. Never attribute to another artist. Describe before interpreting.
+  5. Output the table (pattern, lens, seen in, evidence, confidence, maker's why), then confirm each row with the maker. The *why* is theirs to give.
 - Motifs, meaning and intent are **not** computable (Gatys 2015; tacit-knowledge literature). They come from step 5.
 
 **Stability:** every layer reports which features hold across the archive. Only habits go into the pattern; genre-driven features go into briefs.
@@ -103,6 +109,7 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
 ## Files
 - `engine/ingest.py`: archive → corpus, pre-AI date filter, manifest.
 - `engine/analyze.py`: words layer. 1 file = profile, 2 = diff, 3+ = archive pattern with habit verdicts and cross-document signature phrases.
+- `engine/views.py`: study sheets and a contact sheet, so a vision model can see the details. `references/vlm_protocol.md`: the researched protocol for the VLM pass.
 - `engine/visual.py`, `grade.py`, `strokes.py`, `layout.py`, `exif_habits.py`, `cluster.py`, `video.py`, `pose.py`: the visual layers; `portfolio.py` runs them all.
 - `engine/baselines/`: the Hindi-Urdu function-word baseline (OpenSubtitles2018 via FrequencyWords, CC-BY-SA-4.0) and the script that builds it.
 - `templates/pattern.md`: the output.

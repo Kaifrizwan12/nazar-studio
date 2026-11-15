@@ -72,7 +72,7 @@ def run(folder):
     for j, feat in enumerate(FEATURES):
         within = np.mean([Z[y == n, j].var() for n in names if (y == n).sum() > 1])
         between = np.mean([(Z[y == n, j].mean() - grand[j]) ** 2 for n in names])
-        F.append({"feature": feat, "ratio": round(float(between / max(within, 1e-6)), 2)})
+        F.append({"feature": feat, "ratio": round(float(min(between / max(within, 1e-6), 99.0)), 2)})
     F.sort(key=lambda r: -r["ratio"])
 
     # 2 blind leave-one-out, using every feature weighted by its ratio (capped)
