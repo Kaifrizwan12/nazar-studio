@@ -78,8 +78,12 @@ Confidence tags: [V] confirmed in sources, [K] standard technique, [UNV] unverif
 1. ✅ Palette habit, air, balance (`visual.py`).
 2. ✅ Line weight, line variation, direction, line vs. fill, angularity.
 3. ✅ Tone curve and colour lean.
-4. ⬜ Skeleton-based stroke histograms and taper (add scikit-image).
-5. ⬜ Grid and alignment, type scale (add OCR).
-6. ⬜ EXIF lens habits (Pillow only — next easy win).
-7. ⬜ Shot length median, distribution and 1/f slope (add PySceneDetect).
-8. ⬜ Portfolio clustering and motif detection (add open_clip; optional).
+4. ✅ Skeleton strokes: Zhang–Suen thinning, crossing-number junctions, spur pruning, taper, pressure swing, loose ends (`strokes.py`, numpy only).
+5. ✅ Alignment, columns, margins, type scale from x-height to baseline, OCR-free (`layout.py`).
+6. ✅ EXIF lens, aperture, shutter, flash and orientation habits (`exif_habits.py`).
+7. ✅ Cuts, median and distribution of shot lengths, pace trend, 1/f slope, grade across shots (`video.py`, ffmpeg via imageio-ffmpeg).
+8. ✅ Style modes (k-means plus silhouette over all features) and recurring elements (256-bit tile dHash) (`cluster.py`). Embedding-based motifs remain optional.
+9. ✅ Deep grading and effects with look labels (`grade.py`; see `grading_effects_pose.md`).
+10. ✅ Pose habits from keypoints (`pose.py`; detection via rtmlib, optional).
+
+Every engine has a known-answer test in `examples/` (README genre card).

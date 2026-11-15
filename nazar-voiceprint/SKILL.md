@@ -1,6 +1,6 @@
 ---
 name: nazar-voiceprint
-description: Nazar Studio's pattern extractor. Use when someone wants AI to write, script or design like THEM instead of like an AI. They drop their own pre-AI archive (old .docx from an office job, essays, journals, scripts, reel scripts, treatments, a design or illustration portfolio, photos), and the kit builds their pattern across three languages (words, story/script, visuals). It confirms the pattern with them, then outputs THE PATTERN, a portable file that overrides any AI's default style (Claude, ChatGPT, Gemini). Engines: ingest.py (archive intake with a pre-AI date filter), analyze.py (stylometry, cross-document signature phrases, habit vs. genre), visual.py (palette habit, air, balance, line weight, shape language, tone). Built for creatives first; works for anyone.
+description: Nazar Studio's pattern extractor. Use when someone wants AI to write, script or design like THEM instead of like an AI. They drop their own pre-AI archive (old .docx from an office job, essays, journals, scripts, reel scripts, treatments, a design or illustration portfolio, photos), and the kit builds their pattern across three languages (words, story/script, visuals). It confirms the pattern with them, then outputs THE PATTERN, a portable file that overrides any AI's default style (Claude, ChatGPT, Gemini). Engines: ingest.py (archive intake with a pre-AI date filter), analyze.py (stylometry incl. a Hindi-Urdu baseline, cross-document signature phrases, habit vs. genre), and a visual stack run by portfolio.py: palette and composition, colour grading and effects, illustrator strokes, OCR-free layout and type scale, EXIF camera habits, style modes and recurring elements, editing rhythm from video, and pose. Built for creatives first; works for anyone.
 ---
 
 # Nazar voiceprint
@@ -43,7 +43,7 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
 - `engine/analyze.py corpus/text --lang en` (or another language code). It gives:
   - rhythm (mean *and* spread),
   - punctuation and paragraphing,
-  - function words (English only; for other languages the layer is skipped and the output says why, never faked),
+  - function words: English, and Hindi-Urdu (Devanagari, Urdu script and Roman spellings, with `--lang hinglish` / `hi` / `ur`). Other languages are skipped and the output says why, never faked,
   - **signature phrases that recur across documents** (openers, pivots, sign-offs),
   - a verdict per feature: **habit** (it's them), **varies**, or **document-driven** (it's the genre).
 - Then a qualitative read of discourse (`stylometry.md` §3): how they open, hedge, transition and close.
@@ -53,16 +53,18 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
 - Note dialogue cadence and devices (refrains, code-switching, frame breaks, buried fables) and format ratios.
 - For reels, take hook placement, reveal rate and ending style **from their own catalogue only**. Industry "3-second rules" are unsourced folklore.
 
-**Visual** — designers, illustrators, photographers:
-- `engine/visual.py <images folder>`:
-  - palette habit (ground, support, accent, with shares),
-  - air, symmetry, thirds and weight placement,
-  - line weight and its variation,
-  - stroke direction (hatching habit),
-  - line-led vs. fill-led,
-  - angular vs. rounded,
-  - tone curve and warm/cool lean.
-- Each comes with mean ± spread across the portfolio, plus a plain reading.
+**Visual** — designers, illustrators, photographers, colourists, editors:
+- One command for the whole stack: `engine/portfolio.py <images folder>`. A look counts as a **habit** only if it appears in ≥60% of pieces; single images are confounded by their content.
+- Or run a single engine:
+  - `visual.py`: palette habit (ground, support, accent, with shares), air, symmetry, thirds, weight placement, line weight, tone and warm/cool lean.
+  - `grade.py`: colour grading and effects as numbers (look stats, colourfulness, split-toning, faded or crushed blacks, roll-off, palette breadth, vignette, grain, softness, bloom), plus look labels tagged measured vs. folklore. Describe the transform, never a film stock.
+  - `strokes.py`: illustrators. Skeleton → strokes: length, straightness, taper, pressure swing, loose ends (sketchy vs. confident).
+  - `layout.py`: graphic designers, OCR-free. Alignment, columns, margins, type scale (matched to named modular scales), type vs. image share.
+  - `exif_habits.py`: photographers. Focal length, aperture, shutter, flash and orientation distributions.
+  - `cluster.py`: whole portfolio. Style modes (most creatives have 2–3) and recurring elements across pieces.
+  - `video.py`: editors and directors. Cuts, median and distribution of shot lengths, pace trend, 1/f rhythm, grade across shots. Needs `pip install imageio-ffmpeg`, or a cut list.
+  - `pose.py`: how people are posed and framed (facing, contrapposto, hands, crop, headroom). Needs `pip install "onnxruntime==1.23.2" rtmlib`, or exported keypoints.
+- Each layer reports mean ± spread across the portfolio, plus a plain reading. If there are several style modes, ask which one the pattern is for.
 - Motifs, meaning and intent are **not** computable (Gatys 2015; tacit-knowledge literature). They come from step 5.
 
 **Stability:** every layer reports which features hold across the archive. Only habits go into the pattern; genre-driven features go into briefs.
@@ -101,7 +103,8 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
 ## Files
 - `engine/ingest.py`: archive → corpus, pre-AI date filter, manifest.
 - `engine/analyze.py`: words layer. 1 file = profile, 2 = diff, 3+ = archive pattern with habit verdicts and cross-document signature phrases.
-- `engine/visual.py`: visual layer (palette habit, composition, line, shape, tone).
+- `engine/visual.py`, `grade.py`, `strokes.py`, `layout.py`, `exif_habits.py`, `cluster.py`, `video.py`, `pose.py`: the visual layers; `portfolio.py` runs them all.
+- `engine/baselines/`: the Hindi-Urdu function-word baseline (OpenSubtitles2018 via FrequencyWords, CC-BY-SA-4.0) and the script that builds it.
 - `templates/pattern.md`: the output.
-- `references/`: the research (stylometry, AI conditioning, screenwriting, visual design, creative disciplines).
-- `examples/`: Tamasha pattern read, original 3 AM monologue (draft and final), analysis JSON.
+- `references/`: the research (stylometry, AI conditioning, screenwriting, visual design, creative disciplines, grading/effects/pose).
+- `examples/`: Tamasha pattern read; the original 3 AM monologue (draft → pass 4); known-answer test generators for every engine (`make_genre_demos.py`, `make_grade_demo.py`) and the README card renderer.

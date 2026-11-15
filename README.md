@@ -78,16 +78,58 @@ Drop an archive: a decade of office `.docx` files, a director's scripts, a reel-
 |---|---|---|
 | **Words** | Rhythm (mean *and* spread), punctuation, paragraphing, function-word lean, and the **signature phrases that recur across your documents** (your openers, pivots, sign-offs) | `analyze.py` |
 | **Story** | Where your turns land, dialogue cadence, refrains, code-switching, frame breaks, reel pacing from *your own* catalogue | guided read + `analyze.py` |
-| **Visual** | Palette habit (ground, accent, shares), air, balance, line weight and its swing, hatching direction, angular vs. rounded, tone and warm/cool lean | `visual.py` |
+| **Visual** | Palette habit, air and balance; colour grading and effects; an illustrator's strokes; a designer's grid and type scale; a photographer's camera habits; an editor's cutting rhythm; how people are posed; style modes and reused elements across a portfolio | `portfolio.py` runs them all |
 
 **How it works:**
 1. **Pre-AI filter.** `ingest.py` reads every document's real creation date and holds back anything from after 30 Nov 2022, so your pattern doesn't learn a chatbot's. You decide what goes back in.
 2. **Habit vs. genre.** Every feature is tested across the whole archive and marked *habit*, *varies* or *document-driven*. Only habits make it into the pattern. Research on cross-genre idiolect is mixed, so it's tested, never assumed.
 3. **Confirm loop.** You get about ten plain statements to say yes or no to, plus *your* never list ("I'd never write *please don't hesitate to reach out*. I'd write *shout if anything looks off*"). Motifs and intent come from you; the research is clear that software can't extract them.
 4. **Override-grade output.** The pattern opens with a precedence block, carries real quoted exemplars, pairs every "never" with a "do instead", and makes the AI **draft → check → revise** and re-anchor on your exemplars every few paragraphs, because style drifts back to the model's default the longer it writes.
-5. **Test drive.** It writes a sample, measures its *own* output with the same engine, and fixes what fails. In the demo, a Hinglish monologue for an engineering student who secretly loves design went from *"short, flat, even"* (an AI's default cadence) to matching the target rhythm in three passes. Reading: [`examples/tamasha_pattern.md`](nazar-voiceprint/examples/tamasha_pattern.md).
+5. **Test drive.** It writes a sample, measures its *own* output with the same engine, and fixes what fails. In the demo, a Hinglish monologue for an engineering student who secretly loves design went from *"short, flat, even"* (an AI's default cadence) to matching the target rhythm. Then a Hindi-Urdu function-word baseline, built from 1M words of real subtitles, caught a register miss the rhythm couldn't: the draft told a story where the pattern *argues* (*yaar, arey, kyon, na*). Four passes, every one measured. Reading: [`examples/tamasha_pattern.md`](nazar-voiceprint/examples/tamasha_pattern.md).
 
 The demo pattern was read from a famous monologue (*Tamasha*, 2015). Only numbers and short fragments are kept; the script isn't redistributed. A real job profiles **your own** archive. It's honest about the ceiling: 2025–26 research shows prompted style still sits a measurable step away from true authorship, so you get a strong first draft in your voice, not a clone. Built on Mosteller & Wallace, Burrows' Delta, Biber, STRAP, Gatys and Cinemetrics; the citations are in [`nazar-voiceprint/references`](nazar-voiceprint/references).
+
+**The result: an original scene, written to the extracted pattern** (not a scene from any film):
+
+```
+[Hostel room. Laptop ki light.]
+Compile / Run / Submit.
+Ek aur assignment... ek aur green tick... bas? Bas green tick, yaar?
+Ammi ne poocha tha, "khush ho?" Khush...? Maine kaha CGPA 8.4 hai. Unhone dobara poocha. Maine phir... CGPA bataya. Kya karta? Aur kya hota hai batane ko?
+(camera ki taraf) Arey, aap bhi poochoge? Mat poochna na... jawab wahi hai.
+Compile / Run...
+Desktop pe ek folder hai. Naam? Misc. Misc mein kya hai? Kuch nahin. Arey, kuch... nahin... bas teen saal ke poster... ek chai waale ka logo jo usne kabhi lagaya hi nahin... fest ka mascot jiski aankhein maine teen raat tak theek ki thi... aur ek font jo sirf apne naam ke liye banaya tha, kyunki koi font mere naam jaisa lagta hi nahin tha...
+Kuch nahin.
+Second year mein ek ladka tha jo raat bhar ye sab banata tha... subah lecture mein so jaata tha, aur phir bhi pata nahin kaise sabse zyada khush wahi rehta tha... Professor ne kaha, "beta, ye hobby hai." Papa ne kaha, "isse ghar nahin chalta." Seniors ne kaha, "placement mein koi nahin poochta." Ladke ne suna... achcha ladka tha... sunta tha. Usne folder ka naam badal ke misc rakh diya.
+Smart move, hai na? Magar misc koi nahin kholta...
+Compile / Run / Submit.
+Error...
+Error? Kyun yaar...? Code to sahi hai... line 42... unexpected indent...
+(hasi) Unexpected. Haan. Sab kuch expected tha... bas ye nahin tha.
+(mouse misc pe ruk jaata hai)
+Double click...? Nahin yaar. Kal viva hai.
+...
+Single click hi sahi na...?
+[Folder khulta hai. Screen rangon se bhar jaati hai.]
+Compile... nahin. Aaj nahin.
+```
+
+#### One engine per creative trade, each tested blind
+<img src="assets/demo-voiceprint-genres.jpg" alt="nazar-voiceprint genre card. Six known-answer tests on original synthetic work. Colourist: six grades of one scene, named blind: neutral, teal and orange, faded film with grain, bleach bypass, monochrome, vignette with grain. Illustrator: brush strokes read as 6 tapered strokes, loose marks as sketchy, a ruled grid as confident. Graphic designer: a grid page read as left-aligned, 3 columns, type ratio 1.514 against a designed 1.5; a centred poster read as centred, ratio 1.237 against 1.25. Editor: 11 shot lengths detected within one frame. Portfolio: two hidden style modes separated, a reused mark found in exactly 6 pieces, a re-saved version caught. Camera and pose: 70% at 35mm, 65% wide open, 35% flash, mostly vertical; three skeletons read as frontal, three-quarter with contrapposto and hand on hip, and profile cropped above the knees." width="100%">
+
+Every engine was checked against the truth before it was trusted: original work built with a **known** style, then read blind. The orange text on the card is what the engines concluded, untouched. The tests caught real bugs on the way: content mistaken for a grade, skeleton spurs, a float rounding error. Each one was fixed, not hidden.
+
+| Trade | Engine | What it reads |
+|---|---|---|
+| Colourist, photographer | `grade.py` | Look stats, colourfulness, split-toning, faded or crushed blacks, roll-off, vignette, grain, softness, bloom, with labels tagged *measured* or *folklore*. It describes the transform, never a film stock (Yedlin's Display Prep Demo) |
+| Illustrator | `strokes.py` | Skeleton → strokes: length, straightness, taper, pressure swing, loose ends (searching vs. confident line) |
+| Graphic designer | `layout.py` | Alignment, columns, margins, type scale matched to named modular scales, type vs. image share. No OCR needed |
+| Photographer | `exif_habits.py` | Focal length, aperture, shutter, flash and orientation habits across a shoot |
+| Editor, director | `video.py` | Cuts, median and distribution of shot lengths (Salt, Cinemetrics), pace, 1/f rhythm (Cutting 2010), grade across shots |
+| Anyone who poses people | `pose.py` | Facing, contrapposto, hands, crop point, headroom, from 2D keypoints (after Impett & Moretti's *Totentanz*) |
+| Whole portfolio | `cluster.py` | Style modes (most creatives have 2–3) and elements reused across pieces |
+
+Rerun every test yourself: [`examples/make_genre_demos.py`](nazar-voiceprint/examples/make_genre_demos.py).
 
 ### 🧠 The whole studio, as one floor
 

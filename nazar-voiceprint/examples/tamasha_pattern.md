@@ -12,7 +12,7 @@
 | Exclamations / semicolons | 0 / 0 | never shouts, never subordinates |
 | Slash breaks | 31 per 1,000 words | a list rhythm used as a mechanical chant |
 | Refrains | "walk stop smile please" ×3; "race mein" ×5 | a fixed phrase marks each return to the routine |
-| Function-word layer | skipped | no Hindi-Urdu baseline ships yet, so it isn't faked |
+| Function words (Hindustani baseline) | *yaar* 33× corpus rate, *arey* 11×, *kyon* 7×, *na* 6×, *magar* 19× | a confrontational, vocative register: someone being pushed and questioned. Baseline: OpenSubtitles2018 via FrequencyWords (CC-BY-SA-4.0) |
 
 ## Read (qualitative layer)
 1. **Two voices, one mouth.** Quick question-and-answer ping-pong, so the speaker interrogates himself.
@@ -23,15 +23,17 @@
 6. **Frame break at the end.** The narrator turns to the audience, judges the story's ending, and offers to rewrite it.
 
 ## The test: write something new in this pattern, then check it
-A new, original monologue for a different person: a software-engineering student who secretly loves design, marketing and illustration. Same devices, new everything else: own arc, own images, own refrain ("Compile / Run / Submit"), and the frame break moved mid-scene. File: `3am_scene.txt`.
+A new, original monologue for a different person: a software-engineering student who secretly loves design, marketing and illustration. Same devices, new everything else: own arc, own images, own refrain ("Compile / Run / Submit"), and the frame break moved mid-scene. File: `3am_scene.txt` (pass 1: `3am_scene_draft.txt`).
 
 | | Mean words | Spread | Longest | Rhythm label | Ellipses /1k | Questions /1k |
 |---|---|---|---|---|---|---|
 | **Pattern** | 4.41 | 3.67 | 18 | mixed bursts | 120 | 48 |
 | Pass 1 (draft) | 3.36 | 2.89 | 13 | **short, flat, even** ✗ | 79 | 19 ✗ |
 | Pass 2 | 4.09 | 7.01 ✗ | 50 ✗ | mixed bursts | 68 ✗ | 50 |
-| **Pass 3** | 3.83 | **3.94** | **21** | **mixed bursts** | 98 | **51** |
+| Pass 3 | 3.83 | **3.94** | **21** | **mixed bursts** | 98 | **51** |
+| **Pass 4** | 3.96 | **3.92** | 21 | **mixed bursts** | 95 | **49** |
 
 - **Pass 1** shows an AI's default pull toward an even cadence and too few questions. The check caught it.
 - **Pass 2** overcorrected with one 50-word run-on.
-- **Pass 3** converges. Ellipses are still a little low, which is honestly where a human editor takes over.
+- **Pass 3** matches the rhythm. The function-word layer then caught a register miss the rhythm couldn't see: the draft leaned on storytelling particles (*tha, phir, jo, bas*), where the pattern leans on confrontational ones.
+- **Pass 4** adds *yaar / arey / na / magar* where the student argues with himself. Now the top over-used particles match the pattern's, and the rhythm still holds. Ellipses are still a little low, which is honestly where a human editor takes over.

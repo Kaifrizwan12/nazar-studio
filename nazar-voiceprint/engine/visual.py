@@ -176,8 +176,8 @@ def line_quality(im):
     g = np.asarray(im.convert("L"), np.float32) / 255
     bg = np.median(np.concatenate([g[0], g[-1], g[:, 0], g[:, -1]]))
     dark_on_light = bg > 0.5
-    t = _otsu(g)
-    ink = (g < t) if dark_on_light else (g > t)
+    gi, ti = np.rint(g * 255), round(_otsu(g) * 255)   # compare whole levels: float32 vs float64 at k/255 misfires
+    ink = (gi <= ti) if dark_on_light else (gi > ti)
     if ink.mean() < 0.002:
         return None
     widths = np.minimum(_runs(ink), _runs(ink.T).T)[ink].astype(float)

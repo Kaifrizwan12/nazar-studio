@@ -1,0 +1,632 @@
+{
+ "meta": {
+  "source": "Hermit Dave, FrequencyWords 2018 (hi_full.txt, ur_full.txt) from OpenSubtitles2018, opus.nlpl.eu",
+  "licence": "CC-BY-SA-4.0 (derived data)",
+  "hi_words_counted": 738357,
+  "ur_words_counted": 262138,
+  "method": "rate per 1,000 words = mean of Hindi and Urdu rates; punctuation excluded; Roman spellings that collide with English words are left out",
+  "caveats": [
+   "Roman spelling varies widely; variants cover the common ones, not all",
+   "'main' (I) and 'mein' (in) are often spelled interchangeably in Roman text; treat those two rows with caution",
+   "subtitle corpus = conversational register; formal Urdu/Hindi prose will deviate by register, not just by person"
+  ]
+ },
+ "function_words": {
+  "hai": {
+   "per_1000": 46.059,
+   "devanagari": [
+    "है"
+   ],
+   "urdu": [
+    "ہے"
+   ],
+   "roman": [
+    "hai",
+    "hay"
+   ]
+  },
+  "hain": {
+   "per_1000": 16.036,
+   "devanagari": [
+    "हैं"
+   ],
+   "urdu": [
+    "ہیں"
+   ],
+   "roman": [
+    "hain",
+    "hein"
+   ]
+  },
+  "ke": {
+   "per_1000": 30.029,
+   "devanagari": [
+    "के"
+   ],
+   "urdu": [
+    "کے"
+   ],
+   "roman": [
+    "ke"
+   ]
+  },
+  "main (I)": {
+   "per_1000": 23.077,
+   "devanagari": [
+    "मैं"
+   ],
+   "urdu": [],
+   "roman": [
+    "main",
+    "mai"
+   ]
+  },
+  "nahin": {
+   "per_1000": 19.792,
+   "devanagari": [
+    "नहीं",
+    "नही"
+   ],
+   "urdu": [
+    "نہیں"
+   ],
+   "roman": [
+    "nahin",
+    "nahi",
+    "nahi'n",
+    "nahiin",
+    "nhi",
+    "nai"
+   ]
+  },
+  "mein (in)": {
+   "per_1000": 16.787,
+   "devanagari": [
+    "में"
+   ],
+   "urdu": [],
+   "roman": [
+    "mein",
+    "mei"
+   ]
+  },
+  "ek": {
+   "per_1000": 16.145,
+   "devanagari": [
+    "एक"
+   ],
+   "urdu": [
+    "ایک"
+   ],
+   "roman": [
+    "ek"
+   ]
+  },
+  "aap": {
+   "per_1000": 16.269,
+   "devanagari": [
+    "आप"
+   ],
+   "urdu": [
+    "آپ"
+   ],
+   "roman": [
+    "aap",
+    "ap"
+   ]
+  },
+  "liye": {
+   "per_1000": 11.143,
+   "devanagari": [
+    "लिए",
+    "लिये"
+   ],
+   "urdu": [
+    "لئے",
+    "لیے"
+   ],
+   "roman": [
+    "liye",
+    "lie"
+   ]
+  },
+  "aur": {
+   "per_1000": 11.618,
+   "devanagari": [
+    "और"
+   ],
+   "urdu": [
+    "اور"
+   ],
+   "roman": [
+    "aur"
+   ]
+  },
+  "ye": {
+   "per_1000": 13.187,
+   "devanagari": [
+    "यह",
+    "ये"
+   ],
+   "urdu": [
+    "یہ"
+   ],
+   "roman": [
+    "ye",
+    "yeh",
+    "yah"
+   ]
+  },
+  "se": {
+   "per_1000": 13.883,
+   "devanagari": [
+    "से"
+   ],
+   "urdu": [
+    "سے"
+   ],
+   "roman": [
+    "se"
+   ]
+  },
+  "ki": {
+   "per_1000": 23.291,
+   "devanagari": [
+    "की",
+    "कि"
+   ],
+   "urdu": [
+    "کی",
+    "کہ"
+   ],
+   "roman": [
+    "ki",
+    "kee",
+    "keh"
+   ]
+  },
+  "kya": {
+   "per_1000": 11.378,
+   "devanagari": [
+    "क्या"
+   ],
+   "urdu": [
+    "کیا"
+   ],
+   "roman": [
+    "kya",
+    "kyaa"
+   ]
+  },
+  "tum": {
+   "per_1000": 10.621,
+   "devanagari": [
+    "तुम"
+   ],
+   "urdu": [
+    "تم"
+   ],
+   "roman": [
+    "tum"
+   ]
+  },
+  "ho": {
+   "per_1000": 9.205,
+   "devanagari": [
+    "हो"
+   ],
+   "urdu": [
+    "ہو"
+   ],
+   "roman": [
+    "ho"
+   ]
+  },
+  "kar": {
+   "per_1000": 9.142,
+   "devanagari": [
+    "कर"
+   ],
+   "urdu": [
+    "کر"
+   ],
+   "roman": [
+    "kar"
+   ]
+  },
+  "mujhe": {
+   "per_1000": 7.512,
+   "devanagari": [
+    "मुझे"
+   ],
+   "urdu": [
+    "مجھے"
+   ],
+   "roman": [
+    "mujhe",
+    "mujhay"
+   ]
+  },
+  "ko": {
+   "per_1000": 11.343,
+   "devanagari": [
+    "को"
+   ],
+   "urdu": [
+    "کو"
+   ],
+   "roman": [
+    "ko"
+   ]
+  },
+  "hum": {
+   "per_1000": 8.337,
+   "devanagari": [
+    "हम"
+   ],
+   "urdu": [
+    "ہم"
+   ],
+   "roman": [
+    "hum",
+    "ham"
+   ]
+  },
+  "tha": {
+   "per_1000": 7.399,
+   "devanagari": [
+    "था"
+   ],
+   "urdu": [
+    "تھا"
+   ],
+   "roman": [
+    "tha"
+   ]
+  },
+  "wo": {
+   "per_1000": 8.894,
+   "devanagari": [
+    "वह",
+    "वो"
+   ],
+   "urdu": [
+    "وہ"
+   ],
+   "roman": [
+    "wo",
+    "woh",
+    "vo",
+    "voh",
+    "vah"
+   ]
+  },
+  "par": {
+   "per_1000": 7.058,
+   "devanagari": [
+    "पर"
+   ],
+   "urdu": [
+    "پر"
+   ],
+   "roman": [
+    "par"
+   ]
+  },
+  "hoon": {
+   "per_1000": 7.369,
+   "devanagari": [
+    "हूँ",
+    "हूं"
+   ],
+   "urdu": [
+    "ہوں"
+   ],
+   "roman": [
+    "hoon",
+    "hun",
+    "hu",
+    "hoo"
+   ]
+  },
+  "rahe": {
+   "per_1000": 5.142,
+   "devanagari": [
+    "रहे"
+   ],
+   "urdu": [
+    "رہے"
+   ],
+   "roman": [
+    "rahe",
+    "rahay"
+   ]
+  },
+  "bhi": {
+   "per_1000": 5.311,
+   "devanagari": [
+    "भी"
+   ],
+   "urdu": [
+    "بھی"
+   ],
+   "roman": [
+    "bhi",
+    "bhee"
+   ]
+  },
+  "raha": {
+   "per_1000": 4.806,
+   "devanagari": [
+    "रहा"
+   ],
+   "urdu": [
+    "رہا"
+   ],
+   "roman": [
+    "raha"
+   ]
+  },
+  "ka": {
+   "per_1000": 6.219,
+   "devanagari": [
+    "का"
+   ],
+   "urdu": [
+    "کا"
+   ],
+   "roman": [
+    "ka"
+   ]
+  },
+  "to": {
+   "per_1000": 4.698,
+   "devanagari": [
+    "तो"
+   ],
+   "urdu": [
+    "تو"
+   ],
+   "roman": [
+    "toh"
+   ]
+  },
+  "hi (emphatic)": {
+   "per_1000": 2.229,
+   "devanagari": [
+    "ही"
+   ],
+   "urdu": [
+    "ہی"
+   ],
+   "roman": [
+    "hee"
+   ]
+  },
+  "ne": {
+   "per_1000": 6.944,
+   "devanagari": [
+    "ने"
+   ],
+   "urdu": [
+    "نے"
+   ],
+   "roman": [
+    "ne"
+   ]
+  },
+  "jo": {
+   "per_1000": 1.966,
+   "devanagari": [
+    "जो"
+   ],
+   "urdu": [
+    "جو"
+   ],
+   "roman": [
+    "jo"
+   ]
+  },
+  "ab": {
+   "per_1000": 3.206,
+   "devanagari": [
+    "अब"
+   ],
+   "urdu": [
+    "اب"
+   ],
+   "roman": [
+    "ab"
+   ]
+  },
+  "bas": {
+   "per_1000": 1.237,
+   "devanagari": [
+    "बस"
+   ],
+   "urdu": [
+    "بس"
+   ],
+   "roman": [
+    "bas"
+   ]
+  },
+  "koi": {
+   "per_1000": 3.635,
+   "devanagari": [
+    "कोई"
+   ],
+   "urdu": [
+    "کوئی"
+   ],
+   "roman": [
+    "koi"
+   ]
+  },
+  "kuch": {
+   "per_1000": 4.486,
+   "devanagari": [
+    "कुछ"
+   ],
+   "urdu": [
+    "کچھ"
+   ],
+   "roman": [
+    "kuch",
+    "kuchh",
+    "kuchch"
+   ]
+  },
+  "kyon": {
+   "per_1000": 1.74,
+   "devanagari": [
+    "क्यों",
+    "क्यूँ"
+   ],
+   "urdu": [
+    "کیوں"
+   ],
+   "roman": [
+    "kyon",
+    "kyun",
+    "kyu",
+    "kiyun"
+   ]
+  },
+  "kaise": {
+   "per_1000": 1.144,
+   "devanagari": [
+    "कैसे"
+   ],
+   "urdu": [
+    "کیسے"
+   ],
+   "roman": [
+    "kaise",
+    "kaisay"
+   ]
+  },
+  "mera": {
+   "per_1000": 1.275,
+   "devanagari": [
+    "मेरा"
+   ],
+   "urdu": [
+    "میرا"
+   ],
+   "roman": [
+    "mera"
+   ]
+  },
+  "tumhein": {
+   "per_1000": 2.562,
+   "devanagari": [
+    "तुम्हें"
+   ],
+   "urdu": [
+    "تمہیں"
+   ],
+   "roman": [
+    "tumhein",
+    "tumhe",
+    "tumhen"
+   ]
+  },
+  "yaar": {
+   "per_1000": 0.293,
+   "devanagari": [
+    "यार"
+   ],
+   "urdu": [
+    "یار"
+   ],
+   "roman": [
+    "yaar",
+    "yar"
+   ]
+  },
+  "arey": {
+   "per_1000": 1.12,
+   "devanagari": [
+    "अरे"
+   ],
+   "urdu": [
+    "ارے"
+   ],
+   "roman": [
+    "arey",
+    "arre",
+    "aray"
+   ]
+  },
+  "haan": {
+   "per_1000": 3.698,
+   "devanagari": [
+    "हाँ",
+    "हां"
+   ],
+   "urdu": [
+    "ہاں"
+   ],
+   "roman": [
+    "haan",
+    "han",
+    "haa"
+   ]
+  },
+  "na": {
+   "per_1000": 1.554,
+   "devanagari": [
+    "ना",
+    "न"
+   ],
+   "urdu": [
+    "نا",
+    "نہ"
+   ],
+   "roman": [
+    "na",
+    "naa"
+   ]
+  },
+  "magar": {
+   "per_1000": 0.124,
+   "devanagari": [
+    "मगर"
+   ],
+   "urdu": [
+    "مگر"
+   ],
+   "roman": [
+    "magar"
+   ]
+  },
+  "lekin": {
+   "per_1000": 3.268,
+   "devanagari": [
+    "लेकिन"
+   ],
+   "urdu": [
+    "لیکن"
+   ],
+   "roman": [
+    "lekin",
+    "lekan"
+   ]
+  },
+  "phir": {
+   "per_1000": 1.735,
+   "devanagari": [
+    "फिर"
+   ],
+   "urdu": [
+    "پھر"
+   ],
+   "roman": [
+    "phir",
+    "fir",
+    "phr"
+   ]
+  }
+ }
+}

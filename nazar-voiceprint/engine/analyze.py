@@ -48,7 +48,26 @@ FUNCTION_WORDS_EN = {
     "if": 3.0, "because": 1.2, "than": 1.5, "then": 2.0, "when": 2.5,
 }
 
-WORD_RE = re.compile(r"[A-Za-z']+|[ऀ-ॿ]+")  # Latin words or Devanagari runs
+WORD_RE = re.compile(r"[A-Za-z']+|[ऀ-ॿ]+|[؀-ۿ]+")  # Latin, Devanagari or Urdu/Arabic runs
+
+# Hindustani (Hindi-Urdu) baseline: real rates from OpenSubtitles2018 via
+# FrequencyWords (CC-BY-SA-4.0); built by baselines/build_hi_ur.py. Matches
+# Devanagari, Urdu script and common Roman spellings (nahin/nahi/nhi...).
+HI_UR_LANGS = {"hi", "ur", "hi-romanized", "hinglish", "hindustani", "ur-romanized"}
+_HI_UR = None
+
+
+def hi_ur_baseline():
+    global _HI_UR
+    if _HI_UR is None:
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "baselines", "hi_ur_function_words.json")
+        data = json.load(open(path, encoding="utf-8"))
+        lookup = {}
+        for concept, row in data["function_words"].items():
+            for form in row["devanagari"] + row["urdu"] + row["roman"]:
+                lookup.setdefault(form.lower(), concept)
+        _HI_UR = (data, lookup)
+    return _HI_UR
 SENT_SPLIT_RE = re.compile(r"[.!?…]+[\s]*|\n+")
 
 
@@ -119,14 +138,38 @@ def lexical_richness(tokens):
     return {"type_token_ratio": round(len(set(tokens)) / len(tokens), 3), "n_tokens": len(tokens)}
 
 
+def hi_ur_profile(tokens):
+    data, lookup = hi_ur_baseline()
+    n = len(tokens)
+    counts = Counter(lookup[t] for t in tokens if t in lookup)
+    rows = []
+    for concept, row in data["function_words"].items():
+        base = row["per_1000"]
+        if base <= 0:
+            continue
+        obs = counts.get(concept, 0) * 1000 / n
+        rows.append((concept, round((obs - base) / base, 2), round(obs, 1), base))
+    rows.sort(key=lambda r: abs(r[1]), reverse=True)
+    covered = sum(counts.values()) / n
+    return {
+        "baseline": "Hindustani (Hindi-Urdu), OpenSubtitles2018 via FrequencyWords, CC-BY-SA-4.0",
+        "share_of_text_matched": round(covered, 3),
+        "note": "Roman spellings vary; 'main'/'mein' are often swapped in Roman text; English words in Hinglish dilute every rate equally",
+        "most_distinctive_function_words": [
+            {"word": c, "relative_deviation": d, "per_1000_here": o, "per_1000_baseline": b,
+             "direction": "over-uses" if d > 0 else "under-uses"} for c, d, o, b in rows[:10]],
+    }
+
+
 def function_word_profile(tokens, lang):
-    if lang != "en":
-        return {"skipped": f"no function-word baseline for lang={lang!r} — "
-                            "add one to FUNCTION_WORDS_EN's sibling table before trusting this layer; "
-                            "language-agnostic features below are still valid."}
     n = len(tokens)
     if n == 0:
         return {}
+    if lang in HI_UR_LANGS:
+        return hi_ur_profile(tokens)
+    if lang != "en":
+        return {"skipped": f"no function-word baseline for lang={lang!r} (have: en, {', '.join(sorted(HI_UR_LANGS))}); "
+                            "build one like baselines/build_hi_ur.py. Language-agnostic features below are still valid."}
     counts = Counter(tokens)
     deviations = {}
     for w, baseline_per_1000 in FUNCTION_WORDS_EN.items():

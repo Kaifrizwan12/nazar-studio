@@ -1,23 +1,23 @@
 3:07 AM
-(an original monologue written from the pattern in tamasha_pattern.md — not a scene from any film; pass 3, after two checks)
+(an original monologue written from the pattern in tamasha_pattern.md — not a scene from any film; pass 4, after three checks)
 
 [Hostel room. Laptop ki light.]
 Compile / Run / Submit.
-Ek aur assignment... ek aur green tick... bas? Bas green tick?
+Ek aur assignment... ek aur green tick... bas? Bas green tick, yaar?
 Ammi ne poocha tha, "khush ho?" Khush...? Maine kaha CGPA 8.4 hai. Unhone dobara poocha. Maine phir... CGPA bataya. Kya karta? Aur kya hota hai batane ko?
-(camera ki taraf) Aap bhi poochoge? Mat poochna... jawab wahi hai.
+(camera ki taraf) Arey, aap bhi poochoge? Mat poochna na... jawab wahi hai.
 Compile / Run...
-Desktop pe ek folder hai. Naam? Misc. Misc mein kya hai? Kuch nahin. Kuch... nahin... bas teen saal ke poster... ek chai waale ka logo jo usne kabhi lagaya hi nahin... fest ka mascot jiski aankhein maine teen raat tak theek ki thi... aur ek font jo sirf apne naam ke liye banaya tha, kyunki koi font mere naam jaisa lagta hi nahin tha...
+Desktop pe ek folder hai. Naam? Misc. Misc mein kya hai? Kuch nahin. Arey, kuch... nahin... bas teen saal ke poster... ek chai waale ka logo jo usne kabhi lagaya hi nahin... fest ka mascot jiski aankhein maine teen raat tak theek ki thi... aur ek font jo sirf apne naam ke liye banaya tha, kyunki koi font mere naam jaisa lagta hi nahin tha...
 Kuch nahin.
 Second year mein ek ladka tha jo raat bhar ye sab banata tha... subah lecture mein so jaata tha, aur phir bhi pata nahin kaise sabse zyada khush wahi rehta tha... Professor ne kaha, "beta, ye hobby hai." Papa ne kaha, "isse ghar nahin chalta." Seniors ne kaha, "placement mein koi nahin poochta." Ladke ne suna... achcha ladka tha... sunta tha. Usne folder ka naam badal ke misc rakh diya.
-Smart move, nahin? Misc koi nahin kholta...
+Smart move, hai na? Magar misc koi nahin kholta...
 Compile / Run / Submit.
 Error...
-Error? Kyun...? Code to sahi hai... line 42... unexpected indent...
+Error? Kyun yaar...? Code to sahi hai... line 42... unexpected indent...
 (hasi) Unexpected. Haan. Sab kuch expected tha... bas ye nahin tha.
 (mouse misc pe ruk jaata hai)
-Double click...? Nahin. Kal viva hai.
+Double click...? Nahin yaar. Kal viva hai.
 ...
-Single click hi sahi...?
+Single click hi sahi na...?
 [Folder khulta hai. Screen rangon se bhar jaati hai.]
 Compile... nahin. Aaj nahin.
