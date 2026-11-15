@@ -20,6 +20,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 9. **QA before showing.** `references/qa_design.md` (methods, checks, P1/P2/P3 triage), plus the kit's own QA list. Report what you fixed.
 10. **Systems in code.** Grids, tokens and heading positions are set once (in `engine/brand.json`), so fixes are global.
 11. **Credit and license.** Fonts, images, archives and maps are all recorded. Nothing non-commercial ships to a client.
+12. **Improve the kit from the work.** Every job is a test of the kit. Follow `references/improve.md`: when a rule, engine or checklist failed on real work, log it in `LESSONS.md` beside the kit, fix the kit itself only with the user's okay, and never put client names or private data in either.
 
 ## Folder map
 | Path | What |
@@ -31,6 +32,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | `references/qa_design.md` | Design QA: 10 ways of looking, ~90 checks, triage |
 | `references/ai_tells.md` | What makes work look AI-made (colour, layout, type, images, copy, process), the 30-second test, sources |
 | `references/sources.md` | Archives and references by topic |
+| `references/improve.md` | How any Claude improves a kit from real work: what to log, when to patch, what never to record |
 | `references/studio_flow.md` | How every Kaif job runs: brief → research → routes → build → QA → handover |
 | `templates/research_log.md` | Research log format |
 | `templates/brand.json` | Engine config template |
