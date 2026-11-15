@@ -7,7 +7,7 @@
 **Your prompt leads.** Every kit is an add-on: Claude pulls the pieces your request needs (a rule, a checklist, an engine) and skips the rest.
 
 1. **Asks first.** Every question comes up front, each with options and a recommended pick.
-2. **Researches properly.** It reads manuals, archives, standards and primary sources, and every claim comes with a source.
+2. **Researches properly.** It reads manuals, archives, standards and primary sources, checks claims against them, and flags openly what it couldn't confirm instead of guessing.
 3. **Builds with engines.** Python that draws dielines, traces sketches, lays out packs and outlines type, with outputs you can measure.
 4. **Nitpicks before you do.** Automatic QA on every output, and Claude looks at every image itself.
 
@@ -82,7 +82,7 @@ Think of `nazar-studio` as a real studio floor, not a toolbox: a front desk, a t
 | Bindery | `nazar-brand-book` | The identity system and the book (with hidden things to find) |
 | Production floor | `nazar-dieline` | Structures, real dielines, MVP pack drafts, Figma bridge |
 | Production floor | `nazar-packaging` | Packs that win the shelf in 2 seconds and print without drama |
-| Mailroom (client-approved only) | `nazar-prompts` | AI image/video prompts, used only with written sign-off |
+| Drawing board (sign-off required) | `nazar-prompts` | AI image/video prompts, used only with written client sign-off |
 | Out the door | `nazar-social` | Feed-native systems, reels, launch grids, the slop test |
 | Out the door | `nazar-backdrops` | A year of routine-post backdrops, dark and light, every format |
 | Out the door | `nazar-ooh` | Billboards, walls, vehicles, screens that read in one breath |
