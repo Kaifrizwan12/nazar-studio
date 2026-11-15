@@ -31,3 +31,6 @@ Read `../nazar-core/SKILL.md` first. Motion is how the brand behaves. It should 
 - `references/system.md`: easing, durations, transitions, choreography, typography in motion, tokens
 - `references/craft.md`: animation principles, logo animation patterns, storyboards, sound, cinematic devices
 - `references/delivery.md`: export matrix, developer handoff, QA
+
+## Engine
+`python engine/motion_check.py clip.mp4` measures how a clip actually moves (needs `pip install imageio-ffmpeg`): peak speed against end speed (slow in and slow out, Thomas & Johnston 1981), the length of the move, and the holds before and after. Linear reads about 1x; eased reads well above. It measures, it doesn't prescribe durations: no authoritative duration norms were verified, so judge those against the brief.

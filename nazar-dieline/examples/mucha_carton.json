@@ -33,8 +33,9 @@
         "type": "logo",
         "src": "mucha_1969-238.jpg",
         "x": 0.5,
-        "y": 0.16,
-        "w": 0.66
+        "y": 0.11,
+        "w": 0.8,
+        "valign": "top"
        },
        {
         "type": "text",
@@ -94,13 +95,6 @@
      },
      "Back": {
       "blocks": [
-       {
-        "type": "logo",
-        "src": "sample_mark.svg",
-        "x": 0.5,
-        "y": 0.08,
-        "w": 0.55
-       },
        {
         "type": "placeholder",
         "label": "Ingredients (client copy)",

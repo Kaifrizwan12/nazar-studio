@@ -27,3 +27,6 @@ Read `../nazar-core/SKILL.md` first. **The user's prompt leads; use the parts th
 
 ## Files
 - `references/type.md`: sources and licences, OFL plain terms, South Asian scripts and pairing, which-font-when matrix, QA checklist, sources
+
+## Engine
+`python engine/type_check.py font.ttf [font2.ttf ...]` runs this kit's QA on real font files: licence and embedding as the file declares them, coverage per script (Latin, transliteration, pack symbols incl. the ₨ sign, Urdu, Sindhi, Devanagari), whether the Arabic-script shaping features exist (init/medi/fina/isol/liga/rlig), kerning, and the smallest size that reaches a 1.2 mm x-height (EU 1169/2011 Art. 13). Run it before recommending any font for a bilingual or packaging job. It checks the FILE: coverage % says nothing about whether the shapes are good. A font that carries no licence text still needs its OFL file filed beside it. Demo: `examples/make_type_card.py` (needs `pip install uharfbuzz`; fetch Gulzar with `examples/fetch_gulzar.py`).

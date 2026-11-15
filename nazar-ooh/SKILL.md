@@ -32,3 +32,6 @@ Read `../nazar-core/SKILL.md` first. Outdoor is read in seconds, at a distance, 
 - `references/formats.md`: formats and how to adapt one idea across them
 - `references/legibility.md`: distance, letter height, speed, contrast, testing
 - `references/production.md`: files, materials, installation, permits, documentation, QA
+
+## Engine
+`python engine/ooh_check.py "COPY" --distance-ft 300 --speed-mph 45 --cap-height-in 14 [--fg #hex --bg #hex]` checks whether copy can be read from the road: letter height (MUTCD 30 ft of distance per inch, or 40 for Clearview; x0.83 / x0.67 for busier layouts), the 20/20 eye-chart floor, contrast, and an estimated read time against the time in view. **The "7 words" rule and "6 seconds" are unsourced industry folklore: the engine says so, and so should you.** Viewing distance and speed are inputs: no authoritative outdoor figure exists. It cannot judge the design.

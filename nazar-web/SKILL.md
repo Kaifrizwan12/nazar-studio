@@ -31,3 +31,6 @@ Read `../nazar-core/SKILL.md` first. A brand site is the identity *in use*: it s
 - `references/structure.md`: sitemap, page types, landing page anatomy, copy rules
 - `references/system.md`: tokens, responsive type, grid and breakpoints, components, art direction, motion on the web
 - `references/handoff.md`: accessibility, performance, SEO basics, developer handoff, QA
+
+## Engine
+`python engine/web_audit.py page.html` audits one static page: `<html lang>`, title, viewport, exactly one h1, no skipped heading levels, alt on every image, width/height (layout shift), images more than 2x their displayed width, link text, and WCAG contrast of the declared text colour. It reports page weight rather than grading it (no universal budget exists). It has no network or rendering, so real-device speed and design quality still need Lighthouse and a human.

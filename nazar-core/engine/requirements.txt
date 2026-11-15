@@ -4,3 +4,5 @@ CairoSVG==2.8.2
 pillow==11.3.0
 pypdf==6.21.1
 numpy>=1.24
+imageio-ffmpeg>=0.5            # nazar-voiceprint video.py, nazar-motion motion_check.py
+# optional: pip install "onnxruntime==1.23.2" rtmlib   # nazar-voiceprint pose.py on an Intel Mac (MediaPipe has no wheel there)

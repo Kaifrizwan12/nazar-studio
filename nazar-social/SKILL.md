@@ -34,3 +34,6 @@ Read `../nazar-core/SKILL.md` and `../nazar-core/references/kaif.md` (especially
 - `references/system.md`: platform specs and safe zones, profile, grid, templates, type and colour on screens
 - `references/content.md`: hooks, reel structures, captions, hashtags, launch plan, calendar
 - `references/playbook.md`: the team playbook contents, community rules, metrics, the slop test, QA
+
+## Engine
+`python engine/social_lint.py caption.txt` (or `-` for stdin) is the slop test as code: stock phrases (elevate, journey, unlock, seamless, leverage, delve…), "not just X but Y", triads, em-dashes, emoji and hashtag counts. A hit is a prompt to rewrite, never proof a post is machine-written (people write "elevate" too), and a clean result doesn't make a post good. Run it on every caption before showing the client.
