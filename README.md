@@ -16,7 +16,7 @@ No AI slop, no stock photos, no "elevate your journey". AI imagery is used only 
 <table>
 <tr>
 <td width="33%"><a href="#-draw-real-dielines-from-three-numbers"><img src="assets/demo-structures.jpg" alt="Nine concept dielines"></a><br><sub><b>Dielines</b> from three numbers</sub></td>
-<td width="33%"><a href="#-sketch-on-paper-get-clean-vectors"><img src="assets/demo-trace.jpg" alt="Sketch to vector"></a><br><sub><b>Sketch → vector</b>, nodes on the extremes</sub></td>
+<td width="33%"><a href="#-sketch-on-paper-get-clean-vectors"><img src="assets/demo-trace-fine.jpg" alt="Etching to vector"></a><br><sub><b>Etching → vector</b>, fine-line mode</sub></td>
 <td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint.jpg" alt="Voiceprint"></a><br><sub><b>Your pattern</b>, not the machine's</sub></td>
 </tr>
 <tr>
@@ -28,6 +28,9 @@ No AI slop, no stock photos, no "elevate your journey". AI imagery is used only 
 <td width="33%"><a href="#-type-qa-on-real-font-files"><img src="assets/demo-type.jpg" alt="Type QA on real fonts"></a><br><sub><b>Type QA</b> on real fonts, incl. real Urdu</sub></td>
 <td width="33%"><a href="#-archive-colour--brand-tokens--backdrops"><img src="assets/demo-backdrops.jpg" alt="Archive colour to backdrops"></a><br><sub><b>Archive → tokens → backdrops</b></sub></td>
 <td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-designers.jpg" alt="Can the engines tell designers apart"></a><br><sub><b>Can the engines tell designers apart?</b> 35 real prints, blind, with the misses shown</sub></td>
+</tr>
+<tr>
+<td colspan="3"><a href="#-five-more-kits-run-on-real-work"><img src="assets/demo-kits.jpg" alt="Five more kits run on real work"></a><br><sub><b>Five more kits</b> run on real work: packaging, out-of-home, social, web, motion</sub></td>
 </tr>
 </table>
 
@@ -47,7 +50,7 @@ No AI slop, no stock photos, no "elevate your journey". AI imagery is used only 
 - **Testing:** every DXF passes a CAD audit with zero errors.
 
 ### 🎨 Draft the pack design *on* the structure
-<img src="assets/dieline-mvp.jpg" alt="Draft pack designs placed on dielines: a carton flat and folded, a carton with a die-cut window and film patch, a chips packet with split back and crimped seals, and a clear pouch with its white-ink plate." width="100%">
+<img src="assets/demo-pack.jpg" alt="A real Mucha plate (public domain, Cleveland Museum of Art) on a reverse-tuck carton: the folded view and the flat artwork, with the pack engine's own QA flagging one safe-area issue." width="100%">
 
 Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
 
@@ -62,7 +65,7 @@ Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
 - **Send it to Figma:** `--figma` writes a step-by-step build plan for [claude-talk-to-figma-mcp](https://github.com/arinspunk/claude-talk-to-figma-mcp). Upright panels arrive as editable layers and text, and the dieline as a locked layer. The setup guide covers a pinned, localhost-only install for any user's Claude: [`nazar-dieline/FIGMA.md`](nazar-dieline/FIGMA.md).
 
 ### ✍️ Sketch on paper, get clean vectors
-<img src="assets/demo-trace.jpg" alt="Left: a phone photo of a marker sketch of an eye mark and letters, with uneven light. Right: the traced vector with nodes on the curve extremes." width="100%">
+<img src="assets/demo-trace-fine.jpg" alt="A Rembrandt etching (public domain, The Met) traced with the fine-line mode: the original, the local-threshold step that keeps every hatched line, and the traced vector." width="100%">
 
 `nazar-core/engine/trace.py`: **hands first.** Kaif draws, the machine cleans up.
 
@@ -71,7 +74,7 @@ Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
 3. **Place nodes on the true extremes,** where the curve is really horizontal or vertical, the way a professional vector artist would.
 4. **Fit the curves:** Schneider least-squares Béziers, giving a single SVG path with holes kept.
 
-**Know its limits:** it's built for bold marker and pencil. On a dense engraving or a hairline etching at web resolution (tested on a Dürer woodcut and a Rembrandt etching, both CC0) the thin lines drop out at the threshold step and the trace is noise. Use a scan with real line weight. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
+**Hairlines and engraving: `--fine`.** A global threshold loses lines under ~2 px and the despeckle step erased what was left, so a Rembrandt etching traced to noise. `--fine` upscales, uses a *local* threshold (darker than its own neighbourhood) and skips the opening step; the same etching (CC0, The Met) now keeps its tree, figure and hatching. It stays noisy in the darkest shadow, so raise `--min-area` to drop dust. Plain mode is still right for bold marker and pencil. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
 
 ### 🖋️ Draw like a hand, in code
 <img src="assets/demo-illustration.jpg" alt="Pencil meets cursor: a graphite pencil draws a wobbly line on paper that turns into a clean vector curve with anchor nodes and one selected orange node, ending at a mouse cursor over a dot grid." width="100%">
@@ -188,6 +191,16 @@ Real archive colour is often *worse* than a designed palette: in this one, only 
 <img src="assets/demo-backdrops.jpg" alt="Real cyanotype plates reduced to a palette, assigned to brand roles by contrast, and run through the backdrops engine. The accent works on the dark ground at 4.92:1 but is 1.02:1 on the light ground, so light mode is refused; a dark-mode set of cover, text, quote, end and story backdrops is produced." width="100%">
 
 Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `nazar-backdrops`. Real data exposed two engine bugs, both fixed: the backdrops engine **offered light mode whatever the accent contrast** (here 1.02:1, invisible), and role assignment picked a mid-blue "secondary" at **1.55:1**, so the handle text vanished. Roles are now assigned **by contrast** (`derive_tokens`), and a mode is skipped when its accent is invisible. The archive supports a dark set only, and it says so. The mark is the example brand's placeholder, left unaltered on purpose: **client logos are never recoloured or redrawn**.
+
+### 🧰 Five more kits, run on real work
+<img src="assets/demo-kits.jpg" alt="Five kits run live on public-domain art. Packaging: a real Mucha plate on a carton with the engine's QA. Out-of-home: four 1890s Chéret posters tested as a bulletin: only the shortest is readable in time. Social: the slop test flags a machine-style caption and passes a plain one. Web: the same real page built well passes and built badly fails eight checks. Motion: a linear and an eased reveal measured." width="100%">
+
+Each of these kits had no engine. Each now has a small one, built on sources and tested on real work:
+- **Packaging** (`nazar-dieline`): real art on a real structure, with the pack engine's own QA checking the *art*: safe area, contrast, type size, missing logo files. The first run caught three real problems.
+- **Out-of-home** (`nazar-ooh/ooh_check.py`): letter height from the sign-engineering rule (MUTCD: 30 ft of reading distance per inch; Clearview 40), eye-chart geometry, contrast and read time. The "7 words" rule and the "6 seconds" are **unsourced industry folklore**, and the engine labels them that way. Viewing distance and speed are inputs, because no authoritative figure exists.
+- **Social** (`nazar-social/social_lint.py`): the slop test as code: stock phrases, "not just X but Y", triads, em-dashes, emoji, hashtags. A hit is a prompt to rewrite, never proof of anything.
+- **Web** (`nazar-web/web_audit.py`): lang, title, viewport, headings, alt text, layout shift, oversized images, link text, WCAG contrast. No network or rendering, so real-device speed still needs Lighthouse.
+- **Motion** (`nazar-motion/motion_check.py`): measures *slow in and slow out* (Thomas & Johnston's principle) from a clip: peak speed against end speed, duration and holds. It separates linear (1.2×) from eased (4.8×) and recovers the exact timing. It measures; it doesn't prescribe durations, because no authoritative norms were verified.
 
 ### 🧠 The whole studio, as one floor
 

@@ -67,8 +67,16 @@ def otsu(a):
         sb = (mt * w - mu) ** 2 / (w * (1 - w))
     return int(np.nanargmax(sb))
 
-def binarise(im, threshold=None, invert=False, smooth=1):
+def binarise(im, threshold=None, invert=False, smooth=1, fine=False):
     a = flatten(im)
+    if fine:
+        # hairlines and engraving: a global threshold loses lines thinner than ~2 px and the
+        # 'open' step erases them. Use a LOCAL threshold (darker than its own neighbourhood)
+        # and only close pinholes.
+        loc = np.asarray(Image.fromarray(a).filter(ImageFilter.GaussianBlur(max(im.size) / 90)), dtype=np.float32)
+        ink = (a.astype(np.float32) < loc * 0.86) if not invert else (a.astype(np.float32) > loc * 1.14)
+        m = Image.fromarray((ink * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(3)).filter(ImageFilter.MinFilter(3))
+        return np.asarray(m) > 127, -1
     t = threshold if threshold is not None else otsu(a)
     ink = (a > t) if invert else (a < t)
     if smooth:   # close pinholes in marker fills, then open away fuzz
@@ -285,9 +293,12 @@ def path_d(curves, s, ox=0, oy=0):
     for c in curves: d += " C" + " ".join(f(q) for q in c[1:])
     return d + " Z"
 
-def trace(path, out, name, variants, fill, width_mm, threshold, invert, crop, min_area, max_px, rotate=0):
+def trace(path, out, name, variants, fill, width_mm, threshold, invert, crop, min_area, max_px, rotate=0, fine=False):
     im = load(path, max_px, crop, rotate)
-    ink, t = binarise(im, threshold, invert)
+    if fine and max(im.size) < 2400:   # give a 1-2 px line room to survive
+        k = 2400 / max(im.size)
+        im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+    ink, t = binarise(im, threshold, invert, fine=fine)
     scale = max(im.size) / 1000
     loops = [l for l in loops_from(ink) if abs(signed_area(l)) >= min_area * scale * scale]
     os.makedirs(out, exist_ok=True)
@@ -398,6 +409,7 @@ def main():
     ap.add_argument("--threshold", type=int, help="0-255; default Otsu after light flattening")
     ap.add_argument("--invert", action="store_true", help="light drawing on dark ground")
     ap.add_argument("--crop", help="x0,y0,x1,y1 in source pixels (after --rotate)")
+    ap.add_argument("--fine", action="store_true", help="hairlines / engraving / etching: upscale, local threshold, no opening")
     ap.add_argument("--rotate", type=int, default=0, help="rotate the photo first: 90 = counter-clockwise, -90 = clockwise")
     ap.add_argument("--min-area", type=float, default=30, help="drop specks/holes smaller than this (px² at 1000 px)")
     ap.add_argument("--max-px", type=int, default=2000)
@@ -411,7 +423,7 @@ def main():
         pal = [c.strip() for c in a.palette.split(",")] if a.palette else None
         trace_levels(a.image, a.out, name, a.levels, pal, a.width_mm, crop, a.min_area, a.max_px)
     else:
-        trace(a.image, a.out, name, vs, a.fill, a.width_mm, a.threshold, a.invert, crop, a.min_area, a.max_px, a.rotate)
+        trace(a.image, a.out, name, vs, a.fill, a.width_mm, a.threshold, a.invert, crop, a.min_area, a.max_px, a.rotate, a.fine)
 
 if __name__ == "__main__":
     main()

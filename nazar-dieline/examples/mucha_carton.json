@@ -1,0 +1,146 @@
+{
+ "out": "../exports/dielines",
+ "bleed": 3,
+ "safe": 3,
+ "jobs": [
+  {
+   "name": "mucha_carton",
+   "style": "rte",
+   "L": 60,
+   "W": 30,
+   "D": 120,
+   "caliper": 0.45,
+   "notes": [
+    "Real CC0 art (Cleveland Museum of Art) on a real RTE structure."
+   ],
+   "art": {
+    "bg": "light",
+    "ink": "base",
+    "accent": "accent",
+    "pattern": {
+     "type": "stripes",
+     "angle": -30,
+     "pitch": 10,
+     "width": 1.2,
+     "color": "secondary",
+     "opacity": 0.35
+    },
+    "panels": {
+     "Front": {
+      "bg": "light",
+      "blocks": [
+       {
+        "type": "logo",
+        "src": "mucha_1969-238.jpg",
+        "x": 0.5,
+        "y": 0.16,
+        "w": 0.66
+       },
+       {
+        "type": "text",
+        "text": "SWEET PEAS",
+        "x": 0.5,
+        "y": 0.74,
+        "size": 6,
+        "font": "display",
+        "color": "base",
+        "anchor": "middle",
+        "track": 0.04
+       },
+       {
+        "type": "text",
+        "text": "Alphonse Mucha · 1902",
+        "x": 0.5,
+        "y": 0.81,
+        "size": 2.5,
+        "font": "label",
+        "color": "base",
+        "anchor": "middle"
+       },
+       {
+        "type": "text",
+        "text": "Net 50 g",
+        "x": 0.5,
+        "y": 0.97,
+        "size": 2.4,
+        "font": "label",
+        "color": "base",
+        "anchor": "middle",
+        "role": "netqty"
+       }
+      ]
+     },
+     "Side": {
+      "blocks": [
+       {
+        "type": "text",
+        "text": "SWEET PEAS",
+        "x": 0.5,
+        "y": 0.12,
+        "size": 5,
+        "font": "display",
+        "color": "base",
+        "anchor": "middle"
+       },
+       {
+        "type": "para",
+        "text": "Plate from Documents Décoratifs (1902), Alphonse Mucha. Public-domain art, Cleveland Museum of Art open access.",
+        "x": 0,
+        "y": 0.3,
+        "w": 1,
+        "size": 2.2
+       }
+      ]
+     },
+     "Back": {
+      "blocks": [
+       {
+        "type": "logo",
+        "src": "sample_mark.svg",
+        "x": 0.5,
+        "y": 0.08,
+        "w": 0.55
+       },
+       {
+        "type": "placeholder",
+        "label": "Ingredients (client copy)",
+        "x": 0,
+        "y": 0.2,
+        "w": 1,
+        "h": 0.22
+       },
+       {
+        "type": "placeholder",
+        "label": "Nutrition / directions",
+        "x": 0,
+        "y": 0.46,
+        "w": 1,
+        "h": 0.22
+       },
+       {
+        "type": "barcode",
+        "x": 0.5,
+        "y": 0.86,
+        "mag": 1.0
+       }
+      ]
+     },
+     "Top closure": {
+      "blocks": [
+       {
+        "type": "text",
+        "text": "SWEET PEAS",
+        "x": 0.5,
+        "y": 0.62,
+        "size": 6,
+        "font": "display",
+        "color": "base",
+        "anchor": "middle"
+       }
+      ]
+     }
+    }
+   }
+  }
+ ]
+}
