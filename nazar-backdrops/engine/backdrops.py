@@ -25,6 +25,12 @@ def modes():
     """Colour sets per mode. The accent mode is only offered when its text passes 4.5:1."""
     m = {"dark": {"bg": BASE, "ink": LIGHT_, "sub": SEC, "band": ACCENT},
          "light": {"bg": LIGHT_, "ink": BASE, "sub": SEC_D, "band": ACCENT}}
+    # The accent is a decorative band, so a mode is skipped only when the accent is effectively invisible
+    # on THAT mode's background (< 2:1); main() warns below 3:1 (WCAG non-text). Found on real archive colours:
+    # a peach accent on a pale ground is 1.02:1 and was still being offered.
+    for mode, bg in (("dark", BASE), ("light", LIGHT_)):
+        if contrast(ACCENT, bg) < 2.0:
+            del m[mode]
     ink = BASE if contrast(ACCENT, BASE) >= contrast(ACCENT, LIGHT_) else LIGHT_
     if contrast(ACCENT, ink) >= 4.5:
         m["accent"] = {"bg": ACCENT, "ink": ink, "sub": ink, "band": ink}
@@ -181,8 +187,11 @@ def main(cfg_path):
     os.makedirs(out, exist_ok=True)
     slug = re.sub(r"[^a-z0-9]+", "", BRAND["name"].lower()) or "brand"
     have = modes()
+    for mode_, bg_ in (("dark", BASE), ("light", LIGHT_)):
+        if mode_ in have and contrast(ACCENT, bg_) < 3.0:
+            print(f"! {mode_}: accent band is {contrast(ACCENT, bg_):.2f}:1 on its background (3:1 recommended)")
     for want in spec.get("modes", ["dark", "light"]):
-        if want not in have: print(f"! mode '{want}' skipped: the accent fails 4.5:1 contrast with both base and light")
+        if want not in have: print(f"! mode '{want}' skipped: the accent is only {contrast(ACCENT, BASE if want == 'dark' else LIGHT_):.2f}:1 on its {want} background (needs 2:1 to be visible)")
     pngs = []
     n = spec.get("carousel_slides", 5)
     for fmt in spec.get("formats", list(FORMATS)):

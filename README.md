@@ -25,7 +25,9 @@ No AI slop, no stock photos, no "elevate your journey". AI imagery is used only 
 <td width="33%"><a href="#-a-palette-from-real-archive-work-then-checked"><img src="assets/demo-colour.jpg" alt="Palette from archive"></a><br><sub><b>Palettes</b> from real archives, checked</sub></td>
 </tr>
 <tr>
-<td colspan="3"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-designers.jpg" alt="Can the engines tell designers apart"></a><br><sub><b>Can the engines tell designers apart?</b> 35 real prints, blind, with the misses shown</sub></td>
+<td width="33%"><a href="#-type-qa-on-real-font-files"><img src="assets/demo-type.jpg" alt="Type QA on real fonts"></a><br><sub><b>Type QA</b> on real fonts, incl. real Urdu</sub></td>
+<td width="33%"><a href="#-archive-colour--brand-tokens--backdrops"><img src="assets/demo-backdrops.jpg" alt="Archive colour to backdrops"></a><br><sub><b>Archive → tokens → backdrops</b></sub></td>
+<td width="33%"><a href="#-your-pattern-not-the-machines"><img src="assets/demo-voiceprint-designers.jpg" alt="Can the engines tell designers apart"></a><br><sub><b>Can the engines tell designers apart?</b> 35 real prints, blind, with the misses shown</sub></td>
 </tr>
 </table>
 
@@ -69,7 +71,7 @@ Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
 3. **Place nodes on the true extremes,** where the curve is really horizontal or vertical, the way a professional vector artist would.
 4. **Fit the curves:** Schneider least-squares Béziers, giving a single SVG path with holes kept.
 
-You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
+**Know its limits:** it's built for bold marker and pencil. On a dense engraving or a hairline etching at web resolution (tested on a Dürer woodcut and a Rembrandt etching, both CC0) the thin lines drop out at the threshold step and the trace is noise. Use a scan with real line weight. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
 
 ### 🖋️ Draw like a hand, in code
 <img src="assets/demo-illustration.jpg" alt="Pencil meets cursor: a graphite pencil draws a wobbly line on paper that turns into a clean vector curve with anchor nodes and one selected orange node, ending at a mouse cursor over a dot grid." width="100%">
@@ -176,6 +178,16 @@ Synthetic tests prove the maths; real work proves the use. 24 public-domain (CC0
 - **Honest on APCA:** deliberately not used, because its place in WCAG 3 is unresolved as of April 2026.
 
 Real archive colour is often *worse* than a designed palette: in this one, only 1 of 10 pairs carries body text. That's the finding, not a flaw, and it's why the kit checks before it ships.
+
+### 🔤 Type QA on real font files
+<img src="assets/demo-type.jpg" alt="Four fonts checked: Anton, Space Grotesk, Space Mono and the real Gulzar Urdu font. Latin and Urdu lines set through each: the Latin-only fonts show empty boxes for Urdu while Gulzar sets proper joined Nastaliq. Coverage bars, shaping features, kerning, licence and the smallest legal size for a 1.2 mm x-height, with the findings listed." width="100%">
+
+`nazar-type/engine/type_check.py` runs the type kit's own checklist on real font files: licence and embedding as the file declares them, coverage per script (Latin, transliteration, pack symbols, Urdu, Sindhi, Devanagari), whether the Arabic-script shaping features exist, kerning, and the **smallest size at which the x-height reaches the 1.2 mm EU rule**. Then a real shaped Urdu line goes through each font, so you can *see* what coverage means. It found real things: none of the studio's own fonts has the **₨ sign**; **Gulzar** sets Urdu beautifully but covers only 4 of 15 Sindhi letters, and needs 7.7 pt for a legal x-height against 4.6 pt for Anton; and Gulzar's file doesn't carry its licence text, so the OFL file from its repository must be filed beside it (confirmed from the source: OFL 1.1). Coverage % says nothing about whether the shapes are good, and the card says so.
+
+### 🧩 Archive colour → brand tokens → backdrops
+<img src="assets/demo-backdrops.jpg" alt="Real cyanotype plates reduced to a palette, assigned to brand roles by contrast, and run through the backdrops engine. The accent works on the dark ground at 4.92:1 but is 1.02:1 on the light ground, so light mode is refused; a dark-mode set of cover, text, quote, end and story backdrops is produced." width="100%">
+
+Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `nazar-backdrops`. Real data exposed two engine bugs, both fixed: the backdrops engine **offered light mode whatever the accent contrast** (here 1.02:1, invisible), and role assignment picked a mid-blue "secondary" at **1.55:1**, so the handle text vanished. Roles are now assigned **by contrast** (`derive_tokens`), and a mode is skipped when its accent is invisible. The archive supports a dark set only, and it says so. The mark is the example brand's placeholder, left unaltered on purpose: **client logos are never recoloured or redrawn**.
 
 ### 🧠 The whole studio, as one floor
 

@@ -129,6 +129,39 @@ def checks(pal):
     return pairs
 
 
+def derive_tokens(pal, accent_hex=None):
+    """Assign brand roles from a palette BY CONTRAST, not by list order (a mid-blue picked as
+    'secondary' on a blue ground was 1.55:1 and the handle text vanished). Returns (tokens, notes).
+      base = darkest, light = lightest
+      secondary       = the palette colour with the best contrast on base      (needs >= 4.5:1)
+      secondary_dark  = the palette colour with the best contrast on light     (needs >= 4.5:1)
+      accent          = accent_hex if given, else the most chromatic colour     (needs >= 3:1 on base)
+    A role that can't reach its threshold falls back to the best available and says so."""
+    h2 = lambda h: [int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)]
+    L = sorted(pal, key=lambda p: p["oklch"][0])
+    base, light = L[0]["hex"], L[-1]["hex"]
+    notes = []
+
+    def best(on, exclude):
+        c = [(contrast(h2(p["hex"]), h2(on)), p["hex"]) for p in pal if p["hex"] not in exclude]
+        return max(c) if c else (0.0, on)
+    cs, sec = best(base, {base})
+    cd, sec_d = best(light, {light})
+    if cs < 4.5:
+        notes.append(f"no palette colour reaches 4.5:1 for small text on the base (best {cs:.2f}:1): secondary text will be hard to read")
+    elif sec == light:
+        notes.append("no distinct secondary passes 4.5:1 on the base, so it reuses the light colour: only two text levels")
+    if cd < 4.5:
+        notes.append(f"no palette colour reaches 4.5:1 for small text on the light ground (best {cd:.2f}:1)")
+    elif sec_d == base:
+        notes.append("no distinct dark secondary passes 4.5:1 on the light ground, so it reuses the base")
+    acc = accent_hex or max(pal, key=lambda p: p["oklch"][1])["hex"]
+    ca = contrast(h2(acc), h2(base))
+    if ca < 3.0:
+        notes.append(f"the accent is only {ca:.2f}:1 on the base (needs 3:1)")
+    return {"base": base, "light": light, "secondary": sec, "secondary_dark": sec_d, "accent": acc}, notes
+
+
 def run(path, k=6):
     px, n = load(path)
     pal = palette(px, k)

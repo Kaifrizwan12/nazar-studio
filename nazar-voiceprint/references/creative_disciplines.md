@@ -22,6 +22,7 @@ Confidence tags: [V] confirmed in sources, [K] standard technique, [UNV] unverif
 | Taper at stroke ends | Width sampled along the skeleton near endpoints vs. mid-stroke | [K] | no |
 
 - **Tacit (confirm loop only):** why a line breaks, and what a mark means.
+- **Tested on real prints (Dürer woodcuts vs. Rembrandt etchings, CC0):** `strokes.py` needs roughly **2400 px or more** to read line. On web-sized images (a few hundred px) a fine line is 1–2 px wide and taper and pressure swing read identically for everything. At full resolution, **loose ends per 1k px and straightness separate the media** (woodcut 14–27 and 0.81–0.89; etching 30–38 and 0.80–0.84), but **taper and pressure swing still don't**: a carved or etched line has no pen pressure. So it answers *how continuous is the line*, not *how hard was it pressed*. It also can't read tonal lithographs or colour prints (it measures paper grain). Use it on line art.
 
 ## Shape language
 | Feature | How | Source | In engine |

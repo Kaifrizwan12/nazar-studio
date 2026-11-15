@@ -162,8 +162,8 @@ def prune_spurs(skel, k, rounds=2):
     return skel
 
 
-def analyse(im):
-    ink = ink_mask(im)
+def analyse(im, side=512):
+    ink = ink_mask(im, side)
     if ink.mean() < 0.002:
         return None
     width = np.minimum(_runs(ink), _runs(ink.T).T).astype(float)
