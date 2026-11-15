@@ -81,7 +81,7 @@ Mark the grain on every concept, and get it confirmed on the converter's drawing
 - **Board area per blank × run length = most of the material cost.** A slightly smaller glue flap or tuck can add a blank per sheet, so check before finalising.
 
 ## 9. Compression and stacking (corrugated)
-- **Simplified McKee:** BCT ≈ 5.87 × ECT × √(caliper × perimeter), in lbf, lb/in and inches, for an RSC [SRC]. It is the least accurate method: it ignores die-cuts, hand holes, humidity and handling.
+- **Simplified McKee:** BCT ≈ 5.87 × ECT × √(caliper × perimeter), in lbf, lb/in and inches, for an RSC [SRC — the 5.87/US-units form confirmed against Georgia Tech and TOPS documentation; a separate full McKee fit uses a different constant (2.028) with different exponents on the 1963 data and is not interchangeable with this one]. It is the least accurate method: it ignores die-cuts, hand holes, humidity and handling. McKee gives a design estimate only; real compression testing uses **ASTM D642** (compression test for shipping containers) and **ISTA** transit/performance protocols (e.g. ISTA 6-Amazon). Spec both: McKee to size the board grade, a D642 or ISTA test to confirm it.
 - Then apply safety factors for real conditions. Humidity, storage time, pallet overhang and misaligned stacking each cut strength a lot, so the total factor is often 3–5 or more [KNOWN]; the converter and the test lab set it.
 - Required BCT ≈ (load from the boxes above) × safety factor. If it fails: a higher ECT grade, double wall, a different flute, a smaller footprint relative to height, or internal fitments.
 

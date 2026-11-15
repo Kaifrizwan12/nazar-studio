@@ -14,17 +14,17 @@ Confidence tags: [V] checked at the source, [K] standard knowledge, [UNVERIFIED]
 | Adobe Fonts | Included with Creative Cloud; logos and print OK; **no sending files to clients or printers, no app embedding** [K] | Don't build a long-term client identity on it unless the client licenses directly |
 | Paid foundries: Klim, Commercial Type, Grilli Type, Dinamo, Pangram Pangram, Displaay, Colophon, Production Type, **Typotheque** (strong non-Latin: Arabic, Indic), Lineto | Split by medium: desktop (print, packaging, logos), web (page views), app, ePub, broadcast; logo or trademark clauses vary [K] | Trials for pitching only |
 
-## 2. SIL OFL in plain terms (openfontlicense.org/ofl-faq) [V]
-- **Logos:** yes. The logo artwork is yours, but you get no exclusive rights in the font.
+## 2. SIL OFL in plain terms (openfontlicense.org/ofl-faq) [V — quoting §1.1/§1.1.1/§1.5/§1.6/§3.1/§3.3]
+- **Logos:** yes, no extra permission needed. You own the resulting logo artwork outright ("you remain the author and copyright holder of that newly derived graphic") — it is not itself under the OFL.
 - **Packaging, print, commercial products:** yes. Only the font files stay under the OFL.
 - **Embedding** in PDFs and apps: yes. Apps must include the licence text.
-- **Modify:** yes, but rename the font if it has Reserved Font Names. Outlined wordmarks count as artwork, not a font.
-- **Sell the font on its own:** no.
+- **Modify:** yes, but rename the font if it has Reserved Font Names.
+- **Sell the font on its own:** no — the OFL exists partly "to keep people from making money by simply redistributing the fonts." It can ship inside a larger paid package (an app, a font bundle).
 
 ## 3. South Asian scripts and bilingual pairing
 | Need | Fonts | Notes |
 |---|---|---|
-| Urdu Nastaliq (display, brand) | **Gulzar** (OFL, typographic Nastaliq with a matching Latin; best bilingual default) [V]; Noto Nastaliq Urdu (OFL, calligraphic, tall) [K]; Nafees Nastaleeq (MIT) [V]; Awami Nastaliq (SIL OFL; test rendering) [K] | **Jameel Noori Nastaleeq: licence unclear ("free for Urdu lovers"), so not for commercial work** [V] |
+| Urdu Nastaliq (display, brand) | **Gulzar** (OFL; Borna Izadpanah, with Fiona Ross, Alice Savoie and Simon Cozens, for Google Fonts, added July 2022) — typographic, not calligraphic, and unusually ships a matching Latin, which makes it the practical bilingual default [V]; Noto Nastaliq Urdu (OFL, calligraphic, tall) [K]; Nafees Nastaleeq (MIT) [V]; Awami Nastaliq (SIL OFL; test rendering) [K] | **Jameel Noori Nastaleeq: its own notice reads "This Font Is Free Of Charge For Urdu Lovers" — no commercial clause, and users asking whether that covers commercial use get no answer (2013 Ubuntu bug thread). Not for commercial work** [V] |
 | Urdu, Sindhi, Arabic Naskh (small text, packaging) | Noto Naskh Arabic, Lateef (SIL, built for Sindhi and Urdu), Scheherazade New, Amiri, Markazi Text [K] | Sindhi is set in Naskh and needs ڄ ڃ ڇ ڏ ڙ ڪ ڻ: check every glyph |
 | Devanagari / Gurmukhi | Mukta, Hind, Tiro Devanagari, Noto Sans/Serif Devanagari; Noto Gurmukhi, Mukta Mahee, Baloo Paaji 2 [K] | |
 
@@ -35,7 +35,7 @@ Pairing rules (practitioner starting points [UNVERIFIED as fixed numbers]):
 4. Set right to left on its own grid; use `dir` and `lang="ur"` on the web. Urdu digits are U+06F0–06F9.
 5. Test Nastaliq shaping in the actual tool (InDesign World-Ready composer; Figma [UNVERIFIED]).
 
-Pakistani packs: labels must be in English and/or Urdu (Punjab Food Authority) [V]. Nutrient text is cited at 3 mm or more (1 mm under 25 cm²) [V secondary; confirm PFA/PSQCA]. Export benchmark: EU 1169/2011 Art. 13, x-height of 1.2 mm or more (0.9 mm if the largest surface is under 80 cm²) [V].
+Pakistani packs: the Punjab Pure Food Regulations 2018 (per §8 of the 2017 regs) require legible, prominent labeling in Urdu or English [V, via Business Recorder]. **No PFA/PSQCA minimum text-size figure was found**, and sources conflict on whether nutrient declarations are even mandatory outside Punjab and infant formula — don't quote a size for Pakistan. Export benchmark: EU 1169/2011 Art. 13, x-height of 1.2 mm or more (0.9 mm if the largest surface is under 80 cm²) [V — confirmed against the Commission's own food-information page and the EUR-Lex text]. Treat the EU figures as the working benchmark for Pakistani work too, not as a local rule.
 
 ## 4. Pairing and selection
 - Bringhurst: suit the text's character; aim for 45–75 characters per line (66 ideal). Lupton: pair by clear contrast and use few families. Butterick: body text first, with 120–145% line spacing [K].
