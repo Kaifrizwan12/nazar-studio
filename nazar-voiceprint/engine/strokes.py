@@ -202,6 +202,7 @@ def analyse(im, side=512):
     concentration = float(1 - (-(p[p > 0] * np.log(p[p > 0])).sum() / np.log(12)))
     skel_px = max(int(skel.sum()), 1)
     return {
+        "line_width_px": round(typical_w, 1),              # taper and pressure need ~4+ px of line to be readable
         "segments": len(rows),
         "median_segment_px": int(np.median(L)),
         "segment_length_cv": round(float(L.std() / L.mean()), 2),
@@ -217,11 +218,14 @@ def analyse(im, side=512):
 
 def reading(r):
     out = []
+    if r["line_width_px"] < 4:
+        out.append(f"lines are only ~{r['line_width_px']:g} px wide here, so taper and pressure can't be read: use a scan where the line is 4+ px wide (about 2400 px across for fine line art)")
     out.append("sketchy, searching line (many short strokes, lots of loose ends)" if r["endpoints_per_1k_px"] > 25 else
                "confident, continuous line" if r["endpoints_per_1k_px"] < 8 else "mixed: some long strokes, some searching marks")
-    out.append("tapered strokes: pressure-sensitive pen or brush" if r["taper"] < 0.85 else
-               "blunt, even strokes: technical pen or vector" if r["taper"] > 1.05 and r["pressure_swing"] < 0.25 else
-               "slight taper")
+    if r["line_width_px"] >= 4:   # below this, integer pixel widths make taper read as exactly 1.0 for everything
+        out.append("tapered strokes: pressure-sensitive pen or brush" if r["taper"] < 0.85 else
+                   "blunt, even strokes: technical pen or vector" if r["taper"] > 1.05 and r["pressure_swing"] < 0.25 else
+                   "slight taper")
     out.append("curvy, organic line" if r["straightness"] < 0.75 else "straight, ruled line" if r["straightness"] > 0.93 else "mix of curves and straights")
     if r["direction_concentration"] > 0.2:
         out.append(f"strokes lean one way (around {r['dominant_direction_deg']}°): a hatching or gesture habit")

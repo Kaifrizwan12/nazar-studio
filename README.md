@@ -63,7 +63,7 @@ Hide one print, learn each designer from the rest, name the maker: **60% against
 >
 > **What it means:** All 10 cyanotypes read as one blue hue (about 238°); albumen and salted paper read as warm-toned prints (about 67–69°) but can't be told apart; autochrome is only partly read. It reads the *look*, not the chemistry, and says so.
 
-Synthetic tests prove the maths; real work proves the use. 24 public-domain (CC0) photographs from The Met, grouped by the process **each object's own catalogue record names**, and the engine never sees that label. Cyanotypes come out blue, single-hue and soft; albumen and salted paper come out as warm-toned prints. It can't yet separate albumen from salted paper, and autochrome grain needs full-resolution scans, and the card says so. The real test also caught a bug the synthetic one hid: blue cyanotypes on warm paper were being named "teal & orange". Fixed, retested, and the synthetic teal-and-orange grade is still caught. Credits for every image are in [`met_credits.json`](nazar-voiceprint/examples/met_credits.json). Every photo was checked by eye before use, and `fetch_met.py` is paced and backs off politely.
+24 public-domain (CC0) photographs from The Met, grouped by the process **each object's own catalogue record names**, and the engine never sees that label. Cyanotypes come out blue, single-hue and soft; albumen and salted paper come out as warm-toned prints. It can't separate albumen from salted paper, and autochrome grain needs full-resolution scans; the card says so. A blue image on warm paper is never labelled "teal & orange": that name needs a genuinely multi-hue grade. Credits for every image are in [`met_credits.json`](nazar-voiceprint/examples/met_credits.json). Every photo was checked by eye before use, and `fetch_met.py` paces its requests and backs off when rate-limited.
 
 ### 3. Type QA on real fonts, including real Urdu
 
@@ -98,15 +98,15 @@ Real archive colour is often *worse* than a designed palette: in this one, only 
 
 > **The result:** the accent is 4.92:1 on the dark ground and 1.02:1 on the light one, so light mode is refused and 5 dark backdrops are built.
 >
-> **What it means:** 1.02:1 is invisible. The engine now refuses a mode whose accent can't be seen (under 2:1) and warns under 3:1. This test found **two engine bugs**, both fixed.
+> **What it means:** 1.02:1 is invisible. The backdrops engine refuses a mode whose accent can't be seen (under 2:1) and warns under 3:1, so a palette that only supports a dark set gets a dark set and says why.
 
-Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `nazar-backdrops`. Real data exposed two engine bugs, both fixed: the backdrops engine **offered light mode whatever the accent contrast** (here 1.02:1, invisible), and role assignment picked a mid-blue "secondary" at **1.55:1**, so the handle text vanished. Roles are now assigned **by contrast** (`derive_tokens`), and a mode is skipped when its accent is invisible. The archive supports a dark set only, and it says so. The mark is the example brand's placeholder, left unaltered on purpose: **client logos are never recoloured or redrawn**.
+Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `nazar-backdrops`. Brand roles are assigned **by contrast, not list order** (`derive_tokens`): the small-text colour must reach 4.5:1 on its ground, and the engine says so when a palette is too narrow for it. A mode is skipped when its accent is invisible. This archive supports a dark set only. The mark is the example brand's placeholder, left unaltered on purpose: **client logos are never recoloured or redrawn**.
 
 ### 6. Etching → vector
 
 <img src="assets/demo-trace-fine.jpg" alt="A Rembrandt etching (public domain, The Met) traced with the fine-line mode: the original, the local-threshold step that keeps every hatched line, and the traced vector." width="100%">
 
-> **The result:** one Rembrandt etching (public domain) becomes 562 shapes and 5,908 nodes with `--fine`; it traced to noise before.
+> **The result:** one Rembrandt etching (public domain) becomes 562 shapes and 5,908 nodes with `--fine`.
 >
 > **What it means:** A node is one anchor on a vector curve: fewer nodes mean a cleaner, more editable shape. Plain mode is for bold marker and pencil; `--fine` is for hairlines and engraving.
 
@@ -117,15 +117,15 @@ Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `naza
 3. **Place nodes on the true extremes,** where the curve is really horizontal or vertical, the way a professional vector artist would.
 4. **Fit the curves:** Schneider least-squares Béziers, giving a single SVG path with holes kept.
 
-**Hairlines and engraving: `--fine`.** A global threshold loses lines under ~2 px and the despeckle step erased what was left, so a Rembrandt etching traced to noise. `--fine` upscales, uses a *local* threshold (darker than its own neighbourhood) and skips the opening step; the same etching (CC0, The Met) now keeps its tree, figure and hatching. It stays noisy in the darkest shadow, so raise `--min-area` to drop dust. Plain mode is still right for bold marker and pencil. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
+**Hairlines and engraving: `--fine`.** A global threshold loses lines under ~2 px, so plain mode is for bold marker and pencil. `--fine` upscales, uses a *local* threshold (darker than its own neighbourhood) and skips the despeckle opening step, which keeps an etching's tree, figure and hatching (shown above, CC0 from The Met). It stays noisy in the darkest shadow: raise `--min-area` to drop dust. You get three variants (tight, balanced, smooth), a compare sheet and a node report. `--levels 3` traces shaded drawings into recolourable tone layers for package art. It needs only numpy and Pillow, and it's MIT-clean.
 
 ### 7. Dielines, and real art on them
 
 <img src="assets/demo-structures.jpg" alt="Nine concept dielines generated by the engine: a reverse tuck carton, a tuck-front mailer, a pillow pack, a rigid box blank and wrap, a cone label, a stand-up pouch layout, a chips flow-wrap packet, a shrink-sleeve shrink map and a glued tray." width="100%">
 
-> **The result:** the pack engine's own QA flagged 3 problems on the first real pack and passes clean after fixing.
+> **The result:** the pack engine's own QA flags problems in the art on a real pack (safe area, contrast, a missing logo file) and passes it clean once they're fixed.
 >
-> **What it means:** It checks the *art* (safe area, contrast, type size, missing logo files), not just the box. One flag was my own spec mistake: an image block's `y` is its centre, and the engine was right.
+> **What it means:** It checks the *art* (safe area, contrast, type size, missing logo files), not just the box. A common one: an image block's `y` is its *centre* unless you set `valign: top`, and the engine flags art that crosses the safe area.
 
 `nazar-dieline/engine/dieline.py`: give it the inside dimensions (L × W × D) and the board, and it draws a **concept dieline**.
 
@@ -153,11 +153,11 @@ Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
 
 <img src="assets/demo-kits.jpg" alt="Five kits run live on public-domain art. Packaging: a real Mucha plate on a carton with the engine's QA. Out-of-home: four 1890s Chéret posters tested as a bulletin: only the shortest is readable in time. Social: the slop test flags a machine-style caption and passes a plain one. Web: the same real page built well passes and built badly fails eight checks. Motion: a linear and an eased reveal measured." width="100%">
 
-Five kits that had no engine now have one, each built on sources and run on real public-domain art. What each real result means:
+Five kits, each with its own small engine built on sources and run on real public-domain art. What each result means:
 
 | Kit | The real result | What it means |
 |---|---|---|
-| **Packaging** | QA flagged 3 problems on a real pack; clean after fixes | The engine checks the art, not just the box |
+| **Packaging** | QA flags 3 problems on a real pack; clean once fixed | The engine checks the art, not just the box |
 | **Billboards** (`ooh_check.py`) | Of four real 1890s posters, only the 5-word one is readable in time (a 4.5 s glance at 45 mph, 300 ft) | Letter height follows the road-sign rule (30 ft of distance per inch, MUTCD). The "7 words" and "6 seconds" rules are **unsourced folklore** and labelled so |
 | **Social** (`social_lint.py`) | A machine-style caption: 9 flags. A real archive caption and a plain rewrite: 0 | The slop test as code. A hit is a prompt to rewrite, never proof of anything |
 | **Web** (`web_audit.py`) | The same page built well: 0 problems. Built badly: 8 failed checks | Structure, alt text, layout shift, contrast. No real-device speed: that needs Lighthouse |
@@ -215,7 +215,7 @@ Compile... nahin. Aaj nahin.
 ### One engine per creative trade, each tested blind
 <img src="assets/demo-voiceprint-genres.jpg" alt="nazar-voiceprint genre card. Six known-answer tests on original synthetic work. Colourist: six grades of one scene, named blind: neutral, teal and orange, faded film with grain, bleach bypass, monochrome, vignette with grain. Illustrator: brush strokes read as 6 tapered strokes, loose marks as sketchy, a ruled grid as confident. Graphic designer: a grid page read as left-aligned, 3 columns, type ratio 1.514 against a designed 1.5; a centred poster read as centred, ratio 1.237 against 1.25. Editor: 11 shot lengths detected within one frame. Portfolio: two hidden style modes separated, a reused mark found in exactly 6 pieces, a re-saved version caught. Camera and pose: 70% at 35mm, 65% wide open, 35% flash, mostly vertical; three skeletons read as frontal, three-quarter with contrapposto and hand on hip, and profile cropped above the knees." width="100%">
 
-Every engine was checked against the truth before it was trusted: original work built with a **known** style, then read blind. The orange text on the card is what the engines concluded, untouched. The tests caught real bugs on the way: content mistaken for a grade, skeleton spurs, a float rounding error. Each one was fixed, not hidden.
+Every engine was checked against the truth before it was trusted: original work built with a **known** style, then read blind. The orange text on the card is what the engines concluded, untouched. Every engine ships with its known-answer test.
 
 | Trade | Engine | What it reads |
 |---|---|---|
@@ -251,11 +251,11 @@ Graphic design and illustration are full of patterns no engine measures. So the 
 
 ## How it stays honest
 
-Every number on these cards came out of an engine run on real work, and several tests failed first. That's the point: the failures are fixed or written down, not hidden.
+Every number on these cards comes out of an engine run on real work. Where an engine can't do something, it's written down here, not hidden.
 
 | Proven on real work | Weak, and documented | Not tested yet |
 |---|---|---|
-| Colour palettes and contrast (24 photos, 10 cyanotypes) · type QA on 4 real fonts · designer attribution (35 prints, 60% against a 37% baseline) · backdrops from archive colour · fine-line tracing · the pack engine's own QA | `strokes.py` taper and pressure don't separate media (loose ends and straightness do; it needs ~2400 px) · plain `trace.py` is for bold marker (use `--fine`) · "7 words" and "6 seconds" for billboards are unsourced folklore, and labelled that way · coverage % says nothing about whether a typeface is *good* | Voiceprint on a full real archive · pose and camera-habit tools on real photos · video tools on real footage · anything on real Pakistani packs, shop boards or Urdu print |
+| Colour palettes and contrast (24 photos, 10 cyanotypes) · type QA on 4 real fonts · designer attribution (35 prints, 60% against a 37% baseline) · backdrops from archive colour · fine-line tracing · the pack engine's own QA | `strokes.py` can't read taper or pressure from a carved or etched line (loose ends and straightness do separate media), and it warns when a scan is too small, under ~4 px of line · plain `trace.py` is for bold marker (use `--fine`) · "7 words" and "6 seconds" for billboards are unsourced folklore, and labelled that way · coverage % says nothing about whether a typeface is *good* | Voiceprint on a full real archive · pose and camera-habit tools on real photos · video tools on real footage · anything on real Pakistani packs, shop boards or Urdu print |
 
 Rules that never bend: **a client's logo is never recoloured or redrawn**, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
 
