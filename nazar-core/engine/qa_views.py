@@ -8,7 +8,7 @@ qa_design.md says to check by eye:
   margins    the smallest gap from text to the canvas edge, as % of width (under 4% is crowded; text near the edge may clip)
   gaps       vertical gaps between text blocks against the block above (under 25% of its height is cramped)
   phone      the smallest text height when the slide is shown 360 px wide (under 9 px is hard to read)
-It cannot judge concept, taste or hierarchy: look at the sheet. Findings are P2 (fix) or P3 (note); P1 needs eyes.
+It cannot judge concept, taste or hierarchy, and it cannot see lines that collide so completely they merge into one block (tight headline stacks look the same): look at the sheet. Findings are P2 (fix) or P3 (note); P1 needs eyes.
 
     python qa_views.py slides_folder [sheet.jpg | out_folder]     (default: slides_folder/qa_sheet.jpg)
 """
@@ -48,6 +48,10 @@ def measure(im):
     near = min(min(b[0], w - b[2], b[1], h - b[3]) for b in body) / w
     if near < 0.04:
         out.append(("P2", f"text comes within {near:.1%} of the canvas edge: crowded, and it may clip in a crop"))
+    for a, b in zip(lines, lines[1:]):
+        if b[1] < a[3] - 0.02 * h and not (b[0] >= a[2] or a[0] >= b[2]):
+            out.append(("P1", f"text lines overlap by {a[3] - b[1]}px near y={b[1]}: a collision"))
+            break
     for a, b in zip(lines, lines[1:]):      # a big block over a much smaller one is headline over subline
         ha, hb = a[3] - a[1], b[3] - b[1]
         if ha > 1.8 * hb and 0 <= b[1] - a[3] < 0.5 * hb:

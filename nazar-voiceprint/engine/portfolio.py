@@ -26,6 +26,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cluster  # noqa: E402
+import score_pattern  # noqa: E402
 import exif_habits  # noqa: E402
 import grade  # noqa: E402
 import layout  # noqa: E402
@@ -91,7 +92,9 @@ def run(folder, line=False):
     comp_summary = visual.summarise(comps)
     grades = [grade.analyse(im) for _, im in imgs]
     stroke_rows = [strokes.analyse(im) for _, im in imgs] if line else []
-    layout_rows = [layout.analyse(im) for _, im in imgs]
+    photo_flags = [score_pattern.is_photo(im) for _, im in imgs]
+    # a photo-led post has no type to lay out: the layout reading uses the flat-ground slides only
+    layout_rows = [layout.analyse(im) for (_, im), ph in zip(imgs, photo_flags) if not ph] or [layout.analyse(im) for _, im in imgs]
     stroke_ok = [r for r in stroke_rows if r]
     layout_ok = [r for r in layout_rows if r]
 
@@ -100,6 +103,7 @@ def run(folder, line=False):
         "palette": pal,
         "composition": [x for x in visual.read_plain(comp_summary, pal)
                         if line or not re.search(r"\bline\b|hatching|stroke", x)],
+        "modes": {"flat": photo_flags.count(False), "photo_led": photo_flags.count(True)},
         "format": formats(sizes),
         "grounds": grounds(imgs),
         "grading": tally([g["looks"] for g in grades], n),
@@ -121,6 +125,9 @@ def run(folder, line=False):
 def show(r):
     print(f"\n{r['n_pieces']} pieces\n")
     print("PALETTE:", ", ".join(f"{p['hex']} {p['share']*100:.0f}% {p['role']}" for p in r["palette"]))
+    mo = r.get("modes")
+    if mo:
+        print(f"\nMODES: {mo['flat']} flat-ground pieces, {mo['photo_led']} photo-led posts (the layout reading below uses the flat ones)")
     print("\nFORMAT:", "; ".join(f"{f['size']} ({f['ratio']}) in {f['share']*100:.0f}% of pieces" for f in r["format"]))
     g = r["grounds"]
     if g:

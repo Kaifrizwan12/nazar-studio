@@ -13,7 +13,7 @@ Two commands replace about ten, so a job reads less and calls less:
 python nazar-core/engine/studio.py learn <their finished pieces folder> <out folder> [exact backdrop and logo files...]
 python nazar-core/engine/studio.py check <your slides folder> <copy.json> <out folder>/pattern.json [sheet.jpg]
 ```
-`learn` measures the archive (format, grounds, palette, accent, layout), writes the pattern and a prompt block. `check` runs contrast (on the accent type actually used), language, layout, copy lint, the pattern score and the QA measurements, and writes the QA sheet. `copy.json` is `{"slide.png": "all its text"}`. Then look at the sheet: concept and hierarchy are yours. The font question is `nazar-type/engine/font_match.py`.
+`learn` measures the archive (format, grounds, palette, accent, layout), writes the pattern and a prompt block. `check` runs contrast (on the accent type actually used), language, layout, copy lint, the pattern score and the QA measurements, and writes the QA sheet. `copy.json` is `{"slide.png": "all its text"}`. Then look at the sheet: concept and hierarchy are yours. The font question is `nazar-type/engine/font_match.py <one tight headline crop> "the words"`. To place the exact files, use `nazar-core/engine/place_asset.py` (backdrop to a format, logo on white paper with multiply): don't rewrite it. Skip any intake question the prompt already answered.
 
 ## The studio rules (all kits)
 0. **The user's prompt leads.** Kits are add-ons: pull the pieces that serve the request (a rule, a checklist, an engine), skip the rest, and never let a kit's workflow override what was asked. If a kit and the prompt disagree, follow the prompt and mention the trade-off in one line.
@@ -45,6 +45,8 @@ python nazar-core/engine/studio.py check <your slides folder> <copy.json> <out f
 | `templates/research_log.md` | Research log format |
 | `templates/brand.json` | Engine config template |
 | `engine/` | The renderer: outlined type (harfbuzz, RTL-safe), exact logos, OSM maps, PNG + PDF + contact sheet |
+| `engine/studio.py` | The fast path: `learn` (measure the archive, write the pattern and prompt block) and `check` (chain check and QA in one call) |
+| `engine/place_asset.py` | Place exact files: a backdrop to a format (crop, never scale; a square to 4:5 is a labelled resample) and a logo on white paper (thresholded crop, multiply) |
 | `engine/chain_check.py` | Run the engines in order on finished slides: colour (the accent type actually used, against its own ground), language, layout, copy lint, pattern score |
 | `engine/qa_views.py` | The QA's measurable methods as a tool: sheet (full, squint, phone size), left edges, margins, headline-to-subline gaps, smallest text at phone width |
 | `references/scenarios.md` | Seven scenarios, each with the prompt a real person writes, which kits run, and what is tested |

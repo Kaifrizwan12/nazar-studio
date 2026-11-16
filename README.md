@@ -47,7 +47,7 @@ Then answer the questions. It'll take it from there, and it'll show its homework
 
 The cards further down test single engines on public-domain files. This is the test that touches the real scenario, so read it first: a designer with a real brand archive, an AI, and directions only the designer can give. [The test case and prompt are in the repo](nazar-voiceprint/examples/case_study.md), so you can run it on your own archive.
 
-![Real pieces held back, a good prompt without the skill, and the skill](assets/demo-real-archive.jpg)
+![Real pieces held back, a good prompt without the skill, and the skill from a casual prompt](assets/demo-real-archive.jpg)
 
 **The scenario.** A designer has made about 50 social pieces for one brand (YouthPerks, a student-discount app). The work is AI-assisted, with concept, edits and final hand the designer's, and client-approved. They want four new slides in the same style. They know their own work, so they tell the AI exactly what to do.
 
@@ -73,7 +73,7 @@ Voice: short, English mixed with Roman Urdu. No invented facts. References: <rea
 | New: expert prompt, no skill | **1.00** | 2.5:1 (fails the 3:1 minimum) | Passes every habit check; the contrast fault goes unseen. |
 | New: with the skill, fresh agent | **1.00** | 3.2:1 (passes) | Same score; its own check caught the contrast, and it darkened the blue for new type. |
 | New: casual prompt, no skill | 0.80 | n/a | Takes the square backdrop as given and misses the 4:5 habit. Checked nothing. |
-| New: casual prompt, **with the skill** | **1.00** | 3.2 to 3.8:1 (passes) | Never told the format. The engines measured 4:5 and the light and dark grounds in the archive, and it used them; it moved a failing blue headline to a better spot on the backdrop. |
+| New: casual prompt, **with the skill** (shown on the card) | **1.00** | 3.1 to 4.4:1 (passes) | Never told the format. The engines measured 4:5 and the light and dark grounds in the archive, and it used them, then fixed two failing blue lines. 74k tokens, 19 calls. |
 | New: casual prompt, no skill, told to measure and check | **1.00** | 3.2:1 (passes) | Reaches the same result by writing 10 scripts of its own (about 340 lines). |
 
 **What this shows, plainly.** The skill matters most for a person who doesn't already know their own habits: with a casual prompt it measured the archive and made the 4:5, two-ground slides, where the same casual prompt without it came out square. An agent told to measure and check without the skill gets there too, but it has to write its own tools to do it: [about 10% more tokens and 35% more time](#what-it-costs-in-tokens). Every good run passes every habit check, so the score cannot rank them; by eye they are close. A casual prompt loses one habit (the 4:5 canvas). What the skill added is checking. The expert prompt carries the person's knowledge but cannot see its own mistakes, and the skill run's checks did: the headline blue failed the contrast minimum, the check flagged it, and the agent fixed it. The blue it chose is darker than the brand's, which is the designer's call to confirm.
@@ -111,9 +111,19 @@ A skill is cheap to carry and its engines are cheap to use. This is the design, 
 - **Engines turn big inputs into small reports.** Looking at the 28 real pieces of the case study costs about 58k tokens; the portfolio engine's whole report is about 0.4k. The engine code (about 88k) is never loaded: only what it prints is.
 - **Deterministic work isn't left to the model.** Contrast ratios, margins, stylometry and colour palettes are computed, not guessed, so Claude spends its tokens on judgement.
 
-**Without the skill, Claude builds the tools at runtime.** The test: the same full job from a casual prompt (measure my archive, make four slides, check contrast, the font and the QA). With the skill, a fresh agent ran the built engines: 105k tokens, 32 tool calls, 3.7 minutes. Without it, a fresh agent wrote 10 scripts (about 340 lines) to measure, match fonts, check contrast and QA: 117k tokens, 44 calls, 5.8 minutes. Both passed every check and made good slides, so on this job the skill saves **about 10% of tokens and 35% of time**, and the work is repeatable, because the engines are tested and the runtime scripts aren't.
+**Without the skill, Claude builds the tools at runtime.** The test: the same full job from a casual prompt (measure my archive, make four slides, check contrast, the font and the QA).
 
-**The honest part.** That is a modest saving, because this job only needed simple measuring. A bare prompt that checks nothing is cheaper still (57k to 59k) but caught none of the contrast faults. The bigger savings should be in what a runtime agent would find hard to rebuild: stylometry with a Hindustani baseline, dielines, fine-line tracing, font coverage and licences, and the research behind each method. This test didn't need them, so that claim is an expectation, not a measurement. Estimates are characters divided by 4.
+| Run | Tokens | Tool calls | Time |
+|---|---|---|---|
+| No skill: writes its own tools (10 scripts, about 340 lines) | 117k | 44 | 5.8 min |
+| With the skill, first version | 105k | 32 | 3.7 min |
+| With the skill, after the fast path (`studio.py learn` and `check`) | **74k** | **19** | **2.4 min** |
+
+Every run passed every check and made good slides. After the fast path the skill uses **about 36% fewer tokens, 57% fewer tool calls and 59% less time** than building the tools at runtime.
+
+**Why the first version saved only 10%.** The transcripts showed it: rebuilding the measuring tools was cheap (about 2k tokens of code difference), most of a run is shared work (building slides, looking at about 20k tokens of images), and the conversation is re-read on every call. So the saving comes from fewer calls and less reading, and the fix was two commands in place of about ten, not smaller engines.
+
+**The honest part.** This job only needed simple measuring. The bigger savings should be in what a runtime agent would find hard to rebuild: stylometry with a Hindustani baseline, dielines, fine-line tracing, font coverage and licences, and the research behind each method. This test didn't need them, so that claim is an expectation, not a measurement. A bare prompt that checks nothing is cheaper still (57k to 59k) but caught none of the contrast faults. Estimates are characters divided by 4; run totals are what each agent reported.
 
 ## The results, in order of importance
 
