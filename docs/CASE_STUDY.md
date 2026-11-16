@@ -79,3 +79,20 @@ A skill is cheap to carry and its engines are cheap to use. This is the design, 
 
 **The honest part.** These jobs only needed simple measuring. The bigger savings should be in what a runtime agent would find hard to rebuild: stylometry with a Hindustani baseline, dielines, fine-line tracing, font coverage and licences, and the research behind each method. This test didn't need them, so that claim is an expectation, not a measurement. Estimates are characters divided by 4; run totals are what each agent reported.
 
+
+## Final round: the written protocol
+
+[The protocol](TEST_SCENARIO.md), 12 pieces per condition (six posts, a six-slide carousel), two blind judges, 46 shuffled slides (10 real held back, 36 generated).
+
+| | Real | Casual, no skill | Designer's rules, no skill, measure and check | Designer's rules, with the skill |
+|---|---|---|---|---|
+| Brand fit | 4.45 | 2.96 | 2.62 | 2.58 |
+| Quality | 3.50 | 3.08 | 2.58 | 2.50 |
+| Judged real | 19 of 20 | 2 of 24 | 0 of 24 | 0 of 24 |
+| Objects per slide (archive 3.6) | | 5.8 | 3.5 | 4.6 |
+| Unfamiliar objects (real held back 33%) | | 47% | 71% | 71% |
+| Words per piece (archive median 19) | | 41 | 22 | 20 |
+| From the supplied backdrops | | 12/12 | 12/12 | 12/12 |
+| Tokens, calls, time | | 103k, 31, 7.3 min | 171k, 60, 16.1 min | 156k, 47, 12.4 min |
+
+The casual run scored highest. Both runs that followed the designer's strict rules looked more templated; the art-director judge named "outline step numerals, a STEP 0X kicker over a two-tone stacked headline, a mascot dropped in to fill space, crude dialog boxes". The skill's step 0 asked two questions (backdrop per slide type, what never appears), both already answered in the rules file; that is now fixed.
