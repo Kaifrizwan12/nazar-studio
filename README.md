@@ -25,7 +25,7 @@ pip install -r nazar-studio/nazar-core/engine/requirements.txt
 python3 nazar-studio/nazar-core/engine/selftest.py      # 15 s: runs every tool, says what is missing
 ```
 
-Then brief your Claude the way you'd brief a person:
+Then brief your Claude the way you'd brief a person. A casual prompt is fine: the skill's step 0 (`studio.py brief`) first turns it into a complete brief, naming the kits and checks that apply, and asks only what is missing.
 
 ```text
 My finished work for <brand> is in <folder>. Learn how I work with the studio skill, then make
