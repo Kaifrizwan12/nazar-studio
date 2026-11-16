@@ -10,6 +10,10 @@ checks that can be measured from pixels:
   accent    the accent colour covers at most 20% of the piece, and 0.3%+ if the archive usually carries one
   device    no filled accent button or pill unless the archive itself uses them (10%+ of pieces)
 Photo-led posts (a photo fills the frame) are scored on canvas size only, and reported apart, because the pattern describes flat-ground slides.
+FIT (advisory) is the share of nine structural features (headline and subline size, line count, where text starts, ink,
+accent share...) inside the archive's own 2-SD range. It is wide when the archive is varied: on a real archive of
+chat bubbles, memes, cards and headline slides, real held-out pieces scored 0.92 and generated ones 0.89 to 0.95, so it
+cannot rank them. Use it to spot an outlier, not to pick a winner.
 It scores conformance to the habits, so it says nothing about whether a piece is good or
 whether the habits are the right ones. Two uses:
   held-out real pieces   a pattern built from some of a person's work, scored on the rest:
@@ -56,6 +60,48 @@ def is_photo(im):
     return float(-(h * np.log2(h)).sum()) >= 4.3
 
 
+FIT_FEATURES = ("headline_h", "subline_h", "size_ratio", "n_lines", "left_x", "top_y", "widest", "ink", "accent_share")
+
+
+def features(im, accent_lab=None):
+    """Structure measured from the pixels, so 'how typical is this piece of the archive' can be a number:
+    headline and subline height (share of canvas height), their ratio, line count, where text starts, how wide the
+    widest line runs, how much of the canvas is ink, and how much is the accent colour."""
+    import layout
+    m = layout.ink(im); h, w = m.shape
+
+    def tight(b):
+        sub = m[b[1]:b[3], b[0]:b[2]]; ys, xs = np.where(sub)
+        return (b[0] + int(xs.min()), b[1] + int(ys.min()), b[0] + int(xs.max()) + 1, b[1] + int(ys.max()) + 1) if len(ys) else b[:4]
+    raw = [tight(b) for b in layout.components(layout.dilate_x(m, max(6, w // 28)))]
+    lines = sorted([b for b in raw if (b[2] - b[0]) > 0.12 * w and 0.006 * h < (b[3] - b[1]) < 0.2 * h and (b[2] - b[0]) > 1.6 * (b[3] - b[1])], key=lambda b: b[1])
+    if not lines:
+        return None
+    hs = [b[3] - b[1] for b in lines]
+    t = im.copy(); t.thumbnail((200, 200))
+    acc = 0.0
+    if accent_lab is not None:
+        lab = srgb_to_oklab(np.asarray(t, float).reshape(-1, 3) / 255.0)
+        acc = float((np.linalg.norm(lab - accent_lab[0], axis=1) < 0.08).mean())
+    return {"headline_h": max(hs) / h, "subline_h": min(hs) / h, "size_ratio": max(hs) / max(min(hs), 1), "n_lines": len(lines),
+            "left_x": min(b[0] for b in lines) / w, "top_y": lines[0][1] / h, "widest": max(b[2] - b[0] for b in lines) / w,
+            "ink": float(m.mean()), "accent_share": acc}
+
+
+def fit_stats(rows):
+    out = {}
+    for k in FIT_FEATURES:
+        v = np.array([r[k] for r in rows], float)
+        out[k] = [round(float(v.mean()), 4), round(float(max(v.std(), 0.15 * abs(v.mean()) + 0.005)), 4)]
+    return out
+
+
+def fit_score(f, stats):
+    """Share of features within 2 SD of the archive's own spread, and the ones that are not."""
+    off = [k for k in FIT_FEATURES if abs(f[k] - stats[k][0]) / stats[k][1] > 2]
+    return round(1 - len(off) / len(FIT_FEATURES), 2), off
+
+
 def has_pill(im, accent_lab):
     """A filled accent-colour button or pill: a solid, wide, short block of the accent colour.
     Type and mascots in the accent colour are not solid blocks, so they don't count."""
@@ -87,7 +133,11 @@ def score(path, pat, refs):
               "device": not (has_pill(im, refs["accent"]) and pat.get("devices", {}).get("accent_pill", 0) < 0.10)}
     if photo:   # a photo post can't sit on a flat ground: scored on canvas size only
         checks = {"format": checks["format"]}
-    return {"file": os.path.basename(path), "mode": "photo" if photo else "flat", "checks": checks, "score": sum(checks.values()) / len(checks),
+    fit, off = (None, [])
+    if pat.get("fit") and not photo:
+        f = features(im, refs["accent"])
+        fit, off = fit_score(f, pat["fit"]) if f else (0.0, list(FIT_FEATURES))
+    return {"fit": fit, "fit_off": off, "file": os.path.basename(path), "mode": "photo" if photo else "flat", "checks": checks, "score": sum(checks.values()) / len(checks),
             "ground_dist": round(ground_d, 3), "palette_share": round(pal_share, 2), "accent_share": round(acc_share, 3)}
 
 
@@ -137,6 +187,14 @@ def build(folder, assets=()):
     pat["accent_presence"] = round(float(np.mean([0.003 <= float((near(srgb_to_oklab(np.asarray(Image.open(f).convert("RGB").resize((96, 96)), float).reshape(-1, 3) / 255.0), acc) < 0.08).mean()) <= 0.20 for f in files])), 2)
     if assets:
         pat["asset_swatches"] = asset_swatches(assets)
+    flat_rows = []
+    for f in files:
+        im_ = Image.open(f).convert("RGB")
+        if not is_photo(im_):
+            r_ = features(im_, acc)
+            if r_:
+                flat_rows.append(r_)
+    pat["fit"] = fit_stats(flat_rows)
     return pat
 
 
@@ -162,7 +220,8 @@ def run(pat, folder):
     rows = [score(f, pat, refs) for f in files]
     flat = [r for r in rows if r["mode"] == "flat"]; photo = [r for r in rows if r["mode"] == "photo"]
     per = {k: round(float(np.mean([r["checks"][k] for r in flat])), 2) for k in ("format", "ground", "palette", "accent", "device")} if flat else {}
-    return {"n": len(rows), "flat_pieces": len(flat), "photo_posts": len(photo),
+    fits = [r["fit"] for r in flat if r["fit"] is not None]
+    return {"fit": round(float(np.mean(fits)), 2) if fits else None, "n": len(rows), "flat_pieces": len(flat), "photo_posts": len(photo),
             "mean_score": round(float(np.mean([r["score"] for r in flat])), 2) if flat else None, "per_check": per,
             "photo_size_ok": round(float(np.mean([r["score"] for r in photo])), 2) if photo else None, "pieces": rows}
 
@@ -178,4 +237,10 @@ if __name__ == "__main__":
     if "--json" in sys.argv:
         print(json.dumps(r, indent=1))
     else:
-        print(f"{r['flat_pieces']} flat pieces, mean score {r['mean_score']}  per check {r['per_check']};  {r['photo_posts']} photo posts, right canvas size: {r['photo_size_ok']}")
+        print(f"{r['flat_pieces']} flat pieces, gate score {r['mean_score']}, FIT to the archive {r['fit']}  per check {r['per_check']};  {r['photo_posts']} photo posts, right canvas size: {r['photo_size_ok']}")
+        off = {}
+        for p in r["pieces"]:
+            for k in p.get("fit_off", []):
+                off[k] = off.get(k, 0) + 1
+        if off:
+            print("   features outside the archive's own range:", ", ".join(f"{k} ({n})" for k, n in sorted(off.items(), key=lambda x: -x[1])))

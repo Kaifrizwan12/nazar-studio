@@ -10,6 +10,8 @@
 2. **Researches properly.** It reads manuals, archives, standards and primary sources, checks claims against them, and flags openly what it couldn't confirm instead of guessing.
 3. **Builds with engines.** Python that draws dielines, traces sketches, lays out packs and outlines type, with outputs you can measure.
 4. **Nitpicks before you do.** Automatic QA on every output, and Claude looks at every image itself.
+5. **Learns from your work.** Every failure on a real job is logged in the kit's `LESSONS.md` and patched with your okay, so the skill gets better the more it is used.
+6. **Stays cheap.** The whole skill costs about 2k tokens to carry; a kit loads only when the job needs it, and engines turn big inputs into small reports ([the numbers](#what-it-costs-in-tokens)).
 
 No AI slop, no stock photos, no "elevate your journey". AI imagery is used only when a client says yes in writing.
 
@@ -70,9 +72,11 @@ Voice: short, English mixed with Roman Urdu. No invented facts. References: <rea
 | Real pieces, held out | **0.95** | n/a | The habits found in some pieces describe the rest. |
 | New: expert prompt, no skill | **1.00** | 2.5:1 (fails the 3:1 minimum) | Passes every habit check; the contrast fault goes unseen. |
 | New: with the skill, fresh agent | **1.00** | 3.2:1 (passes) | Same score; its own check caught the contrast, and it darkened the blue for new type. |
-| New: casual prompt, no skill | 0.80 | n/a | Takes the square backdrop as given and misses the 4:5 habit. |
+| New: casual prompt, no skill | 0.80 | n/a | Takes the square backdrop as given and misses the 4:5 habit. Checked nothing. |
+| New: casual prompt, **with the skill** | **1.00** | 3.2 to 3.8:1 (passes) | Never told the format. The engines measured 4:5 and the light and dark grounds in the archive, and it used them; it moved a failing blue headline to a better spot on the backdrop. |
+| New: casual prompt, no skill, told to measure and check | **1.00** | 3.2:1 (passes) | Reaches the same result by writing 10 scripts of its own (about 340 lines). |
 
-**What this shows, plainly.** Both good runs pass every habit check, so the score cannot rank them; by eye they are close. A casual prompt loses one habit (the 4:5 canvas). What the skill added is checking. The expert prompt carries the person's knowledge but cannot see its own mistakes, and the skill run's checks did: the headline blue failed the contrast minimum, the check flagged it, and the agent fixed it. The blue it chose is darker than the brand's, which is the designer's call to confirm.
+**What this shows, plainly.** The skill matters most for a person who doesn't already know their own habits: with a casual prompt it measured the archive and made the 4:5, two-ground slides, where the same casual prompt without it came out square. An agent told to measure and check without the skill gets there too, but it has to write its own tools to do it: [about 10% more tokens and 35% more time](#what-it-costs-in-tokens). Every good run passes every habit check, so the score cannot rank them; by eye they are close. A casual prompt loses one habit (the 4:5 canvas). What the skill added is checking. The expert prompt carries the person's knowledge but cannot see its own mistakes, and the skill run's checks did: the headline blue failed the contrast minimum, the check flagged it, and the agent fixed it. The blue it chose is darker than the brand's, which is the designer's call to confirm.
 
 **What the fresh agent found wrong in the skill.** It reported these without being asked to praise anything, and each is fixed or listed:
 - The accent contrast check measured the archive's accent, not the colour on the slide. It now measures the accent type actually used against the ground beside it, and suggests a darker value from that ground.
@@ -80,6 +84,7 @@ Voice: short, English mixed with Roman Urdu. No invented facts. References: <rea
 - A missing input file failed silently, and `score_pattern.py` had no help. Both fixed.
 - The font matcher was slow (now about 5 seconds) and cannot name a small body sans. Open.
 - The score saturates at 1.00. Open: it needs a human pick test.
+- A second agent (casual prompt, skill installed) reported more, all fixed: `qa_views.py -h` crashed; the skill had no guidance for turning a square backdrop file into a 4:5 post (it now says crop never scales, and a square-to-4:5 resample must be labelled and the 4:5 source requested); no rule for where accent type sits on a gradient backdrop (the same blue passed at the top and failed beside the glow); and the intake questions clashed with a prompt that already gave the brief (now: ask only what's missing).
 
 **Which kit helped, and how**
 
@@ -95,6 +100,20 @@ Voice: short, English mixed with Roman Urdu. No invented facts. References: <rea
 **What it does not show.** Four briefs and one fresh-agent run are a small sample. No engine reads text inside images, so slide copy was never analysed. The headline font is unconfirmed. The fresh agent redrew the translator-card device from shapes and said so; its icons are not the originals. A person picking real from generated hasn't been run. The held-out set includes pieces with people; none are shown.
 
 **Scenarios.** Seven ways a real person would use the skill, each with the prompt they would write, the kits that run, and whether it has been tested: [scenarios.md](nazar-core/references/scenarios.md).
+
+## What it costs in tokens
+
+![What a skill costs in tokens](assets/demo-tokens.jpg)
+
+A skill is cheap to carry and its engines are cheap to use. This is the design, measured on this repo:
+
+- **Carrying it costs about 2.1k tokens.** Only the 18 short descriptions sit in context. A typical job loads `nazar-core` plus one kit, about 4.7k. The same knowledge pasted into a prompt as text would be about 121k.
+- **Engines turn big inputs into small reports.** Looking at the 28 real pieces of the case study costs about 58k tokens; the portfolio engine's whole report is about 0.4k. The engine code (about 88k) is never loaded: only what it prints is.
+- **Deterministic work isn't left to the model.** Contrast ratios, margins, stylometry and colour palettes are computed, not guessed, so Claude spends its tokens on judgement.
+
+**Without the skill, Claude builds the tools at runtime.** The test: the same full job from a casual prompt (measure my archive, make four slides, check contrast, the font and the QA). With the skill, a fresh agent ran the built engines: 105k tokens, 32 tool calls, 3.7 minutes. Without it, a fresh agent wrote 10 scripts (about 340 lines) to measure, match fonts, check contrast and QA: 117k tokens, 44 calls, 5.8 minutes. Both passed every check and made good slides, so on this job the skill saves **about 10% of tokens and 35% of time**, and the work is repeatable, because the engines are tested and the runtime scripts aren't.
+
+**The honest part.** That is a modest saving, because this job only needed simple measuring. A bare prompt that checks nothing is cheaper still (57k to 59k) but caught none of the contrast faults. The bigger savings should be in what a runtime agent would find hard to rebuild: stylometry with a Hindustani baseline, dielines, fine-line tracing, font coverage and licences, and the research behind each method. This test didn't need them, so that claim is an expectation, not a measurement. Estimates are characters divided by 4.
 
 ## The results, in order of importance
 
@@ -234,7 +253,7 @@ Drop an archive: a decade of office `.docx` files, a director's scripts, a reel-
 | **Visual** | Palette habit, air and balance; colour grading and effects; an illustrator's strokes; a designer's grid and type scale; a photographer's camera habits; an editor's cutting rhythm; how people are posed; style modes and reused elements across a portfolio | `portfolio.py` runs them all |
 
 **How it works:**
-1. **Pre-AI filter.** `ingest.py` reads every document's real creation date and holds back anything from after 30 Nov 2022, so your pattern doesn't learn a chatbot's. You decide what goes back in.
+1. **Pre-AI filter.** `ingest.py` reads every document's real creation date and holds back anything from after 30 Nov 2022, so your pattern doesn't learn a chatbot's. The date is a prompt to ask, not a gate: you decide what goes back in, and if you say the work is yours (AI-assisted but directed by you, as in the case study above), that counts and the pattern is labelled "recent (AI-assisted era)".
 2. **Habit vs. genre.** Every feature is tested across the whole archive and marked *habit*, *varies* or *document-driven*. Only habits make it into the pattern. Research on cross-genre idiolect is mixed, so it's tested, never assumed.
 3. **Confirm loop.** You get about ten plain statements to say yes or no to, plus *your* never list ("I'd never write *please don't hesitate to reach out*. I'd write *shout if anything looks off*"). Motifs and intent come from you; the research is clear that software can't extract them.
 4. **Override-grade output.** The pattern opens with a precedence block, carries real quoted exemplars, pairs every "never" with a "do instead", and makes the AI **draft → check → revise** and re-anchor on your exemplars every few paragraphs, because style drifts back to the model's default the longer it writes.
@@ -275,7 +294,7 @@ Every engine was checked against the truth before it was trusted: original work 
 | Trade | Engine | What it reads |
 |---|---|---|
 | Colourist, photographer | `grade.py` | Look stats, colourfulness, split-toning, faded or crushed blacks, roll-off, vignette, grain, softness, bloom, with labels tagged *measured* or *folklore*. It describes the transform, never a film stock (Yedlin's Display Prep Demo) |
-| Illustrator | `strokes.py` | Skeleton → strokes: length, straightness, taper, pressure swing, loose ends (searching vs. confident line) |
+| Illustrator | `strokes.py` | Skeleton → strokes: length, straightness, taper, pressure swing, loose ends (searching vs. confident line). For drawings only: `portfolio.py` leaves it off unless you pass `--line`, because on slides it measures letter edges |
 | Graphic designer | `layout.py` | Alignment, columns, margins, type scale matched to named modular scales, type vs. image share. No OCR needed |
 | Photographer | `exif_habits.py` | Focal length, aperture, shutter, flash and orientation habits across a shoot |
 | Editor, director | `video.py` | Cuts, median and distribution of shot lengths (Salt, Cinemetrics), pace, 1/f rhythm (Cutting 2010), grade across shots |
@@ -312,6 +331,8 @@ Every number on these cards comes out of an engine run on real work. Where an en
 |---|---|---|
 | Colour palettes and contrast (24 photos, 10 cyanotypes) · type QA on 4 real fonts · designer attribution (35 prints, 60% against a 37% baseline) · backdrops from archive colour · fine-line tracing · the pack engine's own QA | `strokes.py` can't read taper or pressure from a carved or etched line (loose ends and straightness do separate media), and it warns when a scan is too small, under ~4 px of line · plain `trace.py` is for bold marker (use `--fine`) · "7 words" and "6 seconds" for billboards are unsourced folklore, and labelled that way · coverage % says nothing about whether a typeface is *good* | Voiceprint on a full real archive · pose and camera-habit tools on real photos · video tools on real footage · anything on real Pakistani packs, shop boards or Urdu print |
 
+**Added by the case study.** Proven: the habits measured on 28 real pieces hold on the 14 held back (0.95); the accent-contrast and QA tools catch real faults and are quiet on clean slides. Weak: the habit score saturates at 1.00 so it can't rank good work, no engine reads text inside images, and the font matcher can't name a small body sans. Not tested yet: a human picking real from generated, the pose, EXIF and video tools on real files, and a full personal writing archive.
+
 Rules that never bend: **a client's logo is never recoloured or redrawn**, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
 
 ## At a glance
@@ -346,6 +367,15 @@ He runs **Nazar**, a Karachi studio that plans the street and the feed as one ca
 - **Desi at heart, cinematic at eye level.** He loves hand-painted signs, wedding-card type, film title cards and end credits, all set on a strict grid. Loud colour goes on quiet pages, never everywhere.
 - **Allergic to "elevate your journey".** If you could swap the logo and the line still works, the line is dead. He writes twenty, says them out loud on the street, and keeps the three that make someone smirk.
 - **Hands first.** AI can help the hands, but it never replaces the brain.
+
+**How Kaif works with the skill** (observed while building and testing it):
+
+- **Real work over demos.** Kaif asks for the test case and the prompt to be shown, and wants the control to be a good human prompter, not a strawman. A result that doesn't hold up gets written down as it is.
+- **Exact files over recreations.** Backdrops and logos are placed as supplied. A recreated gradient or a redrawn logo is the quickest way a piece starts to look AI-made.
+- **The maker's word counts.** Work that is AI-assisted but directed, edited and finished by the designer, and approved by the client, is the designer's own. The pattern says so instead of hiding it. The case study's archive is Kaif's social work for YouthPerks, a Pakistani student-discount app.
+- **Short and bilingual.** The voice is direct and mixes English with Roman Urdu: "Verify karo", "Pehle aap, phir baaki sab". Copy that could belong to any brand is cut.
+- **Plain, in order of importance.** Cards are simple, numbers come with what they mean, and the README says what didn't work.
+- **Engines over improvisation.** A skill should arrive with its tools built, so Claude runs them instead of inventing them mid-job. Every failure goes into the kit's `LESSONS.md`.
 
 His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/kaif.md). Fork the repo, swap in your own taste, and the whole studio follows. (Keep the wink, though. He'd want that.)
 

@@ -28,5 +28,6 @@ Read `../nazar-core/SKILL.md` first. **The user's prompt leads; use what the job
 
 ## Files
 - **Say which sizes an accent may be set at.** Accent text on a brand ground often lands between 3:1 and 4.5:1 (a real light ground and a bright blue gave 2.9:1, under even the 3:1 large-text minimum): 3:1 to 4.5:1 is large text only (24 px and up, or 18.66 px bold), never small copy or a small button label, and below 3:1 the accent needs a darker value for text (`nazar-core/engine/chain_check.py` suggests one; logos and supplied artwork are never recoloured). The engine labels each pair; carry the label into the brand rules.
+- **On a gradient ground, place accent type where the ground is flattest and furthest from it in lightness.** The same blue can pass in one corner and fail in another (a real light-to-blue backdrop gave 3.2:1 at the top and 2.6:1 beside the blue glow). `chain_check.py` measures the accent type band by band; move the type, don't just darken the blue.
 - `engine/palette_check.py`: archive images → OKLab palette → WCAG contrast per pair, colour-blind and greyscale checks. Demo: `examples/make_colour_card.py`.
 - `references/colour.md`: sources (Wada, Werner, Vanderpoel, Albers, Itten, Munsell, OKLCH), Pakistani and South Asian palettes, studio methods, technical checks, print translation, AI tells, sources

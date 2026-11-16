@@ -10,7 +10,7 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 ## The studio rules (all kits)
 0. **The user's prompt leads.** Kits are add-ons: pull the pieces that serve the request (a rule, a checklist, an engine), skip the rest, and never let a kit's workflow override what was asked. If a kit and the prompt disagree, follow the prompt and mention the trade-off in one line.
 1. **Read `references/kaif.md`.** It covers who Kaif is, his taste, how he reviews, what he rejects, and the risks to flag.
-2. **Ask before building.** Each kit has its own intake: 3 rounds at most, every question with options and a recommended pick first. Facts (names, contacts, prices, legal text) are asked as plain text, never invented.
+2. **Ask before building, but only for what the prompt doesn't already say.** If the person has given the brief, the files and the constraints, skip those questions and ask only what is missing. Each kit has its own intake: 3 rounds at most, every question with options and a recommended pick first. Facts (names, contacts, prices, legal text) are asked as plain text, never invented.
 3. **Research before concept.** Follow `references/research_path.md`. Tag findings [ARCH] / [SRC] / [KNOWN] / [TREND] / [IDEA]. No reference, no decision.
 4. **Ideas before looks.** Generate concepts with `references/ideation.md` (at least 3 methods), then cluster them into territories and 3 routes.
 5. **Judge like the masters.** `references/masters.md`: meaning, distinctiveness, the blur and shelf tests, remove before adding.

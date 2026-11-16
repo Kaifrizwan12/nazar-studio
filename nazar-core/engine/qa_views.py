@@ -10,7 +10,7 @@ qa_design.md says to check by eye:
   phone      the smallest text height when the slide is shown 360 px wide (under 9 px is hard to read)
 It cannot judge concept, taste or hierarchy: look at the sheet. Findings are P2 (fix) or P3 (note); P1 needs eyes.
 
-    python qa_views.py slides_folder [sheet.jpg]
+    python qa_views.py slides_folder [sheet.jpg | out_folder]     (default: slides_folder/qa_sheet.jpg)
 """
 import glob
 import os
@@ -60,6 +60,8 @@ def measure(im):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+        sys.exit(__doc__)
     folder = sys.argv[1]
     files = sorted(glob.glob(folder + "/*.png") + glob.glob(folder + "/*.jpg"))
     T = 300
@@ -76,5 +78,7 @@ if __name__ == "__main__":
         for lvl, msg in r["findings"] or [("ok", "no measurable faults")]:
             print(f"   [{lvl}] {msg}")
     out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(folder, "qa_sheet.jpg")
+    if os.path.isdir(out):          # a folder was given: write qa_sheet.jpg inside it
+        out = os.path.join(out, "qa_sheet.jpg")
     sheet.save(out, quality=82)
     print("sheet:", out, "(rows: full size, squint greyscale, phone size). Look at it: hierarchy and concept are yours to judge.")
