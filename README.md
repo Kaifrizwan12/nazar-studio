@@ -79,7 +79,8 @@ The final test follows [a written protocol](docs/TEST_SCENARIO.md): one real bra
 |---|---|---|---|
 | Brand fit (1 to 5; the real pieces score 4.45) | **2.96** | 2.62 | 2.58 |
 | Quality (real pieces 3.50) | **3.08** | 2.58 | 2.50 |
-| Judged real | 2 of 24 | 0 of 24 | 0 of 24 |
+| Judged real (two model judges) | 2 of 24 | 0 of 24 | 0 of 24 |
+| Passed as real with the designer (blind pick test) | 1 of 2 | 0 of 2 | 0 of 2 |
 | Words per piece (the archive's median is 19) | 41 | 22 | **20** |
 | Ground from the supplied backdrop files, off-palette pixels | 12/12, 0.1% | 12/12, 0.0% | 12/12, 0.0% |
 | Tools it had to write itself | none | 7 | **none** |
@@ -119,7 +120,7 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 ## Honest limits
 
 - **On look the skill has not won.** In the final blind round (12 pieces per condition, two judges) a casual prompt without the skill scored highest; strict rules made both rule-following runs more templated. The skill matched the careful no-skill run at lower cost. Blind judges still tell generated slides from real ones (98%): too tidy, formulaic, the same polished mascot and props. Real work is blunter, messier, more varied.
-- **The habit score saturates.** Every good run passes every habit check, so it can't rank good work. A person choosing real from generated hasn't been run yet (`pick_test.py` builds that test).
+- **The designer can tell.** In a blind pick test the designer named 11 of 12 slides correctly (92%; 50% would mean they can't tell) and never mistook their own work for the AI's. The one slide that passed came from the casual run without the skill. The habit score passes every good run, so it can't rank good work; the pick test (`pick_test.py`) and blind judges do.
 - **Small samples.** Six slides a run, one to two judges, and the judges are models.
 - **The device finder** finds stickers, badges, mascots and ID cards; it misses UI-style devices such as chat bubbles. A near-match font is a near match, and small body text gets a shortlist of three.
 - **Not tested on real files yet:** pose, EXIF and video tools, a full personal writing archive, real Pakistani packs and Urdu print.

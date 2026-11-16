@@ -96,3 +96,5 @@ A skill is cheap to carry and its engines are cheap to use. This is the design, 
 | Tokens, calls, time | | 103k, 31, 7.3 min | 171k, 60, 16.1 min | 156k, 47, 12.4 min |
 
 The casual run scored highest. Both runs that followed the designer's strict rules looked more templated; the art-director judge named "outline step numerals, a STEP 0X kicker over a two-tone stacked headline, a mascot dropped in to fill space, crude dialog boxes". The skill's step 0 asked two questions (backdrop per slide type, what never appears), both already answered in the rules file; that is now fixed.
+
+**The designer's blind pick test.** 12 slides (six real held back, two from each condition), shuffled. The designer named 11 of 12 correctly (92%) and never took their own work for generated. The one generated slide that passed as real came from the casual run without the skill; none from the two rule-following runs did.
