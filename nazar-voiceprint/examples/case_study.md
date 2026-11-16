@@ -33,7 +33,7 @@ References: <two or three real slides>. Match their feel, not their words.
 Briefs: 1) <...> 2) <...> 3) <...> 4) <...>
 ```
 
-Run it twice: once with the kit (the pattern file, the exact-assets rule, the engines), and once with a fresh agent that has the same prompt and no kit.
+Run it with fresh agents, never the one that built the pattern: once with the expert prompt and no skill, and once with the skill installed and a task worded the way a person would (name the kits that matter, put the checking and QA inside the task, leave the rest to Claude). A casual prompt is a third, optional control.
 
 ## 4. Check the slides, in order
 ```
@@ -46,6 +46,6 @@ Build the pattern with the exact asset files so the palette is theirs: `python n
 
 ## 5. Read it honestly
 - Held-out score against the in-sample score: do the habits generalise?
-- Kit run against no-kit run: say what the gap is made of. If it is one check (say, the canvas), that is what the kit added.
+- Skill run against no-skill run: say what the gap is made of. If the habit checks tie, look at what the checks caught that the prompt could not see (for example contrast on the colour actually used).
 - Look at the slides. The score is habits, not quality.
 - Log every failure in the kit's `LESSONS.md` and patch the kit with the owner's okay (`nazar-core/references/improve.md`).
