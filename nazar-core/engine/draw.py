@@ -2,7 +2,8 @@
 """
 nazar-core/engine/draw.py: the Pillow helpers every brand-slide job re-writes, tested once (see test_draw.py).
 
-  from draw import Canvas, font, ink_text, wrap, card, bubble, ticket, star, wobble_line, ring, arrow, strike, pill, dashed, cutout
+  from draw import Canvas, font, ink_text, wrap, card, bubble, ticket, star, wobble_line, ring, arrow, strike, pill, dashed, cutout,
+                  alert_dialog, line_chart, tilt_paste
   cv = Canvas(1080, 1350, "#F4EFE6")                 # drawn at 2x, saved at 1x: smooth edges
   f = font("Anton-Regular.ttf", 96)                  # pass a size in 1x pixels
   ink_text(cv, 80, 120, "Headline", f, "#111")       # the INK's left edge sits at x=80, not the glyph box
@@ -243,6 +244,59 @@ def pill(cv, xy, text, f, fill="black", fg="white", arrow_glyph=True, padx=34, p
         _stroke(cv, [(ax, ay), (ax + ln, ay)], fg, max(3, f.size / S / 12))
         _stroke(cv, [(ax + ln - 10, ay - 9), (ax + ln, ay), (ax + ln - 10, ay + 9)], fg, max(3, f.size / S / 12))
     return (x, y, x + w, y + h)
+
+
+def alert_dialog(cv, box, title, body, f_title, f_body, buttons=("OK",), accent="#1F6FEB", fill="white", ink="#111"):
+    """An OS-style alert window: title bar with three tiny controls, a warning triangle, body text and outlined buttons."""
+    x0, y0, x1, y1 = box
+    card(cv, box, r=10, fill=fill, outline=ink, width=3)
+    bar = (x0, y0, x1, y0 + 46)
+    cv.d.rounded_rectangle(_b(bar), 10 * S, fill=accent)
+    ink_text(cv, x0 + 16, y0 + 8, title, f_title, "white")
+    for i in range(3):
+        bx = x1 - 22 - i * 24
+        cv.d.rectangle(_b((bx - 8, y0 + 15, bx + 8, y0 + 31)), fill="white")
+    tx, ty = x0 + 30, y0 + 78
+    cv.d.polygon([(tx * S, (ty + 44) * S), ((tx + 24) * S, ty * S), ((tx + 48) * S, (ty + 44) * S)], fill="#F5C518", outline=ink)
+    ink_text(cv, tx + 20, ty + 14, "!", f_title, ink)
+    yb = ink_para(cv, x0 + 100, y0 + 70, body, f_body, ink, x1 - x0 - 130)
+    bx = x1 - 30
+    for label in reversed(buttons):
+        w = ink_box(label, f_body)[2] + 44
+        card(cv, (bx - w, y1 - 70, bx, y1 - 24), r=6, fill=fill, outline=ink, width=3, shadow=False)
+        ink_text(cv, bx - w + 22, y1 - 62, label, f_body, ink)
+        bx -= w + 16
+    return tuple(box)
+
+
+def line_chart(cv, box, pts, color="black", width=5, axes=True, amp=2.0, seed=3):
+    """A hand-drawn line chart: L-shaped axes and a wobbly line through pts, a list of (x, y) in 0..1 (y up)."""
+    x0, y0, x1, y1 = box
+    if axes:
+        wobble_line(cv, (x0, y0), (x0, y1), color, max(2, width - 2), amp=1.5, seed=seed)
+        wobble_line(cv, (x0, y1), (x1, y1), color, max(2, width - 2), amp=1.5, seed=seed + 1)
+    P = [(x0 + px * (x1 - x0), y1 - py * (y1 - y0)) for px, py in pts]
+    for i, (a, b) in enumerate(zip(P, P[1:])):
+        wobble_line(cv, a, b, color, width, amp=amp, seed=seed + 5 + i)
+    return tuple(box)
+
+
+def tilt_paste(cv, layer, x, y, angle, key=(255, 0, 255), shadow=True):
+    """Paste a layer rotated by `angle` degrees, centred at (x, y). Draw the layer as a Canvas whose bg is the key colour
+    (default magenta) with shadow=False on its elements; the shadow is added here, under the rotated shape."""
+    from PIL import ImageChops
+    im = layer.img.convert("RGB")
+    mask = ImageChops.difference(im, Image.new("RGB", im.size, key)).convert("L").point(lambda v: 255 if v > 24 else 0)
+    rgba = im.convert("RGBA"); rgba.putalpha(mask)
+    rot = rgba.rotate(angle, expand=True, resample=Image.BICUBIC)
+    px, py = round(x * S - rot.width / 2), round(y * S - rot.height / 2)
+    if shadow:
+        sh = Image.new("RGBA", rot.size, (0, 0, 0, 0))
+        sh.putalpha(rot.getchannel("A").filter(ImageFilter.GaussianBlur(12 * S)).point(lambda v: int(v * 0.28)))
+        cv.img.paste(sh, (px, py + 10 * S), sh)
+    cv.img.paste(rot, (px, py), rot)
+    cv.refresh()
+    return (px / S, py / S, (px + rot.width) / S, (py + rot.height) / S)
 
 
 def cutout(cv, kind, art_path, x, y, height):

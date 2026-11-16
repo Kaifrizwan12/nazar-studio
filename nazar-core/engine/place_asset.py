@@ -36,7 +36,7 @@ def backdrop(src, out, ratio):
         new_w = round(target_h * rw / rh)
         res = big.crop((big.width - new_w, 0, big.width, target_h))
         note = (f"WARNING: {w}x{h} is too small for {ratio}: upscaled {scale:.2f}x (uniform) and side-cropped. "
-                "That is resampling: label it, and ask for the original 4:5 file")
+                "That is resampling: label it, and ask for the original 4:5 file (or use a taller story-size backdrop, cropped, if it has no baked-in text)")
     res.save(out); print(f"{out}: {res.size[0]}x{res.size[1]}  {note}")
 
 

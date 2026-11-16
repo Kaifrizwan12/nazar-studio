@@ -82,7 +82,8 @@ if __name__ == "__main__":
         for lvl, msg in r["findings"] or [("ok", "no measurable faults")]:
             print(f"   [{lvl}] {msg}")
     # detail crops at 100%: the whole-slide views hide fine faults (a strike-through that slants off its text, a clipped edge)
-    crops = os.path.join(folder, "qa_detail")
+    _o = sys.argv[2] if len(sys.argv) > 2 else os.path.join(folder, "qa_sheet.jpg")
+    crops = os.path.join(_o if os.path.isdir(_o) else os.path.dirname(os.path.abspath(_o)), "qa_detail")      # next to the sheet, never inside the slides folder
     os.makedirs(crops, exist_ok=True)
     for f in files:
         im = Image.open(f).convert("RGB"); w, h = im.size

@@ -42,7 +42,8 @@ def accent_text(im, pat):
         return None
     # accent TYPE is a wide, short line of letters; a mascot or logo in the same blue is a compact blob: keep only text-like lines
     boxes = [b for b in layout.components(layout.dilate_x(mask, 10))
-             if (b[2] - b[0]) >= 2.2 * (b[3] - b[1]) and (b[3] - b[1]) < 0.2 * t.height and (b[2] - b[0]) > 0.08 * t.width]
+             if (b[2] - b[0]) >= 2.2 * (b[3] - b[1]) and (b[3] - b[1]) < 0.2 * t.height and (b[2] - b[0]) > 0.08 * t.width
+             and mask[b[1]:b[3], b[0]:b[2]].mean() < 0.7]     # a solid block (a chat bubble, a pill) is a shape, not type
     keep = np.zeros_like(mask)
     for x0, y0, x1, y1, _ in boxes:
         keep[y0:y1, x0:x1] = mask[y0:y1, x0:x1]

@@ -235,15 +235,16 @@ def build(folder, assets=()):
             if r_:
                 flat_rows.append(r_)
     pat["fit"] = fit_stats(flat_rows)
-    vecs = []
+    vecs, names = [], []
     for f in files:
         im_ = Image.open(f).convert("RGB")
         if not is_photo(im_):
             v_ = typ_vector(im_, acc)
             if v_ is not None:
-                vecs.append(v_)
+                vecs.append(v_); names.append(os.path.basename(f))
     if len(vecs) >= 8:
         pat["typ"] = typ_stats(vecs)
+        pat["typ"]["names"] = names
     return pat
 
 
