@@ -7,6 +7,14 @@ description: Shared foundation for every Nazar Studio kit (brand book, strategy,
 
 Every `nazar-*` kit builds on this folder. Read it first, every time.
 
+## Fast path for a brand-asset job (social slides, posts, banners)
+Two commands replace about ten, so a job reads less and calls less:
+```
+python nazar-core/engine/studio.py learn <their finished pieces folder> <out folder> [exact backdrop and logo files...]
+python nazar-core/engine/studio.py check <your slides folder> <copy.json> <out folder>/pattern.json [sheet.jpg]
+```
+`learn` measures the archive (format, grounds, palette, accent, layout), writes the pattern and a prompt block. `check` runs contrast (on the accent type actually used), language, layout, copy lint, the pattern score and the QA measurements, and writes the QA sheet. `copy.json` is `{"slide.png": "all its text"}`. Then look at the sheet: concept and hierarchy are yours. The font question is `nazar-type/engine/font_match.py`.
+
 ## The studio rules (all kits)
 0. **The user's prompt leads.** Kits are add-ons: pull the pieces that serve the request (a rule, a checklist, an engine), skip the rest, and never let a kit's workflow override what was asked. If a kit and the prompt disagree, follow the prompt and mention the trade-off in one line.
 1. **Read `references/kaif.md`.** It covers who Kaif is, his taste, how he reviews, what he rejects, and the risks to flag.
