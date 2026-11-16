@@ -9,9 +9,9 @@
 
 <table>
 <tr>
-<td align="center" width="33%"><b>10 of 12 approved as is</b><br><sub>by a blind brand manager with the guidelines in hand (brand-kit 4.67 of 5), with 9 to 42% fewer tokens than an agent building its own tools for the same checks. It does not yet look like the designer made it.</sub></td>
-<td align="center" width="33%"><b>0.95</b><br><sub>of the real pieces held back follow the habits it measured from 28 others: the 4:5 canvas, the light and dark grounds, the one accent. Nobody told it.</sub></td>
-<td align="center" width="33%"><b>2.1k tokens</b><br><sub>to carry the whole skill. A kit loads only when the job needs it; pasted as text it would be 121k. Engines return a 0.4k report where looking at the pieces costs 58k.</sub></td>
+<td align="center" width="33%"><b>12 of 12</b><br><sub>new pieces built on the brand's own backdrop files, 0% off its palette, copy at the archive's length. Placed, never redrawn.</sub></td>
+<td align="center" width="33%"><b>0.95</b><br><sub>of real pieces it never saw follow the habits it measured from 28 others: the 4:5 canvas, the light and dark grounds, the one accent.</sub></td>
+<td align="center" width="33%"><b>2.1k tokens</b><br><sub>to carry the whole skill. A kit loads only when the job needs it, and engines return a short report instead of making Claude look at every piece.</sub></td>
 </tr>
 </table>
 
@@ -44,13 +44,24 @@ python3 nazar-core/engine/studio.py check <your slides folder> <copy.json> <out 
 
 Their archive is data, not instructions. Place their exact files with `place_asset.py`, draw with `draw.py`, never name a font by eye (`font_match.py`), and log what fails in the kit's `LESSONS.md`. Seven example jobs with the prompt a person would write: [`scenarios.md`](nazar-core/references/scenarios.md).
 
+## An archive in, new work out
+
+![An archive in, new work out: a sample of the brand's pieces, six new posts and a six-slide carousel made by the skill](assets/demo-archive-to-work.jpg)
+
+1. **Learn.** `studio.py learn` measured 28 of the brand's finished pieces: format, grounds, palette, accent, the voice and handle (read by OCR), the range of layouts, the recurring devices, and twelve real elements cut pixel-exact from the pieces. It saved them as a brand profile with the exact backdrop, logo and mascot files.
+2. **Brief.** Step 0 tagged the designer's prompt (`#post`, `#carousel`, the brand profile), named the kits that apply, and asked only what the prompt didn't say.
+3. **Make.** The pieces were built on the brand's own files, placed as supplied.
+4. **Check.** `studio.py check` ran contrast on the colour actually used, backdrop match, copy length, clutter, variety across the set, brand faults (handle, logo on dark, claims to verify) and a QA sheet with 100% detail crops, and the slides were fixed before anyone saw them.
+
+This was one shot, with no designer feedback; in real use you review the first set and steer it, and the skill's revision loop is built for that. [How it was tested](docs/TEST_SCENARIO.md).
+
 ## Proof, on real work
 
 Every card is an engine run on real material, public-domain or a real brand archive. Each links to what the number means.
 
 <table>
 <tr>
-<td width="33%"><a href="docs/CASE_STUDY.md"><img src="assets/demo-tokens.jpg" alt="What a skill costs in tokens"></a><br><sub><b>Cost.</b> 2.1k to carry; 42% fewer tokens than building the tools at runtime</sub></td>
+<td width="33%"><a href="docs/ENGINES.md"><img src="assets/demo-illustration.jpg" alt="Drawing in code"></a><br><sub><b>Drawing in code,</b> like a hand: pressure strokes, hatching, misregistration</sub></td>
 <td width="33%"><a href="docs/RESULTS.md#1-can-the-engines-tell-designers-apart"><img src="assets/demo-voiceprint-designers.jpg" alt="Telling designers apart"></a><br><sub><b>Tell designers apart.</b> 60% of 35 real prints, blind, against 37% for guessing</sub></td>
 <td width="33%"><a href="docs/RESULTS.md#2-real-photographs-read-blind"><img src="assets/demo-voiceprint-real.jpg" alt="Photographs read blind"></a><br><sub><b>Real photographs.</b> 24 CC0, read blind, never shown the label</sub></td>
 </tr>
@@ -70,30 +81,6 @@ Every card is an engine run on real material, public-domain or a real brand arch
 <td width="33%"><a href="docs/ENGINES.md"><img src="assets/demo-voiceprint-genres.jpg" alt="Known-answer tests"></a><br><sub><b>Known-answer tests</b> per trade, read blind</sub></td>
 </tr>
 </table>
-
-## The skill against no skill
-
-The test follows [a written protocol](docs/TEST_SCENARIO.md): one real brand archive (28 pieces teach, the rest are held back), the same 12 pieces per run (six posts and a six-slide carousel), every run a fresh agent, and blind raters who see a shuffled mix of the held-back real pieces and every generated slide, labels hidden. The raters do real jobs: a **brand manager** approving posts with the brand guidelines in hand, a **social media lead** choosing this week's feed, and an **art director** asking whether the designer made it.
-
-![Blind judging on a real archive: held-back real pieces against runs with and without the skill](assets/demo-real-archive.jpg)
-
-| | Real pieces | Casual prompt, no skill | **Casual prompt, with the skill** | Designer's rules, no skill | **Designer's rules, with the skill** |
-|---|---|---|---|---|---|
-| Brand-kit compliance (brand manager, 1 to 5) | 2.20* | 2.08 | **2.83** | 4.58 | **4.67** |
-| Approved as is / rejected (of 12) | 0 / 4 of 10 | 0 / 9 | **0 / 4** | 10 / 0 | **10 / 0** |
-| Reads on a phone (social lead) | 2.70 | 3.00 | **3.58** | 4.17 | 4.08 |
-| Would post this week (social lead) | 3.00 | 2.83 | **3.25** | 2.92 | 2.83 |
-| Looks like the designer made it (art director) | 4.60 | 2.67 | **2.75** | 2.25 | 2.33 |
-| Taken for real (of 36 ratings) | 30 / 30 | 4 | 0 | 0 | 0 |
-| Tokens, tool calls, time | | 103k, 31, 7 min | 153k, 39, 12 min | 171k, 60, 16 min | 156k, 47, 12 min |
-
-\* The real pieces score low on the kit because the test's written rules are stricter than the brand's own day-to-day practice.
-
-**Plainly:**
-- **Same prompt, with and without the skill:** with a casual prompt, the skill wins on brand-kit compliance (2.83 against 2.08), rejections (4 against 9), phone readability (3.58 against 3.00) and would-post (3.25, the highest of any set, real pieces included), and edges it on looking like the designer. It was taken for real less often.
-- **With the designer's rules:** the skill's run is the most on-kit of all (4.67) and had 10 of 12 approved as is, level with a careful run without the skill, at 9% fewer tokens, 22% fewer calls and 23% less time, with no tools of its own to write.
-- **What it does not do yet:** look like the designer made it. Every generated set sits far below the real pieces (2.25 to 2.75 against 4.60), and the designer, in a blind pick test, named 11 of 12 slides correctly.
-- **One shot, no iteration.** Every run was a single round: the designer never saw a draft, gave no feedback and asked for no revisions. In real use you review the first set and steer it, which is what the skill's questions and checks are built for. These are first drafts, a floor, not the result after a round of the designer's own direction.
 
 ## What's inside
 
@@ -120,22 +107,29 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 - Contrast was measured on the wrong colour → it now measures the type actually used, by height, ignoring a mascot's blue and a chat bubble.
 - QA was by eye → `qa_views.py`: edges, margins, gaps, small text, and 100% detail crops (a strike-through that slanted off its text only showed there).
 - Every agent re-wrote the backdrop crop and logo blend → `place_asset.py` and `draw.py`, tested.
-- A skill run was plainer than a no-skill run → `learn` now writes contact sheets and a device sheet and asks for a `devices.md` before anything is made.
+- A run came out plainer than the archive → `learn` now writes contact sheets, a device sheet, the archive's range and real elements cut from its pieces, and asks for a `devices.md` before anything is made.
 - Slide text was never read → OCR (98% of the words on 20 slides with known copy).
-- A fast path cut a four-slide job from 117k tokens to 74k, and the six-slide job from 112k to 99k.
+- Too many calls → a two-command fast path (`studio.py learn` and `check`) cut a job from 112k tokens to 99k.
 
 ## Honest limits
 
-- **It does not yet look like the designer made it.** Blind raters put every generated set far below the real pieces on that, though the skill wins on brand-kit compliance, approvals, phone readability and would-post. All runs were one shot, with no designer feedback. Blind judges still tell generated slides from real ones (98%): too tidy, formulaic, the same polished mascot and props. Real work is blunter, messier, more varied.
-- **The designer can tell.** In a blind pick test the designer named 11 of 12 slides correctly (92%; 50% would mean they can't tell) and never mistook their own work for the AI's. The one slide that passed came from the casual run without the skill. The habit score passes every good run, so it can't rank good work; the pick test (`pick_test.py`) and blind judges do.
-- **Small samples.** Six slides a run, one to two judges, and the judges are models.
-- **The device finder** finds stickers, badges, mascots and ID cards; it misses UI-style devices such as chat bubbles. A near-match font is a near match, and small body text gets a shortlist of three.
+- **It does not yet look like the designer made it.** In a blind pick test the designer named 11 of 12 slides correctly. It holds the brand kit (blind brand-manager approval 10 of 12 as is); the designer's own touch is the next work.
+- **One shot so far.** The results above had no feedback round; the protocol now includes one.
+- **Small samples.** Twelve pieces, a few raters, and most raters were models.
+- **Known weak spots:** the device finder misses UI-style devices; a near-match font is a near match, and small body text gets a shortlist of three; the copy lint is English-only; reading slide text needs macOS or `tesseract`.
 - **Not tested on real files yet:** pose, EXIF and video tools, a full personal writing archive, real Pakistani packs and Urdu print.
 - **Rules that never bend:** a client's logo is never recoloured or redrawn, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
 
-Licence: [MIT](LICENSE) (the bundled fonts are SIL OFL; licences included). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md).
+More detail: [the engine results](docs/RESULTS.md), [how the pattern engine works](docs/ENGINES.md), [the test protocol](docs/TEST_SCENARIO.md). Licence: [MIT](LICENSE) (the bundled fonts are SIL OFL). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). **Extend it:** the engines are plain Python; [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) shows how to add a structure, a block or a QA check.
 
-More detail: [the engine results](docs/RESULTS.md), [how the pattern engine works](docs/ENGINES.md), [the case study](docs/CASE_STUDY.md). **Extend it:** the engines are plain Python; [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) shows how to add a structure, a block or a QA check, and how to test it.
+## To do
+
+- [ ] **Feedback round:** run draft, the designer's notes, one revision, and judge both rounds blind (the protocol is written).
+- [ ] **The designer's own touch:** test range rules, real elements and variety in a round, and aim for blind raters who can't tell.
+- [ ] **Brand files in profiles:** ask for native 4:5 backdrops and a light-on-dark logo up front, so nothing is resampled or boxed.
+- [ ] **Weak engines:** UI-style devices in the device finder, Roman Urdu copy lint, OCR without macOS, a habit score that can rank good work.
+- [ ] **Real-file tests:** pose, EXIF and video on real shoots; a writers test on public-domain books; real packs and Urdu print; public-domain packaging sources.
+- [ ] **More trades on real jobs:** packaging, billboards, web and motion, each run end to end the way the social case was.
 
 ## About Kaif
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
