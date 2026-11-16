@@ -37,6 +37,9 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 | `templates/research_log.md` | Research log format |
 | `templates/brand.json` | Engine config template |
 | `engine/` | The renderer: outlined type (harfbuzz, RTL-safe), exact logos, OSM maps, PNG + PDF + contact sheet |
+| `engine/chain_check.py` | Run the engines in order on finished slides: colour (the accent type actually used, against its own ground), language, layout, copy lint, pattern score |
+| `engine/qa_views.py` | The QA's measurable methods as a tool: sheet (full, squint, phone size), left edges, margins, headline-to-subline gaps, smallest text at phone width |
+| `references/scenarios.md` | Seven scenarios, each with the prompt a real person writes, which kits run, and what is tested |
 | `engine/trace.py` | Sketch → vector: hand drawings and lettering to clean Bézier SVG (variants, compare sheet, multi-tone `--levels`) for logos and package art |
 
 ## Which kit for which job

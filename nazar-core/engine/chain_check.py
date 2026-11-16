@@ -19,8 +19,49 @@ for p in ("nazar-colour/engine", "nazar-voiceprint/engine", "nazar-social/engine
     sys.path.insert(0, os.path.join(ROOT, p))
 import palette_check as pc, analyze, layout, social_lint, score_pattern  # noqa: E402
 
-folder, copyf, patf = sys.argv[1], sys.argv[2], sys.argv[3]
+if len(sys.argv) < 4 or sys.argv[1] in ('-h', '--help'):
+    sys.exit(__doc__)
+folder, copyf, patf = [os.path.abspath(a) for a in sys.argv[1:4]]
+for f_ in (copyf, patf):
+    if not os.path.isfile(f_):
+        sys.exit(f'missing file: {f_} (the copy.json is {{"slide.png": "all its text"}}; build pattern.json with score_pattern.py --build)')
 copy = json.load(open(copyf)); pat = json.load(open(patf))
+def accent_text(im, pat):
+    """Contrast of the colour actually used for accent type against the ground right beside it.
+    Finds strongly coloured pixels in the accent's hue (darker or lighter variants included), then compares them with
+    the ring of ground around them, in three vertical bands because a backdrop gradient changes under the type.
+    Returns (worst contrast, accent_hex_used, the ground it was worst on) or None when the slide has no accent type."""
+    t = im.resize((300, max(1, int(300 * im.height / im.width))))
+    rgb = np.asarray(t, float) / 255.0
+    lab = score_pattern.srgb_to_oklab(rgb.reshape(-1, 3)).reshape(t.height, t.width, 3)
+    ref = score_pattern.lab_of_hex([pat["accent"]])[0]
+    hue = np.arctan2(lab[..., 2], lab[..., 1]); ref_h = np.arctan2(ref[2], ref[1])
+    dh = np.abs((hue - ref_h + np.pi) % (2 * np.pi) - np.pi)
+    mask = (np.hypot(lab[..., 1], lab[..., 2]) > 0.12) & (dh < np.radians(25))
+    if mask.sum() < 40:
+        return None
+    grown = mask.copy()
+    for dy in range(-6, 7):
+        for dx in range(-6, 7):
+            grown |= np.roll(np.roll(mask, dy, 0), dx, 1)
+    inner = mask.copy()
+    for dy in range(-2, 3):
+        for dx in range(-2, 3):
+            inner |= np.roll(np.roll(mask, dy, 0), dx, 1)
+    ring = grown & ~inner
+    ys, xs = np.where(mask); y0, y1 = ys.min(), ys.max() + 1
+    best, used, worst_ground = 99.0, np.median(rgb[mask], 0), None
+    for k in range(3):
+        a, b = y0 + (y1 - y0) * k // 3, y0 + (y1 - y0) * (k + 1) // 3
+        m, r = mask[a:b], ring[a:b]
+        if m.sum() < 20 or r.sum() < 20:
+            continue
+        g = np.median(rgb[a:b][r], 0); cr = pc.contrast(np.median(rgb[a:b][m], 0), g)
+        if cr < best:
+            best, worst_ground = cr, g
+    return (best, pc.hexof(used), worst_ground * 255) if best < 99 else None
+
+
 def suggest_accent(acc_hex, ground_rgb, target=3.0):
     """Same hue and chroma, lower lightness, until the accent reaches `target`:1 on this ground. A suggestion for
     NEW type only: a client's logo and supplied artwork are never recoloured."""
@@ -37,6 +78,7 @@ out=[]
 refs={"grounds":score_pattern.lab_of_hex(pat["grounds"]),"accent":score_pattern.lab_of_hex([pat["accent"]]),"swatches":score_pattern.lab_of_hex(pat["swatches"]+pat.get("asset_swatches",[])+pat["grounds"]+[pat["accent"]])}
 for f in sorted(glob.glob(folder + '/*.png')):
     name=os.path.basename(f); im=Image.open(f).convert('RGB'); text=copy.get(name,'')
+    if not text: print(f'warning: no text for {name} in copy.json, language and lint are empty', file=sys.stderr)
     a=np.asarray(im.resize((64,64)),float)
     band=np.concatenate([a[:3].reshape(-1,3),a[-3:].reshape(-1,3)])  # top and bottom bands
     top=np.median(a[:3].reshape(-1,3),0); bot=np.median(a[-3:].reshape(-1,3),0)
@@ -45,7 +87,8 @@ for f in sorted(glob.glob(folder + '/*.png')):
     ink=np.asarray(im.resize((256,256)),float).reshape(-1,3)
     dark=ink[ink.sum(1).argmin()]; light=ink[ink.sum(1).argmax()]
     cr_text=max(pc.contrast(dark/255,mid/255),pc.contrast(light/255,mid/255))
-    cr_acc=pc.contrast(np.array(hexrgb(pat['accent']))/255,mid/255)
+    at = accent_text(im, pat)
+    cr_acc = at[0] if at else None
     # 2 language
     toks=analyze.tokenize(text); hi=analyze.hi_ur_profile(toks) if toks else {}
     # 3 layout
@@ -53,8 +96,8 @@ for f in sorted(glob.glob(folder + '/*.png')):
     # 4 lint + 5 score
     lint=social_lint.lint(text) if text else {"hits":[]}
     sc=score_pattern.score(f,pat,refs)
-    sug = suggest_accent(pat["accent"], mid) if cr_acc < 3.0 else None
-    out.append({"file":name,"suggest":sug,"size":list(im.size),"text_contrast":round(cr_text,1),"accent_on_ground":round(cr_acc,1),
+    sug = suggest_accent(at[1], at[2]) if at and cr_acc < 3.0 else None
+    out.append({"file":name,"suggest":sug,"size":list(im.size),"text_contrast":round(cr_text,1),"accent_on_ground":round(cr_acc,1) if cr_acc else None,"accent_used":at[1] if at else None,
                 "roman_urdu_share":hi.get("share_of_text_matched"),"words":len(toks),
                 "layout":layout.reading(lay)[:2] if lay else None,"lint":[h[1] for h in lint["hits"]],
                 "score":sc["score"],"checks":sc["checks"]})
@@ -65,6 +108,6 @@ else:
         fails = [k for k, v in r["checks"].items() if not v]
         acc = r["accent_on_ground"]
         print(f"{r['file']}  {r['size'][0]}x{r['size'][1]}  score {r['score']:.1f}" + (f"  FAILS: {', '.join(fails)}" if fails else "  all pattern checks pass"))
-        print(f"   text {r['text_contrast']}:1 {'ok' if r['text_contrast'] >= 4.5 else 'LOW'} | accent on ground {acc}:1 "
-              + ("ok for any size" if acc >= 4.5 else "large type only (24px+, or 18.7px bold)" if acc >= 3 else f"FAILS: below 3:1, even large type. For new type, {r.get('suggest') or 'a darker accent'} reaches 3:1 on this ground"))
+        print(f"   text {r['text_contrast']}:1 {'ok' if r['text_contrast'] >= 4.5 else 'LOW'} | accent type {r.get('accent_used')} on its ground {acc}:1 "
+              + ("no accent type on this slide" if acc is None else "ok for any size" if acc >= 4.5 else "large type only (24px+, or 18.7px bold)" if acc >= 3 else f"FAILS: below 3:1, even large type. For new type, {r.get('suggest') or 'a darker accent'} reaches 3:1 on this ground"))
         print(f"   Hindustani words {r['roman_urdu_share']} | words {r['words']} | lint {r['lint'] or 'clean'} | layout {r['layout']}")

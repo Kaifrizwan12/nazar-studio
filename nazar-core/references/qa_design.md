@@ -3,6 +3,8 @@
 QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks** (what to look for), run on every page and then on the whole book. Kaif reviews by page number and catches alignment, gaps and clutter, so catch them first.
 
 ## A. Methods: look at each page in all these ways
+*Run `engine/qa_views.py slides/` first: it builds the squint, greyscale and phone-size sheet and measures edges, margins, gaps and small text. Then look at the sheet; hierarchy and concept are yours to judge.*
+
 | Method | How | Catches |
 |---|---|---|
 | **Fresh build first** | Delete the old output, rebuild, confirm the build exited cleanly and the file's timestamp is new, then look | Reviewing a stale file after a failed build and calling it fixed |

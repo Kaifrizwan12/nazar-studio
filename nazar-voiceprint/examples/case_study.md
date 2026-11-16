@@ -37,9 +37,12 @@ Run it twice: once with the kit (the pattern file, the exact-assets rule, the en
 
 ## 4. Check the slides, in order
 ```
-python nazar-core/engine/chain_check.py slides/ copy.json pattern.json
+python nazar-core/engine/chain_check.py slides/ copy.json pattern.json   # copy.json: {"slide.png": "all its text"}
+python nazar-core/engine/qa_views.py slides/ sheet.jpg                   # sheet + edges, margins, gaps, small text
 ```
-Colour contrast of text and accent, Hindustani share of the copy, layout, copy lint, and the pattern score (shape, ground, palette, accent, no device the archive never uses). Photo-led posts are scored on shape only.
+The chain: contrast of the text and of the accent type actually used on its own ground, Hindustani share of the copy, layout, copy lint, and the pattern score (shape, ground, palette, accent, no device the archive never uses). Photo-led posts are scored on shape only. Then look at the QA sheet yourself: hierarchy and concept are yours to judge.
+
+Build the pattern with the exact asset files so the palette is theirs: `python nazar-voiceprint/engine/score_pattern.py --build train/ pattern.json backdrop1.jpg backdrop2.jpg`.
 
 ## 5. Read it honestly
 - Held-out score against the in-sample score: do the habits generalise?

@@ -2,7 +2,7 @@
 """
 nazar-voiceprint/engine/score_pattern.py: does a folder of pieces follow a visual pattern?
 
-Takes a small pattern file (what the visual layers measured) and scores each piece on four
+Takes a small pattern file (what the visual layers measured) and scores each piece on five
 checks that can be measured from pixels:
   format    the canvas has the pattern's shape (ratio within 1%: 4:5 stays 4:5 at any pixel size)
   ground    the outer band of the canvas is one of the pattern's grounds (OKLab distance < 0.10)
@@ -168,6 +168,8 @@ def run(pat, folder):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+        sys.exit(__doc__)
     if sys.argv[1] == "--prompt":
         print(prompt_block(json.load(open(sys.argv[2])))); sys.exit()
     if sys.argv[1] == "--build":

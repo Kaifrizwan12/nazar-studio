@@ -29,6 +29,7 @@ DIRS = ["/System/Library/Fonts", "/System/Library/Fonts/Supplemental", "/Library
         os.path.expanduser("~/Library/Fonts"), "/usr/share/fonts", os.path.join(HERE, "..", "..", "nazar-core", "engine", "fonts")]
 EXTS = (".ttf", ".otf", ".ttc")
 N = 192
+COARSE_N, COARSE_SIZE = 64, 90
 
 
 def ink_mask(im):
@@ -43,9 +44,9 @@ def ink_mask(im):
     return m[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
 
 
-def render(text, path, index):
+def render(text, path, index, size=220):
     try:
-        f = ImageFont.truetype(path, 220, index=index)
+        f = ImageFont.truetype(path, size, index=index)
         l, t, r, b = f.getbbox(text)
         if r - l < 20 or b - t < 20:
             return None
@@ -76,35 +77,48 @@ def candidates(extra):
 
 
 def match(crop_path, text, extra=(), top=8):
+    """Two passes: every face is drawn small and ranked coarsely, then the best 40 are redrawn at full size and scored."""
     target = ink_mask(Image.open(crop_path))
     t_ar = target.shape[1] / target.shape[0]
-    tf = fit(target)
-    rows = []
+    tc = np.asarray(Image.fromarray((target * 255).astype("uint8")).resize((COARSE_N, COARSE_N), Image.BILINEAR)) > 128
+    coarse = []
     for p in candidates(extra):
         idx = 0
         while idx < 24:
-            r = render(text, p, idx)
+            r = render(text, p, idx, COARSE_SIZE)
             if r is None:
                 break
             f, m = r
             ar = m.shape[1] / m.shape[0]
-            g = fit(m)
-            iou = float((g & tf).sum() / max((g | tf).sum(), 1))
-            pen = float(np.exp(-3 * abs(np.log(ar / t_ar))))
-            try:
-                name = " ".join(f.getname())
-            except Exception:
-                name = os.path.basename(p)
-            rows.append((iou * pen, iou, ar / t_ar, name, os.path.basename(p)))
+            g = np.asarray(Image.fromarray((m * 255).astype("uint8")).resize((COARSE_N, COARSE_N), Image.BILINEAR)) > 128
+            iou = float((g & tc).sum() / max((g | tc).sum(), 1))
+            coarse.append((iou * float(np.exp(-3 * abs(np.log(ar / t_ar)))), p, idx))
             idx += 1
             if not p.lower().endswith(".ttc"):
                 break
+    coarse.sort(reverse=True)
+    tf = fit(target)
+    rows = []
+    for _, p, idx in coarse[:40]:
+        r = render(text, p, idx)
+        if r is None:
+            continue
+        f, m = r
+        ar = m.shape[1] / m.shape[0]
+        g = fit(m)
+        iou = float((g & tf).sum() / max((g | tf).sum(), 1))
+        pen = float(np.exp(-3 * abs(np.log(ar / t_ar))))
+        try:
+            name = " ".join(f.getname())
+        except Exception:
+            name = os.path.basename(p)
+        rows.append((iou * pen, iou, ar / t_ar, name, os.path.basename(p)))
     rows.sort(reverse=True)
     uniq, seen = [], set()
     for r in rows:
         if r[3] not in seen:
             seen.add(r[3]); uniq.append(r)
-    return uniq[:top], len(rows)
+    return uniq[:top], len(coarse)
 
 
 def verdict(rows):
