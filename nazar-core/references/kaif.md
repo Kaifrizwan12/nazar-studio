@@ -72,7 +72,7 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 ## Observed while building and testing the skill (2026-11)
 - **Tests on real work, with the prompt shown.** He wants the test case and the prompt in the README, a fair control (a good human prompter, never a strawman), and results reported as they are, including the ones that don't flatter the kit.
 - **Exact files, never recreations.** Supplied backdrops, logos and mascots are placed as they are. Redrawn gradients, a re-cropped logo or invented devices read as AI-made to him.
-- **The maker's declaration counts.** Own work that is AI-assisted but directed and finished by him, and approved by the client, goes in. He has the rights to the YouthPerks archive and prefers face images stay out of the public repo.
+- **The maker's declaration counts.** Own work that is AI-assisted but directed and finished by him, and approved by the client, goes in. He has the rights to his client archives and prefers face images stay out of the public repo.
 - **Roman Urdu and English, short.** "Verify karo", "Har baar real deals". Plain instruction copy that could be any brand's is a miss.
 - **Simple and in order of importance.** Easy-to-read README, simple cards, one number with what it means, honest about gaps.
 - **He expects the skill to improve itself.** Every failure on a real job is logged in the kit's `LESSONS.md` and patched with his okay. He cares about the skill saving tokens by shipping built engines instead of making Claude write and research them at runtime.

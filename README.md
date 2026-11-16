@@ -6,7 +6,6 @@
 
 `17 kits` · `40 engines, about 8,100 lines of Python` · `103 research references, 218 sources` · `36 lessons logged from real runs`
 
-![A real brand archive: pieces held back, and new slides made without the skill, with a careful no-skill agent, and with the skill](assets/demo-real-archive.jpg)
 
 <table>
 <tr>
@@ -140,7 +139,7 @@ He runs **Nazar**, a Karachi studio that plans the street and the feed as one ca
 
 - **Real work over demos.** Kaif asks for the test case and the prompt to be shown, and wants the control to be a good human prompter, not a strawman. A result that doesn't hold up gets written down as it is.
 - **Exact files over recreations.** Backdrops and logos are placed as supplied. A recreated gradient or a redrawn logo is the quickest way a piece starts to look AI-made.
-- **The maker's word counts.** Work that is AI-assisted but directed, edited and finished by the designer, and approved by the client, is the designer's own. The pattern says so instead of hiding it. The case study's archive is Kaif's social work for YouthPerks, a Pakistani student-discount app.
+- **The maker's word counts.** Work that is AI-assisted but directed, edited and finished by the designer, and approved by the client, is the designer's own. The pattern says so instead of hiding it.
 - **Short and bilingual.** The voice is direct and mixes English with Roman Urdu: "Verify karo", "Pehle aap, phir baaki sab". Copy that could belong to any brand is cut.
 - **Plain, in order of importance.** Cards are simple, numbers come with what they mean, and the README says what didn't work.
 - **Engines over improvisation.** A skill should arrive with its tools built, so Claude runs them instead of inventing them mid-job. Every failure goes into the kit's `LESSONS.md`.

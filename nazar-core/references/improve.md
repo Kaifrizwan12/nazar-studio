@@ -33,7 +33,7 @@ Client names, brand names under NDA, contact details, unreleased copy, private a
 Ask whether `LESSONS.md` entries are theirs alone or worth sending back to the kit's author. Never send them without a yes.
 
 ## Run it as a loop on a real archive
-This is the loop the YouthPerks case study in the README ran, and the one to repeat on any job:
+This is the loop the case study in the README ran, and the one to repeat on any job:
 1. **Directions.** The person says what to reference, what to follow and what to avoid, in the words they would really use (exact files to place, what never to redraw, faces, tone, what must not look AI-made).
 2. **Measure.** Build the pattern from part of their work (`nazar-voiceprint/engine/portfolio.py`, then `score_pattern.py --build`). Hold the rest back. Never let held-back pieces into the pattern.
 3. **Make.** Run the brief with the kit, and (for a fair test) give a fresh agent the same directions with no kit.

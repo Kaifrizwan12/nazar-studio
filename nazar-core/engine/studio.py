@@ -7,7 +7,9 @@ nazar-core/engine/studio.py: the fast path. Two commands cover a brand-asset job
           writes out_folder/pattern.json, prompt.md and contact sheets, and prints: the measured habits
           (format, grounds, palette, accent, layout), the held-in score, the archive's own voice (handle, length, language mix, recurring
           words, sample lines, read by OCR) and the prompt block to work from, with a reminder to look at the contact sheet for devices.
-  brief   enhance a casual prompt: name the job, the kits and engines that apply, the files and rules (no archive needed; costs almost nothing):
+  brief   enhance a prompt. Tagged prompts are best: "6 posts for @brand #post: ..." loads the saved brand profile (@) and only that job's kits and rules (#).
+          Save a profile once: `python tags.py brand save NAME <learn out folder>` and `tags.py brand assets NAME "logo=/p/l.jpg; ..."`.
+          Untagged: a casual prompt is classified by keywords: name the job, the kits and engines that apply, the files and rules (no archive needed; costs almost nothing):
               python studio.py brief "make 6 slides for my brand from /path/to/my/work, use /path/logo.png"
   nearest for ONE brief, find the archive's closest real pieces and their measured geometry, to adapt instead of inventing:
               python studio.py nearest out_folder "verified student: one ID check, no fake codes" [k]
@@ -142,6 +144,11 @@ def brief(prompt):
     """Enhance a casual prompt before the job: classify it, name the kits and engines that apply, list the files and rules, state the checks.
     Deterministic (keywords), so it costs almost no tokens. Show the result to the person in one block, ask only what is missing, then work."""
     import re
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import tags                                      # the skill tags the prompt itself (a person may also write #tags and @brand)
+    tg, nm, _ = tags.auto_tags(prompt)
+    if re.search(r"(?<!\w)#[A-Za-z]", prompt) or tg:
+        return tags.expand(prompt)
     paths = re.findall(r"(?:/[\w.\-@+]+){2,}", prompt)
     low = prompt.lower()
     for p in paths:
