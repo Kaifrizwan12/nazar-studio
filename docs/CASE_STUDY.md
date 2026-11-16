@@ -98,3 +98,19 @@ A skill is cheap to carry and its engines are cheap to use. This is the design, 
 The casual run scored highest. Both runs that followed the designer's strict rules looked more templated; the art-director judge named "outline step numerals, a STEP 0X kicker over a two-tone stacked headline, a mascot dropped in to fill space, crude dialog boxes". The skill's step 0 asked two questions (backdrop per slide type, what never appears), both already answered in the rules file; that is now fixed.
 
 **The designer's blind pick test.** 12 slides (six real held back, two from each condition), shuffled. The designer named 11 of 12 correctly (92%) and never took their own work for generated. The one generated slide that passed as real came from the casual run without the skill; none from the two rule-following runs did.
+
+## Real-world raters (all runs re-judged together)
+
+The designer felt the skill's runs were better on the brand kit than the art-director scores showed, so every slide (10 real held back, 12 from each of four runs) was re-judged blind by raters doing real jobs: a brand manager with the guidelines, a social media lead choosing the week's feed, and an art director.
+
+| | Real | Casual, no skill | Casual, with the skill | Rules, no skill | Rules, with the skill |
+|---|---|---|---|---|---|
+| Brand-kit compliance | 2.20 | 2.08 | 2.83 | 4.58 | 4.67 |
+| Approved as is / rejected | 0 / 4 of 10 | 0 / 9 | 0 / 4 | 10 / 0 | 10 / 0 |
+| Reads on a phone | 2.70 | 3.00 | 3.58 | 4.17 | 4.08 |
+| Would post this week | 3.00 | 2.83 | 3.25 | 2.92 | 2.83 |
+| Looks like the designer | 4.60 | 2.67 | 2.75 | 2.25 | 2.33 |
+| Quality (art director) | 3.70 | 3.00 | 2.83 | 2.58 | 2.42 |
+| Taken for real (of 36) | 30/30 | 4 | 0 | 0 | 0 |
+
+The brand manager's most common problems: the handle missing or not bottom-left; several devices on one slide, or devices the kit doesn't have (step numerals, a padlock, a stopwatch, a receipt, tickets, a seal); the logo off top-left or on dark slides; unverified time claims ("about a minute"). Every run was one shot: no drafts shown, no feedback, no revisions.

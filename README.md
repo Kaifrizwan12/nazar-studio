@@ -9,7 +9,7 @@
 
 <table>
 <tr>
-<td align="center" width="33%"><b>9 to 42% fewer tokens</b><br><sub>than an agent that builds its own tools for the same measuring and checking, across four rounds. On how the work looks, blind judges have not yet put it ahead of a good run without it.</sub></td>
+<td align="center" width="33%"><b>10 of 12 approved as is</b><br><sub>by a blind brand manager with the guidelines in hand (brand-kit 4.67 of 5), with 9 to 42% fewer tokens than an agent building its own tools for the same checks. It does not yet look like the designer made it.</sub></td>
 <td align="center" width="33%"><b>0.95</b><br><sub>of the real pieces held back follow the habits it measured from 28 others: the 4:5 canvas, the light and dark grounds, the one accent. Nobody told it.</sub></td>
 <td align="center" width="33%"><b>2.1k tokens</b><br><sub>to carry the whole skill. A kit loads only when the job needs it; pasted as text it would be 121k. Engines return a 0.4k report where looking at the pieces costs 58k.</sub></td>
 </tr>
@@ -73,22 +73,27 @@ Every card is an engine run on real material, public-domain or a real brand arch
 
 ## The skill against no skill
 
-The final test follows [a written protocol](docs/TEST_SCENARIO.md): one real brand archive (kept anonymous; 28 pieces teach, the rest are held back), 12 pieces per condition (six posts and a six-slide carousel), every run a fresh agent, and two blind judges who know only the brand's reference pieces and score a shuffled mix of the held-back real pieces and every generated slide.
+The test follows [a written protocol](docs/TEST_SCENARIO.md): one real brand archive (28 pieces teach, the rest are held back), the same 12 pieces per run (six posts and a six-slide carousel), every run a fresh agent, and blind raters who see a shuffled mix of the held-back real pieces and every generated slide, labels hidden. The raters do real jobs: a **brand manager** approving posts with the brand guidelines in hand, a **social media lead** choosing this week's feed, and an **art director** asking whether the designer made it.
 
-![Blind judging on a real archive: held-back real pieces, a casual run without the skill, a designer's-rules run without it, and the same with the skill](assets/demo-real-archive.jpg)
+![Blind judging on a real archive: held-back real pieces against runs with and without the skill](assets/demo-real-archive.jpg)
 
-| | Casual prompt, no skill | Designer's rules, no skill, told to measure and check | **Designer's rules, with the skill** |
-|---|---|---|---|
-| Brand fit (1 to 5; the real pieces score 4.45) | **2.96** | 2.62 | 2.58 |
-| Quality (real pieces 3.50) | **3.08** | 2.58 | 2.50 |
-| Judged real (two model judges) | 2 of 24 | 0 of 24 | 0 of 24 |
-| Passed as real with the designer (blind pick test) | 1 of 2 | 0 of 2 | 0 of 2 |
-| Words per piece (the archive's median is 19) | 41 | 22 | **20** |
-| Ground from the supplied backdrop files, off-palette pixels | 12/12, 0.1% | 12/12, 0.0% | 12/12, 0.0% |
-| Tools it had to write itself | none | 7 | **none** |
-| Tokens, tool calls, time | 103k, 31, 7 min | 171k, 60, 16 min | 156k, 47, 12 min |
+| | Real pieces | Casual prompt, no skill | **Casual prompt, with the skill** | Designer's rules, no skill | **Designer's rules, with the skill** |
+|---|---|---|---|---|---|
+| Brand-kit compliance (brand manager, 1 to 5) | 2.20* | 2.08 | **2.83** | 4.58 | **4.67** |
+| Approved as is / rejected (of 12) | 0 / 4 of 10 | 0 / 9 | **0 / 4** | 10 / 0 | **10 / 0** |
+| Reads on a phone (social lead) | 2.70 | 3.00 | **3.58** | 4.17 | 4.08 |
+| Would post this week (social lead) | 3.00 | 2.83 | **3.25** | 2.92 | 2.83 |
+| Looks like the designer made it (art director) | 4.60 | 2.67 | **2.75** | 2.25 | 2.33 |
+| Taken for real (of 36 ratings) | 30 / 30 | 4 | 0 | 0 | 0 |
+| Tokens, tool calls, time | | 103k, 31, 7 min | 153k, 39, 12 min | 171k, 60, 16 min | 156k, 47, 12 min |
 
-**Plainly:** the skill does not make the work look more like the designer's than a good run without it. In this round the casual run scored highest and fooled the judges twice; the two runs that followed the designer's strict rules (one device per slide, a headline formula, uncluttered) came out more templated, and the judges said so ("the same few templates reused"). The skill matched the careful no-skill run on look at 9% fewer tokens, 22% fewer calls and 23% less time, with no tools of its own to write, and it was the only run that held the archive's copy length. Across four rounds it has used 9 to 42% fewer tokens than an agent building its own tools for the same checks. What it reliably does is keep the habits, backdrops, palette and voice on the archive, and check; what it does not yet do is beat a good designer's prompt on how the work looks.
+\* The real pieces score low on the kit because the test's written rules are stricter than the brand's own day-to-day practice.
+
+**Plainly:**
+- **Same prompt, with and without the skill:** with a casual prompt, the skill wins on brand-kit compliance (2.83 against 2.08), rejections (4 against 9), phone readability (3.58 against 3.00) and would-post (3.25, the highest of any set, real pieces included), and edges it on looking like the designer. It was taken for real less often.
+- **With the designer's rules:** the skill's run is the most on-kit of all (4.67) and had 10 of 12 approved as is, level with a careful run without the skill, at 9% fewer tokens, 22% fewer calls and 23% less time, with no tools of its own to write.
+- **What it does not do yet:** look like the designer made it. Every generated set sits far below the real pieces (2.25 to 2.75 against 4.60), and the designer, in a blind pick test, named 11 of 12 slides correctly.
+- **One shot, no iteration.** Every run was a single round: the designer never saw a draft, gave no feedback and asked for no revisions. In real use you review the first set and steer it, which is what the skill's questions and checks are built for. These are first drafts, a floor, not the result after a round of the designer's own direction.
 
 ## What's inside
 
@@ -121,7 +126,7 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 
 ## Honest limits
 
-- **On look the skill has not won.** In the final blind round (12 pieces per condition, two judges) a casual prompt without the skill scored highest; strict rules made both rule-following runs more templated. The skill matched the careful no-skill run at lower cost. Blind judges still tell generated slides from real ones (98%): too tidy, formulaic, the same polished mascot and props. Real work is blunter, messier, more varied.
+- **It does not yet look like the designer made it.** Blind raters put every generated set far below the real pieces on that, though the skill wins on brand-kit compliance, approvals, phone readability and would-post. All runs were one shot, with no designer feedback. Blind judges still tell generated slides from real ones (98%): too tidy, formulaic, the same polished mascot and props. Real work is blunter, messier, more varied.
 - **The designer can tell.** In a blind pick test the designer named 11 of 12 slides correctly (92%; 50% would mean they can't tell) and never mistook their own work for the AI's. The one slide that passed came from the casual run without the skill. The habit score passes every good run, so it can't rank good work; the pick test (`pick_test.py`) and blind judges do.
 - **Small samples.** Six slides a run, one to two judges, and the judges are models.
 - **The device finder** finds stickers, badges, mascots and ID cards; it misses UI-style devices such as chat bubbles. A near-match font is a near match, and small body text gets a shortlist of three.
