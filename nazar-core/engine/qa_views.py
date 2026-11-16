@@ -81,8 +81,19 @@ if __name__ == "__main__":
         print(os.path.basename(f))
         for lvl, msg in r["findings"] or [("ok", "no measurable faults")]:
             print(f"   [{lvl}] {msg}")
+    # detail crops at 100%: the whole-slide views hide fine faults (a strike-through that slants off its text, a clipped edge)
+    crops = os.path.join(folder, "qa_detail")
+    os.makedirs(crops, exist_ok=True)
+    for f in files:
+        im = Image.open(f).convert("RGB"); w, h = im.size
+        tiles = [im.crop((x, y, x + w // 2, y + h // 2)) for y in (0, h // 2) for x in (0, w // 2)]
+        sheet_d = Image.new("RGB", (w // 2 * 2 + 10, h // 2 * 2 + 10), "white")
+        for i, t in enumerate(tiles):
+            sheet_d.paste(t, ((i % 2) * (w // 2 + 10), (i // 2) * (h // 2 + 10)))
+        sheet_d.save(os.path.join(crops, os.path.splitext(os.path.basename(f))[0] + "_detail.jpg"), quality=90)
     out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(folder, "qa_sheet.jpg")
     if os.path.isdir(out):          # a folder was given: write qa_sheet.jpg inside it
         out = os.path.join(out, "qa_sheet.jpg")
     sheet.save(out, quality=82)
     print("sheet:", out, "(rows: full size, squint greyscale, phone size). Look at it: hierarchy and concept are yours to judge.")
+    print("detail crops at 100%:", crops, "(look at these too: fine faults like a misplaced strike-through or a clipped edge only show here)")

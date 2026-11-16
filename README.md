@@ -77,30 +77,36 @@ python3 nazar-core/engine/studio.py check <your slides folder> <copy.json> <out 
 
 ![A real brand archive: pieces held back, and new slides made from a casual prompt with and without the skill](assets/demo-real-archive.jpg)
 
-**The test.** One real brand archive (42 social pieces for YouthPerks, a student-discount app; AI-assisted, directed and finished by the designer, approved by the client). 28 pieces teach the skill; 14 are held back and never seen. Then the same four briefs are given the way an ordinary designer would write them: a casual prompt, plus the exact backdrop and logo files. [The test case and prompts are in the repo](nazar-voiceprint/examples/case_study.md), so you can run it on your own archive.
+**The test.** One real brand archive (42 social pieces for YouthPerks, a student-discount app; AI-assisted, directed and finished by the designer, approved by the client). 28 pieces teach, 14 are held back and never seen. Three fresh agents then make the same six briefs on the same terms: the same exact backdrop, logo and mascot files, no faces or stock, the brand's own devices welcome, its real handle, copy in its voice. Two blind judges, who know only the brand's reference pieces, score a shuffled mix of the held-back real slides and all 18 new ones, for brand fit and quality (1 to 5). [The test case is in the repo](nazar-voiceprint/examples/case_study.md), so you can run it on your own archive.
 
-| | Casual prompt, no skill | Told to measure and check, no skill | **Casual prompt, with the skill** |
+- **A. Casual prompt, no skill.** What an ordinary designer would type. It looked at the archive by eye and checked nothing.
+- **B. No skill, told to measure and check.** The same, plus "measure my work and check contrast, font and QA". With no skill, it had to write its own tools.
+- **C. Casual prompt, with the skill.** The same casual prompt as A, with the skill installed and "check and QA your own work".
+
+| | A. Casual, no skill | B. Measure and check, no skill | **C. Casual, with the skill** |
 |---|---|---|---|
-| Canvas | Square. Misses the brand's 4:5. | 4:5 | **4:5**, found by measuring the archive |
-| Habit checks passed | 0.80 | 1.00 | **1.00** |
-| Headline blue contrast | Never checked | 3.2:1 (passes) | **3.1 to 4.4:1** (passes), two failures caught and fixed |
-| Tools it wrote itself | None | 10 scripts, about 340 lines | **None**: it ran the built engines |
-| Tokens | 57k | 117k | **74k** |
-| Tool calls, time | 13, about 1 min | 44, 5.8 min | **19, 2.4 min** |
+| Brand fit (blind judges; real pieces score 3.70) | 2.83 | **3.08** | 3.00 |
+| Quality (real pieces score 2.70) | 3.33 | **3.50** | 3.42 |
+| Passed the habit checks (4:5, grounds, palette...) | 0.80, came out square | 1.00 | **1.00** |
+| Weakest headline-blue contrast (3:1 is the minimum) | 2.7:1 | 2.9:1 | 2.8:1 |
+| Tools it wrote itself | none | 7 | **none** |
+| Words the person wrote | 366 | 474 | **425** |
+| Tokens | 103k | 172k | **112k** |
+| Tool calls | 25 | 63 | **35** |
+| Time | 4.8 min | 13.9 min | **7.3 min** |
 
-**What it shows.** Without the skill, a careless prompt misses the brand's own habits and checks nothing; a careful agent gets there, but spends a long time writing its own tools. With the skill, the same careful result takes about **36% fewer tokens, 57% fewer calls and 59% less time**, and it is repeatable, because the engines are tested and the runtime scripts aren't. A strong prompt from a designer who already knows their habits also passes every habit check (the skill writes that prompt for you from your own work), but its headline blue failed the contrast minimum at 2.5:1 and nobody saw. The pieces held back score 0.95 on the same checks, so the habits found in some work describe the rest.
+**What it shows, plainly.**
+- **On how the slides look, the skill is not better.** It matches the careful no-skill run (fit 3.00 against 3.08, which is within the noise of six slides and two judges) and sits a little above the casual run (2.83). All three are well below the real pieces (3.70), and the judges named every generated slide as generated (98% accuracy): too tidy and formulaic, the same polished mascot and props, where real work is blunter, messier and more varied.
+- **On what it takes to get there, it is clearly better.** The skill reaches the careful run's result with **35% fewer tokens, 44% fewer tool calls, 47% less time and 49 fewer words from the person**, because it runs engines that are already built and tested instead of writing its own. Against the casual run, which checks nothing, it costs about 9% more tokens, and that extra is rules and engine reports (about 11k tokens read), not code: both wrote about the same amount.
+- **The 4:5 habit** is the one thing a casual prompt without the skill missed: it came out square. The pieces held back score 0.95 on the same habit checks, so the habits found in some work describe the rest.
+- **Contrast** is a tie at the line: all three runs set some headline blue just under 3:1. The skill's check reports it; the no-skill runs' own checks reported zero failures.
 
-**What the skill is for, in this test**
-- **Your prompt leads.** The skill measures your work and fills in what you didn't say (the 4:5 format, the light and dark grounds, what the archive never uses). It never overrides you.
-- **It does what is hard to improvise.** Measuring an archive, contrast on the colour actually used, font matching, text reading and QA are built and tested, so Claude runs them instead of inventing them.
-- **It costs less to carry and to run.** [The token numbers are below.](#what-it-costs-in-tokens)
-- **It learns from every run.** Each test below found weaknesses in the skill itself, and each was fixed and logged in the kit's `LESSONS.md` (`nazar-core/references/improve.md`):
-  - A font named by eye is now measured and reported as a near match, never a name.
-  - Contrast was checked on the wrong colour. It now uses the colour on the slide, by height.
-  - QA was by eye. `qa_views.py` now measures edges, margins, gaps and small text.
-  - Square backdrop files had no rule for 4:5. `place_asset.py` crops and never scales, and labels a resample.
-  - Too many calls. Two commands now replace about ten (`studio.py learn` and `check`).
-  - Slide text was never read. `read_text.py` now reads it, so the language and copy checks have words to check.
+**Where the skill fell short, and what changed.** The skill run was plainer than B: B used the brand's recurring devices (a lanyard ID card, an alert window, stars, a ticket) throughout, and the skill's `learn` had measured numbers without looking at the archive. Each run's report fed back into the kit's `LESSONS.md` and the skill (`nazar-core/references/improve.md`):
+- `learn` now writes contact sheets and a `devices.md` to fill in after looking, reads the archive's own voice and handle by OCR, and `check` warns if the devices list is empty.
+- Contrast is checked on the colour actually used, by height, ignoring a mascot's blue.
+- `place_asset.py` places a mascot without multiply (which turned yellow shoes olive) and a square backdrop for a 4:5 post as a labelled resample.
+- `qa_views.py` writes 100% detail crops (a strike-through that slanted off its text only showed there) and flags overlapping lines.
+- Slide text is read by OCR (98% of the words in a known-answer test), and `learn` runs in about 80 seconds, with progress.
 
 **Which kit did what**
 
@@ -113,7 +119,7 @@ python3 nazar-core/engine/studio.py check <your slides folder> <copy.json> <out 
 | nazar-social | The copy lint caught "unlock" in a draft. It is English-only, so Roman Urdu lines are written with the person, and the check says how much it skipped. |
 | nazar-core | The studio rules, `studio.py`, `chain_check.py`, `qa_views.py`, `read_text.py`, `place_asset.py`, and the improve loop. |
 
-**What it does not show yet.** Four briefs and a few runs are a small sample. The habit score passes every good slide, so it cannot rank good work (the pieces held back, a good prompt and the skill are all close by eye), and a person choosing real from generated hasn't been run. The headline font is unconfirmed, and small body text gets a shortlist of three fonts, not a name. A structural typicality check flags unusual slides but missed an off-brand purple one, so it stays advisory. Seven ways a real person would use the skill, with their prompts and what has and hasn't been tested, are in [scenarios.md](nazar-core/references/scenarios.md).
+**What it does not show yet.** Six slides a run, one run a condition and two model judges: a small sample, and the judges are models, not people. A real person choosing real from generated hasn't been run (`nazar-voiceprint/engine/pick_test.py` builds that test). The habit score passes every good slide, so it cannot rank good work. The headline font is unconfirmed, and small body text gets a shortlist of three, not a name. Seven ways a real person would use the skill, with their prompts and what has and hasn't been tested, are in [scenarios.md](nazar-core/references/scenarios.md).
 
 ## What it costs in tokens
 
@@ -125,19 +131,11 @@ A skill is cheap to carry and its engines are cheap to use. This is the design, 
 - **Engines turn big inputs into small reports.** Looking at the 28 real pieces of the case study costs about 58k tokens; the portfolio engine's whole report is about 0.4k. The engine code (about 88k) is never loaded: only what it prints is.
 - **Deterministic work isn't left to the model.** Contrast ratios, margins, stylometry and colour palettes are computed, not guessed, so Claude spends its tokens on judgement.
 
-**Without the skill, Claude builds the tools at runtime.** The test: the same full job from a casual prompt (measure my archive, make four slides, check contrast, the font and the QA).
+**Without the skill, Claude builds the tools at runtime.** In the fair test above, the no-skill run told to measure and check wrote seven tools of its own (a measurer, a font matcher, a drawing library, a contrast checker, a habits comparison, a QA sheet maker): 172k tokens, 63 tool calls, 14 minutes. With the skill, the same measuring and checking took **112k tokens, 35 calls and 7 minutes**: 35% fewer tokens, 44% fewer calls and 47% less time.
 
-| Run | Tokens | Tool calls | Time |
-|---|---|---|---|
-| No skill: writes its own tools (10 scripts, about 340 lines) | 117k | 44 | 5.8 min |
-| With the skill, first version | 105k | 32 | 3.7 min |
-| With the skill, after the fast path (`studio.py learn` and `check`) | **74k** | **19** | **2.4 min** |
+**Where the tokens go.** Against a casual run that checks nothing (103k), the skill costs about 9% more, and the extra is rules and engine reports read back (about 11k tokens), not code: both wrote about the same amount, mostly the slide-building script. The skill's extra spend is the rules and the QA, which is what the no-skill casual run lacks. On an earlier, simpler four-slide job, a two-command fast path (`studio.py learn` and `check`) cut the skill run from 105k to 74k tokens and 32 to 19 calls, against 117k and 44 calls for a no-skill run that built its own tools: most of a run is the conversation re-read on every call, so fewer calls is where the saving comes from.
 
-Every run passed every check and made good slides. After the fast path the skill uses **about 36% fewer tokens, 57% fewer tool calls and 59% less time** than building the tools at runtime.
-
-**Why the first version saved only 10%.** The transcripts showed it: rebuilding the measuring tools was cheap (about 2k tokens of code difference), most of a run is shared work (building slides, looking at about 20k tokens of images), and the conversation is re-read on every call. So the saving comes from fewer calls and less reading, and the fix was two commands in place of about ten, not smaller engines.
-
-**The honest part.** This job only needed simple measuring. The bigger savings should be in what a runtime agent would find hard to rebuild: stylometry with a Hindustani baseline, dielines, fine-line tracing, font coverage and licences, and the research behind each method. This test didn't need them, so that claim is an expectation, not a measurement. A bare prompt that checks nothing is cheaper still (57k to 59k) but caught none of the contrast faults. Estimates are characters divided by 4; run totals are what each agent reported.
+**The honest part.** These jobs only needed simple measuring. The bigger savings should be in what a runtime agent would find hard to rebuild: stylometry with a Hindustani baseline, dielines, fine-line tracing, font coverage and licences, and the research behind each method. This test didn't need them, so that claim is an expectation, not a measurement. Estimates are characters divided by 4; run totals are what each agent reported.
 
 ## The results, in order of importance
 

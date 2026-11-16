@@ -40,6 +40,15 @@ def accent_text(im, pat):
     mask = (np.hypot(lab[..., 1], lab[..., 2]) > 0.12) & (dh < np.radians(25))
     if mask.sum() < 40:
         return None
+    # accent TYPE is a wide, short line of letters; a mascot or logo in the same blue is a compact blob: keep only text-like lines
+    boxes = [b for b in layout.components(layout.dilate_x(mask, 10))
+             if (b[2] - b[0]) >= 2.2 * (b[3] - b[1]) and (b[3] - b[1]) < 0.2 * t.height and (b[2] - b[0]) > 0.08 * t.width]
+    keep = np.zeros_like(mask)
+    for x0, y0, x1, y1, _ in boxes:
+        keep[y0:y1, x0:x1] = mask[y0:y1, x0:x1]
+    mask = keep
+    if mask.sum() < 40:
+        return None
     grown = mask.copy()
     for dy in range(-6, 7):
         for dx in range(-6, 7):
@@ -50,7 +59,7 @@ def accent_text(im, pat):
             inner |= np.roll(np.roll(mask, dy, 0), dx, 1)
     ring = grown & ~inner
     ys, xs = np.where(mask); y0, y1 = ys.min(), ys.max() + 1
-    best, used, worst_ground = 99.0, np.median(rgb[mask], 0), None
+    best, used, worst_ground, worst_acc = 99.0, np.median(rgb[mask], 0), None, None
     bands = []
     for k in range(3):
         a, b = y0 + (y1 - y0) * k // 3, y0 + (y1 - y0) * (k + 1) // 3
@@ -60,11 +69,11 @@ def accent_text(im, pat):
         g = np.median(rgb[a:b][r], 0); cr = pc.contrast(np.median(rgb[a:b][m], 0), g)
         bands.append((round(100 * a / t.height), round(100 * b / t.height), round(cr, 1)))
         if cr < best:
-            best, worst_ground = cr, g
-    return (best, pc.hexof(used), worst_ground * 255, bands) if best < 99 else None
+            best, worst_ground, worst_acc = cr, g, np.median(rgb[a:b][m], 0)
+    return (best, pc.hexof(worst_acc), worst_ground * 255, bands) if best < 99 else None
 
 
-def suggest_accent(acc_hex, ground_rgb, target=3.0):
+def suggest_accent(acc_hex, ground_rgb, target=3.15):
     """Same hue and chroma, lower lightness, until the accent reaches `target`:1 on this ground. A suggestion for
     NEW type only: a client's logo and supplied artwork are never recoloured."""
     lab = pc.oklab(np.array([int(acc_hex[i:i + 2], 16) for i in (1, 3, 5)]) / 255.0)

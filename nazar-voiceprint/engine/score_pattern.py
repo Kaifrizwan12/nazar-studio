@@ -8,7 +8,7 @@ checks that can be measured from pixels:
   ground    the outer band of the canvas is one of the pattern's grounds (OKLab distance < 0.10)
   palette   80%+ of pixels sit within 0.07 (OKLab) of a pattern swatch
   accent    the accent colour covers at most 20% of the piece, and 0.3%+ if the archive usually carries one
-  device    no filled accent button or pill unless the archive itself uses them (10%+ of pieces)
+  device    no filled accent button or pill unless the archive itself uses one in at least one piece
 Photo-led posts (a photo fills the frame) are scored on canvas size only, and reported apart, because the pattern describes flat-ground slides.
 TYPICAL (advisory) is a nearest-neighbour distance on a structural fingerprint (where ink and accent sit, how light each third is,
 the nine features), calibrated by how close real pieces are to each other. Known-answer result: it flags structurally unusual
@@ -166,7 +166,7 @@ def score(path, pat, refs):
     checks = {"format": ratio_ok, "ground": ground_d < 0.10,
               "palette": pal_share >= 0.80,
               "accent": acc_share <= 0.20 and (acc_share >= 0.003 or pat.get("accent_presence", 1.0) < 0.80),   # absence is fine if the archive often goes without
-              "device": not (has_pill(im, refs["accent"]) and pat.get("devices", {}).get("accent_pill", 0) < 0.10)}
+              "device": not (has_pill(im, refs["accent"]) and pat.get("devices", {}).get("accent_pill", 0) == 0)}   # a rare device (a chat bubble in 4% of pieces) is allowed; one the archive never uses is not
     if photo:   # a photo post can't sit on a flat ground: scored on canvas size only
         checks = {"format": checks["format"]}
     fit, off = (None, [])
@@ -257,7 +257,7 @@ def prompt_block(pat):
              f"Grounds: {', '.join(pat['grounds'])}. Light and dark slides share one layout; use the exact backdrop files, never redraw or recolour them.",
              f"One accent colour, {pat['accent']}, used sparingly (about 0.3% to 20% of a piece), never as a filled block.",
              "Palette beyond that: " + ", ".join(pat["swatches"][:6]) + ".",
-             "Do not add buttons, pills or any device this brand's own work doesn't use" + (f" (a filled accent button appears in only {pat['devices']['accent_pill']:.0%} of its pieces)." if pat.get("devices") else "."),
+             "Do not add buttons, pills or any device this brand's own work doesn't use" + (f" (a filled accent block, such as a chat bubble, appears in {pat['devices']['accent_pill']:.0%} of its pieces: use it only the way those pieces do)." if pat.get("devices") else "."),
              "Not measured, so the person writes it in: <exact asset files and where they sit> <headline style, from the VLM pass> <voice and language mix> <two or three reference pieces>."]
     return "\n".join(lines)
 

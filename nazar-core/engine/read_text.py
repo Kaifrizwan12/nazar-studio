@@ -34,20 +34,32 @@ def mac_binary():
     return out if r.returncode == 0 else None
 
 
+def read_many(paths):
+    """{path: [(confidence, line), ...]} in one pass (macOS: one process, the model loads once)."""
+    if sys.platform == "darwin":
+        b = mac_binary()
+        if b:
+            r = subprocess.run([b, *paths], capture_output=True, text=True)
+            out, cur = {p: [] for p in paths}, None
+            for ln in r.stdout.splitlines():
+                if ln.startswith("#FILE\t"):
+                    cur = ln.split("\t", 1)[1]; out.setdefault(cur, []); continue
+                c, _, t = ln.partition("\t")
+                try:
+                    if cur is not None:
+                        out[cur].append((float(c), t.strip()))
+                except ValueError:
+                    pass
+            return out
+    return {p: read(p) for p in paths}
+
+
 def read(path):
     """Returns a list of (confidence, line) from top to bottom."""
     if sys.platform == "darwin":
         b = mac_binary()
         if b:
-            r = subprocess.run([b, path], capture_output=True, text=True)
-            rows = []
-            for ln in r.stdout.splitlines():
-                c, _, t = ln.partition("\t")
-                try:
-                    rows.append((float(c), t.strip()))
-                except ValueError:
-                    pass
-            return rows
+            return read_many([path])[path]
     if shutil.which("tesseract"):
         r = subprocess.run(["tesseract", path, "-", "--psm", "6"], capture_output=True, text=True)
         return [(1.0, ln.strip()) for ln in r.stdout.splitlines() if ln.strip()]
@@ -59,10 +71,9 @@ if __name__ == "__main__":
         sys.exit(__doc__)
     target = sys.argv[1]
     if os.path.isdir(target):
-        out = {}
-        for f in sorted(os.listdir(target)):
-            if f.lower().endswith(EXTS):
-                out[f] = " ".join(t for _, t in read(os.path.join(target, f)))
+        names = [f for f in sorted(os.listdir(target)) if f.lower().endswith(EXTS)]
+        got = read_many([os.path.join(target, f) for f in names])
+        out = {f: " ".join(t for _, t in got[os.path.join(target, f)]) for f in names}
         dest = sys.argv[2] if len(sys.argv) > 2 else os.path.join(target, "copy.json")
         json.dump(out, open(dest, "w"), indent=1, ensure_ascii=False)
         print(f"{dest}: text for {len(out)} slides. Check it against the slides before trusting it.")
