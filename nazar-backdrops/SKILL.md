@@ -16,7 +16,7 @@ Festive, launch and campaign artwork is out of scope; those are one-offs (`nazar
 2. **One skeleton, every format.** The anchor corner, margin ratio, edge device and handle position stay put across 4:5, 1:1, story and the rest, so the brand reads before the content does (`references/anatomy.md`).
 3. **Dark and light are one layout.** The modes swap colour only, never position. An accent mode is allowed for covers and quotes if its contrast passes.
 4. **Quiet enough to carry anything.** The backdrop takes ≤ ~15% of the canvas. It's a frame, not a poster. If it competes with a headline, remove something.
-5. **Asymmetric and flat.** Anchor to a corner and an edge, not the centre (circles excepted). Flat brand colour. No glows, no gradients behind type, no glass: run `ai_tells.md`.
+5. **Asymmetric and flat.** Anchor to a corner and an edge, not the centre (circles excepted). Flat brand colour. No glows, no gradients behind type, no glass: run `ai_tells.md`. **That is the studio default. A brand's own backdrop files override it:** if the client supplies exact backdrops (real ones use grain, glow and gradient), place them as supplied, never redraw them, and keep this rule for anything you make from scratch.
 6. **Safe zones are law.** The 3:4 grid crop, story and reel UI zones, the avatar circle and the YouTube timestamp are all kept clear (`references/formats.md`).
 7. **Editable handoff.** PNGs alone aren't a system. Deliver what the team actually edits in: Figma components, a Canva brand template with locked layers, or layered files (`references/handoff.md`).
 

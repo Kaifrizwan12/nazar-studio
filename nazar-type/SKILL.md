@@ -14,6 +14,7 @@ Read `../nazar-core/SKILL.md` first. **The user's prompt leads; use the parts th
 4. **No template fonts as brand faces.** If a font sits in the Google Fonts top 30 or is all over the competitors, it's out except as a fallback (Inter, Poppins, Montserrat).
 5. **Bilingual systems are designed, not appended.** Match visual size (Urdu ≈ 115–130% of the Latin size), give Nastaliq its own leading (≈ 1.8–2.2×), and use Naskh, not Nastaliq, for small text (§3).
 6. **Small legal packaging text:** design to an **x-height of 1.2 mm or more** in every script (the EU benchmark; Pakistan rules to be confirmed with PFA/PSQCA). Use a large x-height, open-aperture sans.
+7a. **Never name a font from an image by eye.** Run `engine/font_match.py crop.png "the words"`: it ranks the fonts on this machine by letter-shape overlap and width. Name a font only when it reports a strong candidate and the maker confirms; a near match is a cousin, and the real font is asked for by name (or from the file). Nothing is downloaded.
 7. **QA every font:** glyph coverage for every language and symbol (₨, Urdu digits, diacritics), kerning at final size, the licence, embedding bits, Nastaliq rendering in the target app (§5).
 
 ## Workflow
@@ -29,4 +30,6 @@ Read `../nazar-core/SKILL.md` first. **The user's prompt leads; use the parts th
 - `references/type.md`: sources and licences, OFL plain terms, South Asian scripts and pairing, which-font-when matrix, QA checklist, sources
 
 ## Engine
+`python engine/font_match.py crop.png "SAME BRANDS."` finds which installed font a headline crop looks like (shape overlap and width ratio, with a verdict: strong candidate, near match, or not installed). Self-tested on a known font (finds it at 0.95 overlap); on a real brand headline it reports a near match (0.86 overlap, 7% wider), which is the honest answer when the real font isn't installed.
+
 `python engine/type_check.py font.ttf [font2.ttf ...]` runs this kit's QA on real font files: licence and embedding as the file declares them, coverage per script (Latin, transliteration, pack symbols incl. the ₨ sign, Urdu, Sindhi, Devanagari), whether the Arabic-script shaping features exist (init/medi/fina/isol/liga/rlig), kerning, and the smallest size that reaches a 1.2 mm x-height (EU 1169/2011 Art. 13). Run it before recommending any font for a bilingual or packaging job. It checks the FILE: coverage % says nothing about whether the shapes are good. A font that carries no licence text still needs its OFL file filed beside it. Demo: `examples/make_type_card.py` (needs `pip install uharfbuzz`; fetch Gulzar with `examples/fetch_gulzar.py`).

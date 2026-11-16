@@ -41,9 +41,59 @@ Then answer the questions. It'll take it from there, and it'll show its homework
 
 **Extend it for your product:** the engines are plain Python. [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) tells your Claude how to add a structure, a design block or a QA check, and how to test it.
 
+## Case study: a real archive, run the way a person would
+
+The cards further down test single engines on public-domain files. This is the test that touches the real scenario, so read it first: a designer with a real brand archive, an AI, and directions only the designer can give. [The test case and prompt are in the repo](nazar-voiceprint/examples/case_study.md), so you can run it on your own archive.
+
+![Real pieces held back, a good prompt without the kit, and the kit](assets/demo-real-archive.jpg)
+
+**The scenario.** A designer has made about 50 social pieces for one brand (YouthPerks, a student-discount app). The work is AI-assisted, with concept, edits and final hand the designer's, and client-approved. They want four new slides in the same style. They know their own work, so they tell the AI exactly what to do.
+
+**The test.** 28 of the 42 real pieces build the pattern. 14 are held back and never seen by it. Brand files (logo, backdrops) are assets to place, not pieces to learn from. The same four briefs are then made two ways: by a fresh agent given a strong human prompt and no kit, and with the kit.
+
+**The prompt a good prompter writes** (shortened; the full one is in the test case):
+
+```text
+Format is 4:5. Crop, don't resize, the top 900x1125 of the exact story backdrop files.
+Logo on light slides only, multiplied in, never redrawn. Headline: heavy condensed caps,
+last line in the brand blue. Under it, one short sentence. Handle bottom-left.
+No buttons, pills, icons, mascots, faces or gradients of your own. Must not look AI-made.
+Voice: short, English mixed with Roman Urdu. No invented facts. References: <real slides>.
+Briefs: verification is free; partner brands, students are waiting; what "verified student"
+means; the app launches soon.
+```
+
+**The results.** Score = share of five checks passed: shape (4:5), ground colour, palette (learned from the exact backdrop files), accent used sparingly, no invented devices. It measures habits, not quality.
+
+| | Score | What it means |
+|---|---|---|
+| Real pieces, held out | **0.95** | The habits found in some pieces describe the rest (0.96 on the pieces they came from). |
+| New: a good prompt, no kit | **1.00** | An expert prompt with exact files and references passes every check. |
+| New: with the kit | **1.00** | Passes every check too. |
+| New: casual prompt, no kit | 0.80 | Takes the square backdrop as given and misses the 4:5 habit. |
+
+**What this shows, plainly.** Both good runs pass every check, so the score cannot tell them apart; it is a gate, not a measure of quality, and by eye the expert prompt's slides are the strongest. What separates a casual prompt from the rest is one habit (the 4:5 canvas). The real gains from the kit are elsewhere:
+- **It writes the expert prompt for you.** `score_pattern.py --prompt` turns your measured work into the prompt block: format, grounds, accent range, and "no buttons" because a filled button appears in only 4% of the archive.
+- **It checks what a prompt can't.** The brand blue on the light ground is 2.9:1, under even the 3:1 large-text minimum, and every run set headlines in it. `chain_check.py` flags it and suggests a darker blue for new type (never for the logo).
+- **It proves the habits are real.** 0.95 on pieces the pattern never saw.
+- **It says when it doesn't know.** The font is a near match, not a match.
+
+**Which kit helped, and how**
+
+| Kit | What it did here |
+|---|---|
+| nazar-voiceprint | Measured the 28 pieces: 4:5 in 86%, a light and a dark ground, one blue accent; scored the held-out pieces (0.95); flagged devices the archive never uses (a filled button appears in 4% of its pieces); now writes the prompt block. |
+| nazar-colour | Contrast of text and accent on the ground: text is fine (17:1 and up), the brand blue on the light ground is 2.9:1, under the 3:1 large-text minimum. Every run set headlines in it; the check suggests a darker blue for new type. |
+| nazar-type | `font_match.py` found Anton the closest of 799 installed fonts (0.86 overlap) but 7% wider, a near match and not the brand's font. The slides use it as a labelled stand-in. |
+| nazar-backdrops | The rule is "flat, no glows"; this brand's own backdrops have grain, glow and a dot grid. The rule now says a brand's exact backdrop files override it, placed as supplied. |
+| nazar-social | The copy lint caught "unlock" in a draft. It is English-only, so Roman Urdu lines are written with the person. |
+| nazar-core | The studio rules, the exact-assets rule, `chain_check.py` (colour, language, layout, lint and score in one pass), and the loop that logs every failure per kit (`improve.md`, each kit's `LESSONS.md`). |
+
+**What it does not show.** Four briefs is a small sample. The with-kit slides were made by the Claude that read the archive. No engine reads text inside images, so the slide copy was never analysed. The headline font is unconfirmed. A person picking real from generated hasn't been run. The held-out set includes pieces with people; none are shown.
+
 ## The results, in order of importance
 
-Each card below is a real engine run on real, public-domain material, with its headline number and what that number means. The independent results come first; the group of five engines comes last.
+These first cards test the engines on real, public-domain material, not a full run with prompts: the case study above does that. Each card below is a real engine run, with its headline number and what that number means. The independent results come first; the group of five engines comes last.
 
 ### 1. Can the engines tell designers apart?
 

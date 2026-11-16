@@ -35,6 +35,7 @@ Any mess is fine: hundreds of `.docx`, PDFs, `.txt` and `.md` files, Final Draft
 ### 3. Intake (`engine/ingest.py <folder> --out voiceprint/<name>/corpus`)
 Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held back as dated after 30 Nov 2022 (list shown, tick any you wrote yourself); 9 images to the visual layer; 3 skipped."*
 - Re-run with `--include-post-ai`, or move ticked files back, as the person decides.
+- **The person's word counts.** The 30 Nov 2022 date is a prompt to ask, not a gate. If they say the work is theirs, believe them: AI-assisted but human-directed work (concept, edits and final hand theirs, client-approved) goes in. Record their declaration in the pattern's "Built from" line, label the result "recent (AI-assisted era)", and offer an older-work comparison only if they have some.
 - **Under about 5,000 words the frequency features get noisy.** Say so and ask for more.
 
 ### 4. Analysis: run only the layers that apply
@@ -54,7 +55,7 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
 - For reels, take hook placement, reveal rate and ending style **from their own catalogue only**. Industry "3-second rules" are unsourced folklore.
 
 **Visual** — designers, illustrators, photographers, colourists, editors:
-- One command for the whole stack: `engine/portfolio.py <images folder>`. A look counts as a **habit** only if it appears in ≥60% of pieces; single images are confounded by their content.
+- One command for the whole stack: `engine/portfolio.py <images folder>`. It reports format (canvas size habit) and grounds (light/dark system) first. The stroke layer is **off by default** because on slides, posters and anything with type it measures letter edges, not pen strokes; add `--line` for a folder of drawings. A look counts as a **habit** only if it appears in ≥60% of pieces; single images are confounded by their content.
 - Or run a single engine:
   - `visual.py`: palette habit (ground, support, accent, with shares), air, symmetry, thirds, weight placement, line weight, tone and warm/cool lean.
   - `grade.py`: colour grading and effects as numbers (look stats, colourfulness, split-toning, faded or crushed blacks, roll-off, palette breadth, vignette, grain, softness, bloom), plus look labels tagged measured vs. folklore. Describe the transform, never a film stock.
@@ -63,7 +64,11 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
   - `exif_habits.py`: photographers. Focal length, aperture, shutter, flash and orientation distributions.
   - `cluster.py`: whole portfolio. Style modes (most creatives have 2–3) and recurring elements across pieces.
   - `video.py`: editors and directors. Cuts, median and distribution of shot lengths, pace trend, 1/f rhythm, grade across shots. Needs `pip install imageio-ffmpeg`, or a cut list.
+  - `score_pattern.py`: does a folder of pieces follow the pattern? `--build train_folder pattern.json` measures it from the training pieces only; then score held-out real pieces (do the habits generalise?) and AI-made pieces (did the PATTERN change the output?). It scores habits (size, ground, palette, accent), never quality.
   - `pose.py`: how people are posed and framed (facing, contrapposto, hands, crop, headroom). Needs `pip install "onnxruntime==1.23.2" rtmlib`, or exported keypoints.
+- **Text inside images is not read.** No engine reads copy on slides, so the words layer cannot see a designer's slide copy. Ask for the captions and slide text as text (or transcribe it with them), then run the words layer on that: for a social brand, the copy is half the voice.
+- **Name the type by evidence.** Run `nazar-type/engine/font_match.py` on a headline crop and record the closest installed font with its overlap and width ratio, marked unconfirmed until the maker says the file name.
+- **Exact assets rule.** When the archive holds reusable brand files (backdrops, logo, mascot, badges), list them in the pattern's Visual layer. An AI making new pieces places those files as they are and never redraws, recolours or regenerates them; a generated approximation of a backdrop is the fastest way a piece starts to look AI-made.
 - Each layer reports mean ± spread across the portfolio, plus a plain reading. If there are several style modes, ask which one the pattern is for.
 - **Then the VLM pass: this is where you look, because numbers can't find most of a designer's or illustrator's patterns** (a hidden second image in the negative space, hands drawn as mittens, a recurring joke). Follow `references/vlm_protocol.md` exactly:
   1. `engine/views.py <folder> <out>` builds a study sheet per piece (squint, grey, flat colour, edges, five full-detail crops) and a contact sheet. Read the contact sheet first.

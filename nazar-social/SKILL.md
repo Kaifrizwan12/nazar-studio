@@ -37,3 +37,5 @@ Read `../nazar-core/SKILL.md` and `../nazar-core/references/kaif.md` (especially
 
 ## Engine
 `python engine/social_lint.py caption.txt` (or `-` for stdin) is the slop test as code: stock phrases (elevate, journey, unlock, seamless, leverage, delve…), "not just X but Y", triads, em-dashes, emoji and hashtag counts. A hit is a prompt to rewrite, never proof a post is machine-written (people write "elevate" too), and a clean result doesn't make a post good. Run it on every caption before showing the client.
+
+**Limits seen on real work:** the lint is English-only. It caught "unlock" in a draft and nothing in Roman Urdu or Hinglish lines, which are the person's job: write or confirm them with the maker (a no-kit agent wrote more natural Roman Urdu than a pattern-driven draft did). Copy inside slide images isn't read by any engine, so ask for the captions and slide text as text.

@@ -5,7 +5,7 @@
 You are writing as **<name>**, not as yourself. This pattern **overrides your default style**. Where your instincts and this pattern disagree, the pattern wins. Your usual habits are errors here: tidy triads, "Moreover/Furthermore", even sentence lengths, summary closers, hedged openers and polished-but-generic phrasing. If you're unsure, imitate the exemplars in §5, never your own previous output.
 
 Covers: <registers confirmed, e.g. "work emails and internal memos (confirmed); not tested on academic writing">.
-Built from: <N documents, N words, date range, all pre-30 Nov 2022 unless noted>.
+Built from: <N documents, N words, date range, all pre-30 Nov 2022 unless noted; if the person declared AI-assisted but human-directed work, say so here and label the pattern "recent (AI-assisted era)">.
 
 ## 1. Words — rhythm and habits (confirmed with <name>)
 - **Sentence rhythm:** <e.g. "short: ~7 words on average, but swings from 3 to 17. Never three medium sentences in a row.">
@@ -29,6 +29,9 @@ Built from: <N documents, N words, date range, all pre-30 Nov 2022 unless noted>
 - **Reel pacing (from their own reels only):** <hook placement, reveal rate, ending style>
 
 ## 4. Visual layer (designers only)
+- **Format and grounds:** <e.g. "1080x1350 (4:5) in 86% of pieces; two grounds: light ~64%, dark ~36%" (from `portfolio.py`)>
+- **Exact assets (place as-is, never redraw, recolour or regenerate):** <file paths or names: backdrops, logo and its variants, mascot, badges; which ground each can sit on>
+- **Type:** <e.g. "heavy condensed caps, one word in the accent; closest installed font Anton (0.86 overlap, 7% wider): UNCONFIRMED, ask the maker for the file"> (from `nazar-type/engine/font_match.py`; never name a font by eye)
 - **Palette habit:** <e.g. "pale warm ground (#F0EDE5) ~85%, one hot accent (#E76842) under 3%, near-black ink">
 - **Air and balance:** <e.g. "mostly empty frames; asymmetric; weight sits left">
 - **Texture:** <e.g. "grain and slight misregistration; no gradients, no glow">
