@@ -24,7 +24,7 @@ import shutil
 import sys
 
 HOME = os.environ.get("NAZAR_HOME", os.path.expanduser("~/.nazar")) + "/brands"
-KEEP = ("pattern.json", "prompt.md", "devices.md", "voice.json", "train_copy.json", "learn.json", "contact_1.jpg", "contact_2.jpg", "devices_sheet.jpg", "assets.json")
+KEEP = ("pattern.json", "prompt.md", "devices.md", "voice.json", "train_copy.json", "learn.json", "contact_1.jpg", "contact_2.jpg", "devices_sheet.jpg", "assets.json", "usage.json")
 
 ALWAYS = ["The person's prompt leads; kits are add-ons. Ask only what the prompt and the profile don't already say.",
           "A client's logo is never redrawn or recoloured. Place exact files as supplied (`place_asset.py`).",

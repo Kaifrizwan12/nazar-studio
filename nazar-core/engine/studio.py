@@ -81,7 +81,7 @@ def voice(train, out):
 def learn(train, out, assets):
     os.makedirs(out, exist_ok=True)
     pj = os.path.join(out, "pattern.json")
-    json.dump({"train": train}, open(os.path.join(out, "learn.json"), "w"))
+    json.dump({"train": train, "assets": assets}, open(os.path.join(out, "learn.json"), "w"))
     print("learn: measuring the archive (about 40 s), then reading its text (about 40 s)...", flush=True)
     print(run([f"{ROOT}/nazar-voiceprint/engine/portfolio.py", train]).stdout.strip(), flush=True)
     r = run([f"{ROOT}/nazar-voiceprint/engine/score_pattern.py", "--build", train, pj, *assets])
@@ -90,6 +90,16 @@ def learn(train, out, assets):
     print("\nHeld-in score:", run([f"{ROOT}/nazar-voiceprint/engine/score_pattern.py", pj, train]).stdout.strip())
     block = run([f"{ROOT}/nazar-voiceprint/engine/score_pattern.py", "--prompt", pj]).stdout.strip()
     open(os.path.join(out, "prompt.md"), "w").write(block + "\n")
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import usage as _usage
+    u = _usage.learn(train); json.dump(u, open(os.path.join(out, "usage.json"), "w"), indent=1)
+    print("\nUSAGE (guidance from your pieces, not rules to enforce: this archive varies)")
+    for k, cs in u["colour_roles"].items():
+        print(f"  {k}: " + ", ".join(f"{c[0]} {c[1]:.0%}" for c in cs))
+    for m in u["marks"]:
+        print(f"  {m['kind']} '{m['text']}' in {m['share']:.0%} of pieces, usually at x {m['box'][0]:.0%} y {m['box'][1]:.0%}")
+    for g, ws in u["ground_words"].items():
+        print(f"  words on {g} grounds: {', '.join(ws[:8])}")
     v = voice(train, out)
     sheets = contact_sheets(train, out)
     block += ("\nVARIETY: blind judges named every generated slide as generated because the set was too tidy and formulaic (the same polished layout, mascot and props "
@@ -266,6 +276,17 @@ def check(slides, copy, pattern, sheet):
     print("\nQA measurements:")
     r = run([f"{ROOT}/nazar-core/engine/qa_views.py", slides, sheet])
     print(r.stdout.strip() or r.stderr.strip())
+    lj = os.path.join(os.path.dirname(pattern), "learn.json")
+    bds = json.load(open(lj)).get("assets", []) if os.path.isfile(lj) else []
+    if bds:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import usage as _usage
+        from PIL import Image as _Im
+        print("\nBACKDROP (is each slide's ground from the supplied files?)")
+        for f in sorted(os.listdir(slides)):
+            if f.lower().endswith((".png", ".jpg", ".jpeg")):
+                d, b = _usage.backdrop_distance(_Im.open(os.path.join(slides, f)).convert("RGB"), bds)
+                print(f"  {f}: " + (f"from {b}" if d <= 0.06 else f"NOT from the supplied backdrops (closest {b}, distance {d:.2f}): place the exact file with place_asset.py"))
     print("\n" + copy_length(copy, pattern))
     print("\n" + vocabulary(slides, pattern, os.path.join(os.path.dirname(os.path.abspath(sheet)), "vocabulary")))
     print("\n" + compare(slides, pattern, os.path.join(os.path.dirname(os.path.abspath(sheet)), "compare")))

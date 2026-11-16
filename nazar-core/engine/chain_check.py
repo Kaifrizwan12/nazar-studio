@@ -122,8 +122,8 @@ else:
         acc = r["accent_on_ground"]
         print(f"{r['file']}  {r['size'][0]}x{r['size'][1]}  score {r['score']:.1f}" + (f"  FAILS: {', '.join(fails)}" if fails else "  all pattern checks pass"))
         print(f"   text {r['text_contrast']}:1 {'ok' if r['text_contrast'] >= 4.5 else 'LOW'} | accent type {r.get('accent_used')} on its ground {acc}:1 "
-              + ("no accent type on this slide" if acc is None else "ok for any size" if acc >= 4.5 else "large type only (24px+, or 18.7px bold)" if acc >= 3 else f"FAILS: below 3:1, even large type. For new type, {r.get('suggest') or 'a darker accent'} reaches 3:1 on this ground"))
+              + ("no accent type on this slide" if acc is None else "ok for any size" if acc >= 4.5 else "large type only (24px+, or 18.7px bold)" if acc >= 3 else "FAILS: below 3:1, even large type. Do NOT recolour the brand accent: move this line to where the ground is darker (see the bands below), or set it in the brand's ink"))
         if r.get('accent_bands') and acc is not None and acc < 4.5:
             bb = r['accent_bands']; best = max(bb, key=lambda t_: t_[2])
-            print('   accent type by height: ' + ', '.join(f'{a_}-{b_}%: {v}:1' for a_, b_, v in bb) + f'  (best: {best[0]}-{best[1]}% of the height at {best[2]}:1; for EXISTING type move it there, or darken the blue for NEW type)')
+            print('   accent type by height: ' + ', '.join(f'{a_}-{b_}%: {v}:1' for a_, b_, v in bb) + f'  (best: {best[0]}-{best[1]}% of the height at {best[2]}:1; move the line there, or set it in the brand ink colour; never recolour the accent)')
         print(f"   Hindustani words {r['roman_urdu_share']} | words {r['words']} | lint {r['lint'] or 'clean'}{' (English-only: about ' + format(r['nonlinted_share'], '.0%') + ' of the words are Hindustani and were not linted)' if (r.get('nonlinted_share') or 0) > 0.1 else ''} | layout {r['layout']}")

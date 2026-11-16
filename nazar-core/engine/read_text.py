@@ -36,6 +36,12 @@ def mac_binary():
 
 def read_many(paths):
     """{path: [(confidence, line), ...]} in one pass (macOS: one process, the model loads once)."""
+    return {p: [(c, t) for c, t, _ in rows] for p, rows in read_boxes(paths).items()}
+
+
+def read_boxes(paths):
+    """{path: [(confidence, line, (x, y, w, h)), ...]}: where each line sits, as fractions of the image from the top-left (macOS Vision only;
+    tesseract gives no boxes here, so the box is None)."""
     if sys.platform == "darwin":
         b = mac_binary()
         if b:
@@ -44,14 +50,16 @@ def read_many(paths):
             for ln in r.stdout.splitlines():
                 if ln.startswith("#FILE\t"):
                     cur = ln.split("\t", 1)[1]; out.setdefault(cur, []); continue
-                c, _, t = ln.partition("\t")
+                parts = ln.split("\t", 5)
                 try:
-                    if cur is not None:
-                        out[cur].append((float(c), t.strip()))
+                    if cur is not None and len(parts) == 6:
+                        out[cur].append((float(parts[0]), parts[5].strip(), tuple(float(v) for v in parts[1:5])))
+                    elif cur is not None and len(parts) == 2:
+                        out[cur].append((float(parts[0]), parts[1].strip(), None))
                 except ValueError:
                     pass
             return out
-    return {p: read(p) for p in paths}
+    return {p: [(c, t, None) for c, t in read(p)] for p in paths}
 
 
 def read(path):
@@ -59,7 +67,7 @@ def read(path):
     if sys.platform == "darwin":
         b = mac_binary()
         if b:
-            return read_many([path])[path]
+            return [(c, t) for c, t, _ in read_boxes([path])[path]]
     if shutil.which("tesseract"):
         r = subprocess.run(["tesseract", path, "-", "--psm", "6"], capture_output=True, text=True)
         return [(1.0, ln.strip()) for ln in r.stdout.splitlines() if ln.strip()]
