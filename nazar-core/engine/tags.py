@@ -24,7 +24,7 @@ import shutil
 import sys
 
 HOME = os.environ.get("NAZAR_HOME", os.path.expanduser("~/.nazar")) + "/brands"
-KEEP = ("pattern.json", "prompt.md", "devices.md", "voice.json", "train_copy.json", "learn.json", "contact_1.jpg", "contact_2.jpg", "devices_sheet.jpg", "assets.json", "usage.json")
+KEEP = ("pattern.json", "prompt.md", "devices.md", "voice.json", "train_copy.json", "learn.json", "contact_1.jpg", "contact_2.jpg", "devices_sheet.jpg", "assets.json", "usage.json", "range.json")
 
 ALWAYS = ["The person's prompt leads; kits are add-ons. Ask only what the prompt and the profile don't already say.",
           "A client's logo is never redrawn or recoloured. Place exact files as supplied (`place_asset.py`).",
@@ -69,6 +69,11 @@ def save(name, out):
     pm = os.path.join(d, "prompt.md")
     if os.path.isfile(pm):                                  # contact sheets and the device list now live in the profile, not the learn folder
         open(pm, "w").write(open(pm).read().replace(os.path.abspath(out), d))
+    if os.path.isdir(os.path.join(out, "elements")):            # the brand's real reusable elements travel with the profile
+        shutil.copytree(os.path.join(out, "elements"), os.path.join(d, "elements"), dirs_exist_ok=True)
+        pm = os.path.join(d, "prompt.md")
+        if os.path.isfile(pm):
+            open(pm, "w").write(open(pm).read().replace(os.path.join(os.path.abspath(out), "elements"), os.path.join(d, "elements")))
     print(f"profile @{name}: {n} files saved in {d}")
 
 

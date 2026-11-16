@@ -36,6 +36,54 @@ PY = sys.executable
 run = lambda args: subprocess.run([PY, *args], capture_output=True, text=True)
 
 
+def archive_range(train, out):
+    """The archive's RANGE, not one formula: how headlines are aligned and sized, how often an accent line, a device or the mascot appears,
+    how busy pieces are. Rules written as ranges keep a set varied; one formula made rule-following runs look templated in blind tests."""
+    import numpy as np
+    sys.path.insert(0, f"{ROOT}/nazar-voiceprint/engine")
+    import layout, devices, score_pattern
+    from PIL import Image
+    al, lines, objs, n = [], [], [], 0
+    for f in sorted(os.listdir(train)):
+        if not f.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
+            continue
+        im = Image.open(os.path.join(train, f)).convert("RGB")
+        if score_pattern.is_photo(im):
+            continue
+        n += 1
+        r = layout.analyse(im)
+        if r:
+            al.append(r["dominant_alignment"]); lines.append(r["text_lines"])
+        objs.append(len(devices.objects(im)))
+    pat = json.load(open(os.path.join(out, "pattern.json")))
+    c = {k: al.count(k) / max(len(al), 1) for k in ("left", "centre", "right")}
+    o = np.array(objs)
+    txt = ("RANGE (rules as your archive's spread, not one formula; vary within it across a set):\n"
+           f"  headline alignment: left {c['left']:.0%}, centred {c['centre']:.0%}, right {c['right']:.0%}\n"
+           f"  text lines per piece: {int(np.percentile(lines, 10))} to {int(np.percentile(lines, 90))} (median {int(np.median(lines))})\n"
+           f"  an accent-coloured element appears in {pat.get('accent_presence', 0):.0%} of pieces (not every piece)\n"
+           f"  objects per piece: {int(np.percentile(o, 10))} to {int(np.percentile(o, 90))} (median {int(np.median(o))}); about {np.mean(o == 0):.0%} of pieces are type only")
+    json.dump({"alignment": c, "lines": [int(np.percentile(lines, 10)), int(np.median(lines)), int(np.percentile(lines, 90))],
+               "objects": [int(np.percentile(o, 10)), int(np.median(o)), int(np.percentile(o, 90))]}, open(os.path.join(out, "range.json"), "w"))
+    return txt
+
+
+def save_elements(train, out, min_pieces=2):
+    """The brand's REAL reusable elements, cut pixel-exact from its own pieces (store badges, partner logos, stickers, UI cards that recur
+    identically): placed as they are, they read as the brand's own; redrawn ones read as 'crude fake' to blind judges."""
+    sys.path.insert(0, f"{ROOT}/nazar-voiceprint/engine")
+    import devices
+    res, total, _ = devices.find_devices(train, min_pieces)
+    d = os.path.join(out, "elements"); os.makedirs(d, exist_ok=True)
+    saved = []
+    for i, r in enumerate([r for r in res if r["n_exact"] >= min_pieces][:12]):
+        p = os.path.join(d, f"element_{i + 1}.png"); r["best"]["crop"].save(p); saved.append((p, r["n_exact"]))
+    if not saved:
+        return ""
+    return ("REAL ELEMENTS cut from your own pieces (each recurs identically in 2+ pieces; place as is, never redraw). Some carry the archive's own words, "
+            "claims or partner logos: use those only where they are true for the new piece.\n" + "\n".join(f"  {p}  (in {n} pieces)" for p, n in saved))
+
+
 def contact_sheets(train, out):
     """Two or more contact sheets of the archive: the numbers can't see recurring devices, a look at the sheet can."""
     from PIL import Image
@@ -100,8 +148,14 @@ def learn(train, out, assets):
         print(f"  {m['kind']} '{m['text']}' in {m['share']:.0%} of pieces, usually at x {m['box'][0]:.0%} y {m['box'][1]:.0%}")
     for g, ws in u["ground_words"].items():
         print(f"  words on {g} grounds: {', '.join(ws[:8])}")
+    rng = archive_range(train, out)
+    print("\n" + rng)
+    els = save_elements(train, out)
+    if els:
+        print("\n" + els)
     v = voice(train, out)
     sheets = contact_sheets(train, out)
+    block += "\n" + rng + ("\n" + els if els else "")
     block += ("\nVARIETY: blind judges named every generated slide as generated because the set was too tidy and formulaic (the same polished layout, mascot and props "
               "every time). Real work is blunter, messier and more varied. Vary layout, density and device across the set, include at least one plain or text-led slide, "
               "never reuse one template, and let some slides be rougher than others. For EACH brief run `studio.py nearest <out> \"<the brief>\"`: real designers adapt compositions from their own archive, so rebuild the closest real piece's ground, headline scale, position and device with your copy instead of inventing a layout.")
@@ -216,7 +270,7 @@ def vocabulary(slides, pattern, outdir):
         novel = [o for o in objs if not any(devices.link(o, a) for a in arch)]
         flags = []
         if len(objs) > int(np.ceil(p90)):
-            flags.append(f"CLUTTERED: {len(objs)} objects, your pieces have {p90:.0f} or fewer in 90% of cases: remove the least necessary")
+            flags.append(f"busier than 90% of your pieces ({len(objs)} objects; advisory: keep it if the detail is the archive's own kind)")
         if objs and len(novel) / len(objs) > 0.5 and len(novel) >= 2:
             flags.append(f"{len(novel)} of {len(objs)} objects look unlike your archive's (worth a look; this check also boxes headline words and your own files sometimes)")
         lines.append(f"  {name}: {len(objs)} objects, {len(novel)} unfamiliar" + ("  <- " + "; ".join(flags) if flags else "  ok"))
@@ -228,6 +282,39 @@ def vocabulary(slides, pattern, outdir):
                 d.rectangle((cx - bwp / 2, cy - bhp / 2, cx + bwp / 2, cy + bhp / 2), outline=(230, 30, 30), width=5)
             ann.thumbnail((720, 900)); ann.save(os.path.join(outdir, f"novel_{os.path.splitext(name)[0]}.jpg"), quality=88)
     lines.append(f"  Red boxes on novel_*.jpg in {outdir} mark the unfamiliar objects.")
+    return "\n".join(lines)
+
+
+def variety(slides, pattern):
+    """Does the SET vary like the archive does? Slides that share one template were the blind judges' main tell."""
+    sys.path.insert(0, f"{ROOT}/nazar-voiceprint/engine")
+    import numpy as np
+    import score_pattern
+    from PIL import Image
+    pat = json.load(open(pattern)); typ = pat.get("typ")
+    if not typ:
+        return "VARIETY: needs a pattern from learn."
+    lab = score_pattern.lab_of_hex([pat["accent"]]); mu, sd = np.array(typ["mu"]), np.array(typ["sd"])
+    names, Z = [], []
+    for f in sorted(os.listdir(slides)):
+        if f.lower().endswith((".png", ".jpg", ".jpeg")):
+            v = score_pattern.typ_vector(Image.open(os.path.join(slides, f)).convert("RGB"), lab)
+            if v is not None:
+                names.append(f); Z.append((np.array(v) - mu) / sd)
+    if len(Z) < 3:
+        return "VARIETY: needs 3 or more slides."
+    Z = np.array(Z); A = np.array(typ["z"])
+    def mean_pair(X):
+        d = np.linalg.norm(X[:, None] - X[None], axis=2); return float(d[np.triu_indices(len(X), 1)].mean())
+    ds, da = mean_pair(Z), mean_pair(A)
+    D = np.linalg.norm(Z[:, None] - Z[None], axis=2)
+    close = float(np.percentile(np.linalg.norm(A[:, None] - A[None], axis=2)[np.triu_indices(len(A), 1)], 10))
+    twins = sorted({tuple(sorted((names[i], names[j]))) for i in range(len(Z)) for j in range(i + 1, len(Z)) if D[i, j] < close})
+    share = len(twins) / max(len(Z) * (len(Z) - 1) / 2, 1)
+    lines = [f"VARIETY: {share:.0%} of this set's slide pairs are near-identical templates (real held-back pieces on a real archive: about 1%; generated sets: about 12%)" +
+             ("  <- TEMPLATED: vary layout, alignment, density and device across the set" if share > 0.05 else "  ok")]
+    if twins:
+        lines.append("  near-identical: " + ", ".join(f"{a} and {b}" for a, b in twins[:8]))
     return "\n".join(lines)
 
 
@@ -262,7 +349,7 @@ def compare(slides, pattern, outdir):
         d = ImageDraw.Draw(sh); d.text((12, 8), f"YOURS: {f}", fill=(0, 0, 0)); d.text((552, 8), f"CLOSEST REAL: {typ['names'][j]}", fill=(0, 0, 0))
         p = os.path.join(outdir, f"compare_{os.path.splitext(f)[0]}.jpg"); sh.save(p, quality=88); outs.append(p)
     return ("CRAFT PASS: look at each compare_*.jpg in " + outdir + " (your slide left, its closest real piece right). For each, name the 3 biggest differences in "
-            "density, scale, devices and roughness, fix the two biggest, then look again. Real work is blunter and messier than a tidy set.\n  " + "\n  ".join(outs))
+            "density, scale, devices and roughness, fix the two biggest, then look again. Keep the archive's specific, odd details: real work is blunter and messier than a tidy set.\n  " + "\n  ".join(outs))
 
 
 def check(slides, copy, pattern, sheet):
@@ -289,6 +376,7 @@ def check(slides, copy, pattern, sheet):
                 print(f"  {f}: " + (f"from {b}" if d <= 0.06 else f"NOT from the supplied backdrops (closest {b}, distance {d:.2f}): place the exact file with place_asset.py"))
     print("\n" + copy_length(copy, pattern))
     print("\n" + vocabulary(slides, pattern, os.path.join(os.path.dirname(os.path.abspath(sheet)), "vocabulary")))
+    print("\n" + variety(slides, pattern))
     print("\n" + compare(slides, pattern, os.path.join(os.path.dirname(os.path.abspath(sheet)), "compare")))
     print("\nKITS APPLIED by this check: nazar-colour (contrast on the colour used), nazar-social (copy lint, English only; copy length against your archive), nazar-core (QA, "
           "vocabulary, craft pass). STILL YOURS: nazar-type (run font_match.py on a headline crop), nazar-backdrops (place exact files with place_asset.py), nazar-social rules "
