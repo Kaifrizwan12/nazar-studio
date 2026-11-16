@@ -26,8 +26,14 @@ The skill runs step 0: it tags the job and the brand, and asks only what the pro
 
 Every run is a fresh agent that has never seen the held-back pieces or another run's output.
 
+## 5b. The feedback round (real use)
+Real work is never one shot. After round 1 the designer looks at each run's drafts and writes notes in their own words (or a fixed note sheet
+written after seeing them, so every run gets the same kind of notes): what to keep, what to change, what never to do again. The same agent revises
+once, and both rounds are judged blind together, so the gain from one round of direction is measured. Results from runs without this round are
+labelled "one shot".
+
 ## 6. Judging
-- **Two blind judges** (an art director and a brand manager), shown the brand's reference pieces, then a shuffled mix of the held-back real pieces and every generated slide, labels hidden. They score brand fit and quality (1 to 5) and guess real or generated.
+- **Three blind raters doing real jobs**, each shown the brand's reference pieces and a shuffled mix of the held-back real pieces and every generated slide, labels hidden: a **brand manager** with the brand guidelines (brand-kit compliance, approve / edits / reject, the errors to send back), a **social media lead** (reads on a phone, would post this week) and an **art director** (looks like the designer made it, quality). Each also guesses real or generated.
 - **A human pick test** (`nazar-voiceprint/engine/pick_test.py`): the designer picks real from generated, blind.
 
 ## 7. What is measured

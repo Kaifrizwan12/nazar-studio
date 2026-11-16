@@ -10,6 +10,10 @@ Every `nazar-*` kit builds on this folder. Read it first, every time.
 ## Step 0 for any Claude: enhance the person's prompt first
 A casual prompt is rarely complete. Before doing anything, run `python3 nazar-core/engine/studio.py brief "<their prompt>"` (no archive needed, almost no tokens). If the prompt is tagged (`6 posts for @brand #post: ...`) it loads the saved brand profile (`@`: measured habits, devices, the exact files) and only that job's kits and rules (`#carousel #post #story #banner #packaging #logo #billboard #web #motion #strategy #pitch #voice`); tags are the best way to brief, and `nazar-core/engine/tags.py brand save` keeps a profile. Untagged, it names the job, the kits and engines that apply (so you read only those SKILL.md files), the files to place as supplied, the rules that always apply and the checks. Show the enhanced brief in one short block, then **ask the targeted questions it lists** (only what the prompt and profile don't already say: at most four, in one message, each with options and a recommended pick; none if the prompt is polished), restate the refined brief in one block, and work. This also teaches them what a good brief contains: the job, the work to learn from, the exact files, what never to add, the voice, and the checks.
 
+## The revision loop (real use is never one shot)
+Show the first set with the check's findings in one short block, then ask for notes in ONE message: what to keep, what to change, what must never
+happen again. Apply them, run `studio.py check` again, and report what changed. Log anything the notes reveal about the skill in the kit's `LESSONS.md`.
+
 ## If you are a Claude using this for the first time
 1. **Check the install** before the job: `python nazar-core/engine/selftest.py` (about 15 s; each FAIL says what is missing). The engines need `pip install -r nazar-core/engine/requirements.txt`; reading text on slides needs macOS with `swiftc`, or `tesseract` on the PATH, or you write `copy.json` by hand.
 2. **Read the person's prompt as the lead.** Pull only the kit and the engines the job needs. Ask only what the prompt doesn't already say.

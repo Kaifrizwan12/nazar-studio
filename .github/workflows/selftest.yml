@@ -1,0 +1,13 @@
+name: selftest
+on: [push, pull_request]
+jobs:
+  selftest:
+    runs-on: macos-latest          # macOS: read_text.py uses the built-in Vision recogniser via swiftc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r nazar-core/engine/requirements.txt
+      - run: python3 nazar-core/engine/selftest.py
+      - run: python3 nazar-core/engine/test_draw.py /tmp/draw_sheet.png

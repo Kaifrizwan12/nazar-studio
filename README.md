@@ -133,6 +133,8 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 - **Not tested on real files yet:** pose, EXIF and video tools, a full personal writing archive, real Pakistani packs and Urdu print.
 - **Rules that never bend:** a client's logo is never recoloured or redrawn, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
 
+Licence: [MIT](LICENSE) (the bundled fonts are SIL OFL; licences included). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md).
+
 More detail: [the engine results](docs/RESULTS.md), [how the pattern engine works](docs/ENGINES.md), [the case study](docs/CASE_STUDY.md). **Extend it:** the engines are plain Python; [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) shows how to add a structure, a block or a QA check, and how to test it.
 
 ## About Kaif

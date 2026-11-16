@@ -285,6 +285,52 @@ def vocabulary(slides, pattern, outdir):
     return "\n".join(lines)
 
 
+CLAIM_RX = r"\b\d[\d,.]*\s*(?:%|k\b|min(?:ute)?s?|sec(?:ond)?s?|hours?|days?)|\b\d{1,3}(?:,\d{3})+\+?|\b\d{3,}\+|\bek minute\b|\babout a minute\b|\bfree\b|\bguarantee\w*|\bbest\b|\bno\.?\s*1\b|\bonly\b"
+
+
+def brand_faults(slides, copy, pattern):
+    """The faults a brand manager sends back most (from a blind real-world rating): a missing or misplaced handle, the logo on a dark slide,
+    and claims nobody has verified (times, numbers, 'free')."""
+    import collections
+    import re
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import read_text
+    import usage as _u
+    from PIL import Image
+    d = os.path.dirname(pattern)
+    tc = os.path.join(d, "train_copy.json")
+    handles = collections.Counter(h.lower().rstrip(".") for t in (json.load(open(tc)).values() if os.path.isfile(tc) else [])
+                                  for h in re.findall(r"@[\w.]+", t))
+    stems = collections.Counter(h.split(".")[0] for h in handles.elements())     # OCR garbles the ending (.pk read as .com, .ok): compare the name
+    handle = stems.most_common(1)[0][0] if stems else None
+    uj = os.path.join(d, "usage.json")
+    mark = next((m["text"] for m in (json.load(open(uj))["marks"] if os.path.isfile(uj) else []) if m["kind"] == "mark"), None)
+    texts = json.load(open(copy)) if os.path.isfile(copy) else {}
+    files = [f for f in sorted(os.listdir(slides)) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
+    boxes = read_text.read_boxes([os.path.join(slides, f) for f in files])
+    out = ["BRAND FAULTS (what a brand manager sends back most)" + (f"; your handle is {handle}" if handle else "")]
+    import difflib
+    for f in files:
+        p = os.path.join(slides, f); flags = []
+        g = _u.ground_of(Image.open(p).convert("RGB"))
+        rows = boxes.get(p, [])
+        if handle:
+            hs = sorted([b for _, t, b in rows if b and "@" in t and difflib.SequenceMatcher(None, re.sub(r"[^a-z@]", "", t.lower().split(".")[0]), handle).ratio() >= 0.7],
+                        key=lambda b: -b[1])                    # the lowest one is the footer handle
+            if not hs:
+                flags.append("handle missing")
+            elif not (hs[0][0] < 0.45 and hs[0][1] > 0.8):
+                flags.append(f"handle not bottom-left (x {hs[0][0]:.0%}, y {hs[0][1]:.0%})")
+        if mark and g == "dark" and any(b and "@" not in t and len(re.sub(r"[^a-z]", "", t.lower())) <= len(mark) + 3
+                                         and difflib.SequenceMatcher(None, mark, re.sub(r"[^a-z]", "", t.lower())).ratio() >= 0.6 for _, t, b in rows):
+            flags.append("logo on a dark slide: use the light-on-dark version (see elements/), never a black logo on a white box")
+        claims = sorted({m.group(0).strip() for m in re.finditer(CLAIM_RX, texts.get(f, ""), re.I)})
+        if claims:
+            flags.append("verify before posting: " + ", ".join(claims[:6]))
+        out.append(f"  {f} [{g}]: " + ("ok" if not flags else "; ".join(flags)))
+    return "\n".join(out)
+
+
 def variety(slides, pattern):
     """Does the SET vary like the archive does? Slides that share one template were the blind judges' main tell."""
     sys.path.insert(0, f"{ROOT}/nazar-voiceprint/engine")
@@ -376,6 +422,7 @@ def check(slides, copy, pattern, sheet):
                 print(f"  {f}: " + (f"from {b}" if d <= 0.06 else f"NOT from the supplied backdrops (closest {b}, distance {d:.2f}): place the exact file with place_asset.py"))
     print("\n" + copy_length(copy, pattern))
     print("\n" + vocabulary(slides, pattern, os.path.join(os.path.dirname(os.path.abspath(sheet)), "vocabulary")))
+    print("\n" + brand_faults(slides, copy, pattern))
     print("\n" + variety(slides, pattern))
     print("\n" + compare(slides, pattern, os.path.join(os.path.dirname(os.path.abspath(sheet)), "compare")))
     print("\nKITS APPLIED by this check: nazar-colour (contrast on the colour used), nazar-social (copy lint, English only; copy length against your archive), nazar-core (QA, "
