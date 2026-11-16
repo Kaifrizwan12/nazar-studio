@@ -75,6 +75,8 @@ Every card is an engine run on real material, public-domain or a real brand arch
 
 The final test follows [a written protocol](docs/TEST_SCENARIO.md): one real brand archive (kept anonymous; 28 pieces teach, the rest are held back), 12 pieces per condition (six posts and a six-slide carousel), every run a fresh agent, and two blind judges who know only the brand's reference pieces and score a shuffled mix of the held-back real pieces and every generated slide.
 
+![Blind judging on a real archive: held-back real pieces, a casual run without the skill, a designer's-rules run without it, and the same with the skill](assets/demo-real-archive.jpg)
+
 | | Casual prompt, no skill | Designer's rules, no skill, told to measure and check | **Designer's rules, with the skill** |
 |---|---|---|---|
 | Brand fit (1 to 5; the real pieces score 4.45) | **2.96** | 2.62 | 2.58 |
