@@ -55,6 +55,7 @@ Report it back in one line, e.g.: *"312 documents and 84,000 words in; 41 held b
 - For reels, take hook placement, reveal rate and ending style **from their own catalogue only**. Industry "3-second rules" are unsourced folklore.
 
 **Visual** — designers, illustrators, photographers, colourists, editors:
+- **Brand-asset jobs (slides, posts, banners): two commands do it all.** `nazar-core/engine/studio.py learn <pieces> <out> [exact asset files]` measures the archive and writes the pattern and a prompt block; `studio.py check <slides> <copy.json> <out>/pattern.json` checks the new pieces (contrast on the colour used, language, lint, layout, QA sheet).
 - One command for the whole stack: `engine/portfolio.py <images folder>`. It reports format (canvas size habit) and grounds (light/dark system) first. The stroke layer is **off by default** because on slides, posters and anything with type it measures letter edges, not pen strokes; add `--line` for a folder of drawings. A look counts as a **habit** only if it appears in ≥60% of pieces; single images are confounded by their content.
 - Or run a single engine:
   - `visual.py`: palette habit (ground, support, accent, with shares), air, symmetry, thirds, weight placement, line weight, tone and warm/cool lean.

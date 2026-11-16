@@ -10,7 +10,8 @@ nazar-core/engine/studio.py: the fast path. Two commands cover a brand-asset job
               python studio.py check slides_folder copy.json pattern.json [sheet.jpg]
           prints per slide: pattern score, contrast of text and accent type on their own ground (with a darker
           suggestion for NEW type only), language, copy lint, and the QA measurements (edges, margins, gaps,
-          small text); writes the QA sheet (full size, squint, phone size). Then look at the sheet.
+          small text); writes the QA sheet (full size, squint, phone size). If copy.json does not exist it is created by
+          reading the text on the slides (read_text.py: macOS Vision, or tesseract). Then look at the sheet.
 It runs the engines in nazar-voiceprint, nazar-core and nazar-colour; it adds no judgement of its own.
 One call each replaces about ten, so a job reads less and calls less. Everything else (concept, copy, the font
 question via nazar-type/engine/font_match.py) is still yours.
@@ -40,6 +41,11 @@ def learn(train, out, assets):
 
 
 def check(slides, copy, pattern, sheet):
+    if not os.path.isfile(copy):      # no copy.json yet: read the text on the slides (a first draft: check it)
+        r = run([f"{ROOT}/nazar-core/engine/read_text.py", slides, copy])
+        print((r.stdout or r.stderr).strip() + "\n")
+        if r.returncode:
+            sys.exit("copy.json is missing and slide text could not be read: write it by hand as {\"slide.png\": \"all its text\"}")
     print(run([f"{ROOT}/nazar-core/engine/chain_check.py", slides, copy, pattern]).stdout.strip())
     print("\nQA measurements:")
     r = run([f"{ROOT}/nazar-core/engine/qa_views.py", slides, sheet])

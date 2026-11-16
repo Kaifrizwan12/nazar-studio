@@ -10,6 +10,9 @@ checks that can be measured from pixels:
   accent    the accent colour covers at most 20% of the piece, and 0.3%+ if the archive usually carries one
   device    no filled accent button or pill unless the archive itself uses them (10%+ of pieces)
 Photo-led posts (a photo fills the frame) are scored on canvas size only, and reported apart, because the pattern describes flat-ground slides.
+TYPICAL (advisory) is a nearest-neighbour distance on a structural fingerprint (where ink and accent sit, how light each third is,
+the nine features), calibrated by how close real pieces are to each other. Known-answer result: it flags structurally unusual
+slides, but it MISSED an off-brand purple default (structure matches; the colour gate catches that) and it cannot tell good from better.
 FIT (advisory) is the share of nine structural features (headline and subline size, line count, where text starts, ink,
 accent share...) inside the archive's own 2-SD range. It is wide when the archive is varied: on a real archive of
 chat bubbles, memes, cards and headline slides, real held-out pieces scored 0.92 and generated ones 0.89 to 0.95, so it
@@ -88,6 +91,39 @@ def features(im, accent_lab=None):
             "ink": float(m.mean()), "accent_share": acc}
 
 
+def typ_vector(im, accent_lab):
+    """A compact structural fingerprint: where the ink sits (a 6x8 grid), where the accent sits (3x4), how light each
+    third of the canvas is, plus the nine structural features. Compared by distance, in z-scores."""
+    import layout
+    f = features(im, accent_lab)
+    if f is None:
+        return None
+    m = layout.ink(im).astype(float); h, w = m.shape
+    ink = m[: h // 6 * 6, : w // 8 * 8].reshape(6, h // 6, 8, w // 8).mean((1, 3)).ravel()
+    t = im.copy(); t.thumbnail((120, 120)); a = np.asarray(t, float)
+    lab = srgb_to_oklab(a.reshape(-1, 3) / 255.0).reshape(t.height, t.width, 3)
+    accm = (np.linalg.norm(lab - accent_lab[0], axis=2) < 0.08).astype(float)
+    th, tw = t.height // 3 * 3, t.width // 4 * 4
+    acc = accm[:th, :tw].reshape(3, th // 3, 4, tw // 4).mean((1, 3)).ravel()
+    lum = (a @ [0.2126, 0.7152, 0.0722] / 255.0)[: t.height // 3 * 3].reshape(3, -1).mean(1)
+    return np.concatenate([ink * 3, acc * 3, lum, [f[k] for k in FIT_FEATURES]])
+
+
+def typ_stats(vecs):
+    V = np.array(vecs); mu = V.mean(0); sd = V.std(0) + 1e-3
+    Z = (V - mu) / sd
+    d = np.linalg.norm(Z[:, None, :] - Z[None], axis=2); np.fill_diagonal(d, np.inf)
+    loo = np.sort(d, axis=1)[:, :3].mean(1)              # each real piece's distance to its 3 nearest real neighbours
+    return {"mu": mu.round(4).tolist(), "sd": sd.round(4).tolist(), "z": Z.round(3).tolist(), "loo": sorted(loo.round(3).tolist())}
+
+
+def typicality(vec, st):
+    z = (np.array(vec) - np.array(st["mu"])) / np.array(st["sd"])
+    d = float(np.sort(np.linalg.norm(np.array(st["z"]) - z, axis=1))[:3].mean())
+    loo = np.array(st["loo"])
+    return round(float((loo >= d).mean()), 2)         # share of real pieces that sit further from their neighbours: 1.0 = as typical as the most typical
+
+
 def fit_stats(rows):
     out = {}
     for k in FIT_FEATURES:
@@ -137,7 +173,11 @@ def score(path, pat, refs):
     if pat.get("fit") and not photo:
         f = features(im, refs["accent"])
         fit, off = fit_score(f, pat["fit"]) if f else (0.0, list(FIT_FEATURES))
-    return {"fit": fit, "fit_off": off, "file": os.path.basename(path), "mode": "photo" if photo else "flat", "checks": checks, "score": sum(checks.values()) / len(checks),
+    typ = None
+    if pat.get("typ") and not photo:
+        v = typ_vector(im, refs["accent"])
+        typ = typicality(v, pat["typ"]) if v is not None else 0.0
+    return {"typical": typ, "fit": fit, "fit_off": off, "file": os.path.basename(path), "mode": "photo" if photo else "flat", "checks": checks, "score": sum(checks.values()) / len(checks),
             "ground_dist": round(ground_d, 3), "palette_share": round(pal_share, 2), "accent_share": round(acc_share, 3)}
 
 
@@ -195,6 +235,15 @@ def build(folder, assets=()):
             if r_:
                 flat_rows.append(r_)
     pat["fit"] = fit_stats(flat_rows)
+    vecs = []
+    for f in files:
+        im_ = Image.open(f).convert("RGB")
+        if not is_photo(im_):
+            v_ = typ_vector(im_, acc)
+            if v_ is not None:
+                vecs.append(v_)
+    if len(vecs) >= 8:
+        pat["typ"] = typ_stats(vecs)
     return pat
 
 
@@ -221,7 +270,8 @@ def run(pat, folder):
     flat = [r for r in rows if r["mode"] == "flat"]; photo = [r for r in rows if r["mode"] == "photo"]
     per = {k: round(float(np.mean([r["checks"][k] for r in flat])), 2) for k in ("format", "ground", "palette", "accent", "device")} if flat else {}
     fits = [r["fit"] for r in flat if r["fit"] is not None]
-    return {"fit": round(float(np.mean(fits)), 2) if fits else None, "n": len(rows), "flat_pieces": len(flat), "photo_posts": len(photo),
+    typs = [r["typical"] for r in flat if r.get("typical") is not None]
+    return {"typical": round(float(np.mean(typs)), 2) if typs else None, "typical_out": sum(1 for t in typs if t < 0.05), "fit": round(float(np.mean(fits)), 2) if fits else None, "n": len(rows), "flat_pieces": len(flat), "photo_posts": len(photo),
             "mean_score": round(float(np.mean([r["score"] for r in flat])), 2) if flat else None, "per_check": per,
             "photo_size_ok": round(float(np.mean([r["score"] for r in photo])), 2) if photo else None, "pieces": rows}
 
@@ -237,7 +287,7 @@ if __name__ == "__main__":
     if "--json" in sys.argv:
         print(json.dumps(r, indent=1))
     else:
-        print(f"{r['flat_pieces']} flat pieces, gate score {r['mean_score']}, FIT to the archive {r['fit']}  per check {r['per_check']};  {r['photo_posts']} photo posts, right canvas size: {r['photo_size_ok']}")
+        print(f"{r['flat_pieces']} flat pieces, gate score {r['mean_score']}, FIT {r['fit']}, TYPICAL {r['typical']} (outliers {r['typical_out']}/{r['flat_pieces']})  per check {r['per_check']};  {r['photo_posts']} photo posts, right canvas size: {r['photo_size_ok']}")
         off = {}
         for p in r["pieces"]:
             for k in p.get("fit_off", []):
