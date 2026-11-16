@@ -38,7 +38,7 @@ TAGS = {
                             "Optional carousel devices: a counter like 01/05 opposite the handle, and a continuity line that joins up across slides.",
                             "One idea per slide; body copy at least about 40 px on a 1080 canvas; long copy changes the format, not the type size."],
                      chain="`studio.py learn` (or the saved profile) -> `studio.py nearest` per slide -> make -> `studio.py check`"),
-    "post": dict(job="a single feed post", kits=["nazar-social", "nazar-backdrops (formats)"],
+    "post": dict(job="feed posts (single images)", kits=["nazar-social", "nazar-backdrops (formats)"],
                  rules=["Feed-native, not an ad: make something people would save, send or screenshot.", "Single images are for statements. Design for the grid crop (3:4) and thumbnail size."],
                  chain="profile -> `studio.py nearest` -> make -> `studio.py check`"),
     "story": dict(job="a story (9:16)", kits=["nazar-social", "nazar-backdrops (formats: story safe zones)"],
@@ -66,7 +66,9 @@ def save(name, out):
     for f in os.listdir(out):
         if f in KEEP:
             shutil.copy(os.path.join(out, f), os.path.join(d, f)); n += 1
-    lj = os.path.join(d, "learn.json")                      # nearest/check read the archive folder from here: keep it pointing at the real folder
+    pm = os.path.join(d, "prompt.md")
+    if os.path.isfile(pm):                                  # contact sheets and the device list now live in the profile, not the learn folder
+        open(pm, "w").write(open(pm).read().replace(os.path.abspath(out), d))
     print(f"profile @{name}: {n} files saved in {d}")
 
 
@@ -159,6 +161,9 @@ def questions(prompt, tags, names):
     """The skill's targeted questions: only what the prompt and the saved profile do NOT already say, at most four, each with options and a
     recommended pick. A polished prompt gets few or none. Ask them in ONE message (AskUserQuestion if you have it), then restate the brief."""
     low = prompt.lower()
+    for ref in re.findall(r"(?:/[\w.\-@+]+)+\.(?:md|txt)", prompt):     # rules the person wrote in a referenced file count as said
+        if os.path.isfile(ref):
+            low += " " + open(ref, errors="ignore").read().lower()
     prof = load(names[0]) if names else None
     has_paths = bool(re.search(r"(?:/[\w.\-@+]+){2,}", prompt))
     archive_job = bool(set(tags) & {"post", "carousel", "story", "banner", "voice"})

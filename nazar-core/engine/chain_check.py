@@ -40,6 +40,9 @@ def accent_text(im, pat):
     mask = (np.hypot(lab[..., 1], lab[..., 2]) > 0.12) & (dh < np.radians(25))
     if mask.sum() < 40:
         return None
+    for x0, y0, x1, y1, area in layout.components(mask):     # a mascot or logo in the accent's blue is a big compact blob, not type
+        if area > 0.012 * mask.size and (x1 - x0) < 2.2 * (y1 - y0):
+            mask[y0:y1, x0:x1] = False
     # accent TYPE is a wide, short line of letters; a mascot or logo in the same blue is a compact blob: keep only text-like lines
     boxes = [b for b in layout.components(layout.dilate_x(mask, 10))
              if (b[2] - b[0]) >= 2.2 * (b[3] - b[1]) and (b[3] - b[1]) < 0.2 * t.height and (b[2] - b[0]) > 0.08 * t.width
@@ -122,7 +125,7 @@ else:
         acc = r["accent_on_ground"]
         print(f"{r['file']}  {r['size'][0]}x{r['size'][1]}  score {r['score']:.1f}" + (f"  FAILS: {', '.join(fails)}" if fails else "  all pattern checks pass"))
         print(f"   text {r['text_contrast']}:1 {'ok' if r['text_contrast'] >= 4.5 else 'LOW'} | accent type {r.get('accent_used')} on its ground {acc}:1 "
-              + ("no accent type on this slide" if acc is None else "ok for any size" if acc >= 4.5 else "large type only (24px+, or 18.7px bold)" if acc >= 3 else "FAILS: below 3:1, even large type. Do NOT recolour the brand accent: move this line to where the ground is darker (see the bands below), or set it in the brand's ink"))
+              + ("no accent type on this slide" if acc is None else "ok for any size" if acc >= 4.5 else "large type only (24px+, or 18.7px bold)" if acc >= 3 else ("below 3:1: this IS the brand's own blue on this ground, as its archive uses it; a brand decision: keep it large, move it where the ground is darker, or set that line in the brand ink colour" if np.linalg.norm(score_pattern.lab_of_hex([r.get('accent_used') or pat['accent']])[0] - score_pattern.lab_of_hex([pat['accent']])[0]) < 0.05 else "FAILS: below 3:1, even large type. Do NOT recolour the brand accent: move this line to where the ground is darker (see the bands below), or set it in the brand ink colour")))
         if r.get('accent_bands') and acc is not None and acc < 4.5:
             bb = r['accent_bands']; best = max(bb, key=lambda t_: t_[2])
             print('   accent type by height: ' + ', '.join(f'{a_}-{b_}%: {v}:1' for a_, b_, v in bb) + f'  (best: {best[0]}-{best[1]}% of the height at {best[2]}:1; move the line there, or set it in the brand ink colour; never recolour the accent)')

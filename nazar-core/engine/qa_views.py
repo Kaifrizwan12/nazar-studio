@@ -87,11 +87,9 @@ if __name__ == "__main__":
     os.makedirs(crops, exist_ok=True)
     for f in files:
         im = Image.open(f).convert("RGB"); w, h = im.size
-        tiles = [im.crop((x, y, x + w // 2, y + h // 2)) for y in (0, h // 2) for x in (0, w // 2)]
-        sheet_d = Image.new("RGB", (w // 2 * 2 + 10, h // 2 * 2 + 10), "white")
-        for i, t in enumerate(tiles):
-            sheet_d.paste(t, ((i % 2) * (w // 2 + 10), (i // 2) * (h // 2 + 10)))
-        sheet_d.save(os.path.join(crops, os.path.splitext(os.path.basename(f))[0] + "_detail.jpg"), quality=90)
+        stem = os.path.splitext(os.path.basename(f))[0]
+        for i, (x, y) in enumerate(((0, 0), (w // 2, 0), (0, h // 2), (w // 2, h // 2))):     # four separate 100% quarters (no gutters that read as cracks)
+            im.crop((x, y, x + w // 2, y + h // 2)).save(os.path.join(crops, f"{stem}_q{i + 1}.jpg"), quality=90)
     out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(folder, "qa_sheet.jpg")
     if os.path.isdir(out):          # a folder was given: write qa_sheet.jpg inside it
         out = os.path.join(out, "qa_sheet.jpg")

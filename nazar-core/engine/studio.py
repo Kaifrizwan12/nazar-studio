@@ -215,10 +215,10 @@ def vocabulary(slides, pattern, outdir):
         objs = devices.objects(im)
         novel = [o for o in objs if not any(devices.link(o, a) for a in arch)]
         flags = []
-        if len(objs) > p90:
+        if len(objs) > int(np.ceil(p90)):
             flags.append(f"CLUTTERED: {len(objs)} objects, your pieces have {p90:.0f} or fewer in 90% of cases: remove the least necessary")
         if objs and len(novel) / len(objs) > 0.5 and len(novel) >= 2:
-            flags.append(f"{len(novel)} of {len(objs)} objects are not in your archive's vocabulary: replace with devices you use, or remove")
+            flags.append(f"{len(novel)} of {len(objs)} objects look unlike your archive's (worth a look; this check also boxes headline words and your own files sometimes)")
         lines.append(f"  {name}: {len(objs)} objects, {len(novel)} unfamiliar" + ("  <- " + "; ".join(flags) if flags else "  ok"))
         if novel:
             ann = im.copy(); d = ImageDraw.Draw(ann); w, h = ann.size; sw = devices.W; sh = max(1, round(h * sw / w))
@@ -334,7 +334,8 @@ def nearest(out, brief, k=3):
                      f"text starts x~{feat['left_x'] * W:.0f}px, first line y~{feat['top_y'] * Hh:.0f}px, widest line {feat['widest'] * 100:.0f}% of the width, accent {feat['accent_share'] * 100:.1f}% of the area")
         t = im.copy(); t.thumbnail((320, 400)); sheet.paste(t, (i * 330 + 5, 30))
         ImageDraw.Draw(sheet).text((i * 330 + 8, 6), f"{i + 1}. {f[:28]}", fill=(0, 0, 0))
-    path = os.path.join(out, "nearest.jpg"); sheet.save(path, quality=88)
+    import tempfile
+    path = os.path.join(tempfile.gettempdir(), "nazar_nearest.jpg"); sheet.save(path, quality=88)      # never write into a saved profile
     lines.append("Careful: reference pieces carry their own dates, numbers and claims. Adapt the composition, never the facts or the words.")
     lines.append(f"Look at {path}, then rebuild the same ground, headline scale, position, device and spacing with your own copy, and give it the archive's roughness.")
     print("\n".join(lines))
