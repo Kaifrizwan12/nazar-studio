@@ -85,4 +85,8 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 - **AI: plates and textures only, the pack stays ours.** AI makes empty backgrounds and real product photos; the pack (artwork, film, crinkles) is ours, so text stays sharp. Label "AI concept render", internal until the client OKs it in writing.
 - **Prompt like a food stylist,** following nazar-prompts: grounded, one hard light, real texture words, off-centre, shot on paper in the pack colour.
 - **Checklists for clients are WhatsApp-style:** short lines, ticks, no paragraphs.
+- **He reviews region by region** ("the bottom where the two parts blend", "the top blend"). When he flags one transition, check every transition on the pack (top band → window, window → frame, product → gusset, seal → edge) against the reference photo, not just the one named.
+- **"Still looks AI" after a fix means the physics is wrong, not the strength.** Go back to the reference, name what the real object does there (edge, contact, wrinkle direction), and model that.
+- **Unorthodox giggles on packs:** a small studio titbit (a tiny nazar/evil eye with "Nazar na lage." and a one-line studio credit, on the back under the info card) and hidden lines where only a second look finds them (outer bottom gusset: "Khatam? Phir se."). Never at the cost of the base design or legal panel.
+- **"Clean up and finalise" after a run of changes** means re-run every output, regenerate dielines and print files, delete scratch files, and update the deliverable pack, not just the file he looked at.
 - **He wants the loop:** build → look at it yourself → fix → repeat, without waiting, and log every learning in the skill as you go.

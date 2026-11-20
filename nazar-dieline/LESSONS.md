@@ -24,3 +24,10 @@
 - **Layout:** keep type ≥10 mm in from the sides of a pillow bag (it curves away). Same family layout as the pouch line.
 - **Hero photo:** shot on paper in the exact bag colour and feathered into the flood, so there's no cut-out halo.
 - **Proposed:** move `bag_from_blank` into `engine/film.py` as a generic `mockup_from_blank(art, blank_photo, silhouette)`.
+
+## 2026-11-20: frosted stand-up pouch, the details that read "real" vs "AI"
+- **Crinkles on frosted film:** same trick as chips, but take a **high-pass** of the blank pouch photo (luminance ÷ its own heavy blur), so only the creases come over and our own volume/light model stays in charge. Cap highlights so white ink reads.
+- **The window is what makes Azbuka look real:** a clearer rounded window (r≈9 mm, 3 mm in from the side seals, 4 mm under the zip band, 4 mm above the gusset) inside a milkier matte frame, with a thin lit line on the window's top edge. On press this is a **spot matte varnish plate**: add it to the print file, or the render promises something the print can't do.
+- **Empty headspace under the zip reads lighter** (air behind frosted film). Only at the top: the bottom is never empty.
+- **The bottom read as AI** when the product faded into a fog above the gusset. Real: product presses the film right down into the gusset (sharp contact), the gusset seal curve is a **crisp** line (dark ply edge + lit roll just below), the gusset is only slightly milkier, and **tension wrinkles** fan up from each bottom corner seal at 30–60°.
+- **Rule:** any soft gradient fade where a physical edge should be (product end, seal, window) reads as generated. Physical things end in edges.
