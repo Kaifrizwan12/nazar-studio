@@ -42,3 +42,11 @@
 
 ## Delivery note (disclosure)
 "Images/video in this delivery were generated with [tool, model] on [dates] from Nazar's art direction and prompts, then retouched and finished by Nazar. AI use approved by [client signatory] on [date]. Generated content may not be exclusive; provenance metadata (SynthID/C2PA) is preserved."
+
+## Hybrid scenes (AI plate + real pack): rules that held up
+- **AI makes only the empty plate.** Never let a model re-light or redraw the pack; it erases print detail.
+- **Camera must match the pack render:** top-down or dead straight-on plates only for flat orthographic renders. Oblique plates make pasted packs look fake.
+- **Seat the pack, don't paste it:** carry the plate's low-frequency light and colour cast onto the pack, lift the pack's blacks to the plate's black level, drop saturation slightly, add a soft bend falloff and a broad sheen from the key light, an inner edge occlusion, a cast plus tight contact shadow away from the key, and the plate's grain.
+- **Shelves:** bag bases tuck behind the shelf lip (re-lay the lip band over the packs), slight lean, overlapping facings.
+- **Tool limits:** some connectors return only small previews (unusable as plates); some cap free model runs. Check full-resolution output and quota before promising a set.
+- **Owner preference may still be "no hyper-real for now":** keep scenes optional; the designs lead.

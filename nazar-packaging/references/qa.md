@@ -29,3 +29,11 @@
 
 ## Handover
 - [ ] Print-ready PDFs, live masters, the range template for future SKUs, a colour spec sheet, the approved proof references, and a README for reorders
+
+## Render and family QA (learned the hard way)
+- [ ] **Look at fronts AND backs sheets**, every line together. Back-only faults (a signature on a band line, a wrong-colour mark) hide in a fronts-only sheet.
+- [ ] **Render-only zones get clearance too:** no ink within 3 mm of a gusset, base band, fold or seal curve drawn on the render, not just on the dieline. Automate it; don't trust the eye alone.
+- [ ] **Copy must be true per line.** A family line ("just fruit", "orchard") pasted onto a different product line (vegetables, herbs) is a false claim. Keep the device shared, write the words per line. Same for the lock-up descriptor.
+- [ ] **Never name other products or brands** in pack copy or decks (no competitor names, no unrelated snack words). Scan strings automatically.
+- [ ] **One-ink marks route to one layer.** A studio signature or small icon gets one ink (white on tinted film), never a caller-supplied dark that prints black by accident.
+- [ ] **Multi-packs are built from the real single-pack renders,** never redrawn side profiles (they read as slop).
