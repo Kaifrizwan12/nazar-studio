@@ -160,4 +160,11 @@ His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/
 ## Credits
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
 
+
+## Open: next kits (planned, not built yet)
+
+- **`nazar-story`: case-study and brand-story maker.** It builds Behance-style continuous case studies for any brand: hook, insight, idea, system, applications, payoff, credits. It will be grounded in deep research on storytelling craft (screenwriting structure, editorial pacing, award-winning case studies) plus Kaif's voice and his unorthodox giggles. It writes the PNG sequence and the copy.
+- **`nazar-shoot`: product shoots and hyper-real scenarios.** It covers plates, compositing and the camera pass (light wrap, tone match, halation, lens, grain), story-driven scenes (hands, sky and local life), and flavour-cycle motion loops. AI makes only empty plates and textures; the product is always the real artwork.
+- **Review site: comment on every design, and the comment reaches Claude.** Each design image goes on a private page where Kaif or the client comments per image, and each comment arrives in the working session. The route to research first is a claude.ai Artifact with comments, then add it to the kits and test.
+
 Made with two eyes open. 👁️👁️
