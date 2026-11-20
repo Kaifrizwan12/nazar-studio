@@ -150,7 +150,7 @@ def collect_windows(d):
     """Pre-pass: turn every "window" block into a global polygon. On board it becomes a real CUT (and a film patch);
     on clear or metallised film it's an unprinted, un-whited area. Findings go to d.art_qa."""
     art = d.p["art"]
-    sub = art.get("substrate", "clear" if d.style in ("pouch", "flowwrap") else "board")
+    sub = art.get("substrate", "clear" if d.style in ("pouch", "flowwrap", "box_pouch") else "board")
     d.art_substrate, d.windows, d.art_qa = sub, [], []
     pcfg = art.get("panels", {})
     patch = float(art.get("patch_margin", 12))

@@ -59,6 +59,7 @@ Adopted by the International Corrugated Case Association. **Layouts are drawn as
 | `cone_label` / `wrap_label` | Labels | Frustum maths; overlap; guides |
 | `pouch` | Stand-up pouch | Seals, gusset fold, zipper band, notch, hang hole, eye mark |
 | `flowwrap` | Flow-wrap / VFFS pillow bag (chips, snacks, bars) | Fin seal, serrated crimp end seals, split back, optional side gussets, eye mark |
+| `box_pouch` | Flat-bottom (box / block-bottom) pouch print layout | Front, side gussets (with fold-under base triangles), back, separate bottom panel, four edge seals, top seal, zipper, notch |
 | `sleeve_grid` | Shrink sleeve | Shrink % by height from a container profile, pre-stretch ellipses |
 
 Not drawn (ask the converter for their parametric standard): snap-lock and crash-lock bottoms, Beers/Brightwood trays, hinged-lid cigarette-style cartons, display headers, partitions, 0201 variants with special joints. Drawing them approximately would mislead, so we name the code and get the real file.

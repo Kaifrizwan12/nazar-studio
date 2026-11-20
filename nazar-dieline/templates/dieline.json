@@ -632,6 +632,25 @@
     }
    },
    "gusset": 0
+  },
+  {
+   "name": "box_pouch",
+   "style": "box_pouch",
+   "W": 130,
+   "H": 200,
+   "G": 70,
+   "edge_seal": 5,
+   "top_seal": 10,
+   "zip_from_top": 30
+  },
+  {
+   "name": "counter_display",
+   "style": "tray",
+   "L": 350,
+   "W": 135,
+   "D": 70,
+   "flute": "E",
+   "header": 110
   }
  ]
 }

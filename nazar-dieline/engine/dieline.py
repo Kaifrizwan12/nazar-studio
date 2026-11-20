@@ -255,12 +255,16 @@ def s_tray(d, p):
     pc = Piece(d, 0, 0, Lp, Wp)
     d.panels.append(("Base", rect_poly(0, 0, Lp, Wp), sf))
 
-    def long_wall(name):
+    hh = float(p.get("header", 0))                      # display header: back wall carried up as one ply
+
+    def long_wall(name, hdr=0.0):
         pr = Prof(0, Lp)
         e = min(gf * math.tan(rad(15)), (Dw - 2 * c) / 3)
         left = [(0, 0), (0, c), (-gf, c + e), (-gf, Dw - c - e), (0, Dw - c), (0, Dw)]
         right = [(Lp - u, v) for u, v in reversed(left)]
-        pr.pts = left + right
+        pr.pts = left + ([(0, Dw + hdr), (Lp, Dw + hdr)] if hdr else []) + right
+        if hdr:
+            pr.panel("Header", [(0, Dw), (Lp, Dw), (Lp, Dw + hdr), (0, Dw + hdr)], sf)
         pr.crease((0, 0), (Lp, 0))
         pr.crease((0, c), (0, Dw - c)); pr.crease((Lp, c), (Lp, Dw - c))
         for s in (1, -1):
@@ -268,12 +272,12 @@ def s_tray(d, p):
             pr.glue.append([(x0 - s * 1, c + 1), (x0 - s * (gf - 1), c + e + 1), (x0 - s * (gf - 1), Dw - c - e - 1), (x0 - s * 1, Dw - c - 1)])
         pr.panel(name, [(0, 0), (Lp, 0), (Lp, Dw), (0, Dw)], sf)
         return pr
-    pc.attach("top", long_wall("Back wall"))
+    pc.attach("top", long_wall("Back wall", hh))
     pc.attach("bottom", long_wall("Front wall"))
     for e, n in (("left", "End wall"), ("right", "End wall")):
         pc.attach(e, p_flap(0, Wp, D, name=n, safe=sf))
     pc.close()
-    d.notes.append("Corner flaps glue to the inside of the end walls. For a display tray, raise the back wall into a header (add 'header').")
+    d.notes.append("Corner flaps glue to the inside of the end walls." + (f" Header: back wall carried {hh:g} mm above the wall as one ply; add a fold-back or easel if it bows." if hh else " For a display tray, raise the back wall into a header (add 'header': mm)."))
     d.arrows.append((Lp / 2, Wp / 2, 0, "GRAIN (default: along L; confirm)"))
     d.facts["Walls"] = f"long {Dw:.1f} · end {D:.1f} · corner flaps {gf:.1f}"
 
@@ -616,17 +620,60 @@ def s_flowwrap(d, p):
     d.facts["Flow wrap"] = f"web width {tot:.1f} · cut-off (repeat) {H:.1f} · front {W:g} × {H - 2 * e:.0f} printable · fin {f:g} · end seals {e:g}" + (f" · gussets {G:g}" if G else "")
 
 
+def s_box_pouch(d, p):
+    """Flat-bottom (box / block-bottom) pouch print layout: FRONT | side gusset | BACK | side gusset on one web,
+    plus the separate bottom panel. Four vertical edge (corner) seals, top seal, zipper on front and back."""
+    W, H, G = float(p["W"]), float(p["H"]), float(p["G"])
+    cs, ts = float(p.get("edge_seal", 5)), float(p.get("top_seal", 10))
+    zip_off, zip_w = float(p.get("zip_from_top", 30)), float(p.get("zip_band", 10))
+    xs = [0, W, W + G, 2 * W + G, 2 * W + 2 * G]
+    tot = xs[-1]
+    d.outlines.append(rect_poly(0, 0, tot, H))
+    gap = 15.0
+    d.outlines.append(rect_poly(0, H + gap, W, H + gap + G))
+    for x in xs[1:4]: d.line("GUIDE", (x, 0), (x, H))
+    d.panels.append(("FRONT", rect_poly(cs, ts, W - cs, H), safe_of(p)))
+    d.panels.append(("Side gusset L", rect_poly(xs[1] + cs, ts, xs[2] - cs, H - G / 2), None))
+    d.panels.append(("BACK", rect_poly(xs[2] + cs, ts, xs[3] - cs, H), safe_of(p)))
+    d.panels.append(("Side gusset R", rect_poly(xs[3] + cs, ts, xs[4] - cs, H - G / 2), None))
+    d.panels.append(("BOTTOM (separate web)", rect_poly(cs, H + gap + cs, W - cs, H + gap + G - cs), None))
+    d.zones.append(rect_poly(0, 0, tot, ts))
+    for x in xs:
+        if x > 0: d.zones.append(rect_poly(x - cs, 0, x, H))
+        if x < tot: d.zones.append(rect_poly(x, 0, x + cs, H))
+    for gx in (xs[1], xs[3]):
+        d.line("CREASE", (gx + G / 2, ts), (gx + G / 2, H - G / 2))
+        d.labels.append((gx + G / 2 + 1, H / 2, "gusset fold (in)", 1.8, COL["DIM"], "start", -90))
+        d.zones.append(rect_poly(gx, H - G / 2, gx + G, H))
+        d.line("CREASE", (gx, H - G / 2), (gx + G / 2, H)); d.line("CREASE", (gx + G, H - G / 2), (gx + G / 2, H))
+        d.labels.append((gx + G / 2, H - G / 4, "folds under (base)", 1.6, COL["DIM"], "middle", 0))
+    d.zones.append(rect_poly(0, H + gap, W, H + gap + cs)); d.zones.append(rect_poly(0, H + gap + G - cs, W, H + gap + G))
+    d.labels.append((W / 2, H + gap - 2, "BOTTOM PANEL: separate film, sealed in by the converter", 2.0, COL["INK"], "middle", 0))
+    for x0, x1 in ((0, W), (xs[2], xs[3])):
+        d.zones.append(rect_poly(x0, zip_off, x1, zip_off + zip_w))
+        d.labels.append(((x0 + x1) / 2, zip_off + zip_w / 2 + 0.8, "zipper band · no barcode, no fine type", 2.0, COL["DIM"], "middle", 0))
+    nt = (ts + zip_off) / 2
+    d.holes.append([(0, nt - 2.5), (3.5, nt), (0, nt + 2.5)])
+    d.labels.append((cs + 1, nt + 0.7, "tear notch", 1.8, COL["DIM"], "start", 0))
+    d.arrows.append((tot / 2, H + gap + G + 6, 0, "WEB DIRECTION + PANEL ORDER: from the converter (many run front/back and gussets as separate webs)"))
+    d.notes.append("Flat-bottom pouches are built from separate films (front/back, gussets, bottom). This shows the print layout as one strip for planning; the converter's template sets the real web split.")
+    d.notes.append("The four vertical edge seals are stiff corners: keep type and barcodes off them. The lower part of each side gusset folds under into the base; nothing important there.")
+    d.notes.append("Side gussets are a strong second face on shelf (fruit name, window, nutrition). The bottom panel is seen only when picked up.")
+    d.facts["Box pouch"] = f"W {W} × H {H} × gusset {G} · front/back {W - 2 * cs:.0f} × {H - ts:.0f} printable · gussets {G - 2 * cs:.0f} wide · edge seals {cs} · top seal {ts}"
+
+
 STYLES = {"rte": lambda d, p: s_tube(d, p, "rte"), "ste": lambda d, p: s_tube(d, p, "ste"),
           "sleeve": lambda d, p: s_tube(d, p, "sleeve"), "tray": s_tray, "rsc": s_rsc,
           "hsc": lambda d, p: s_rsc(d, p, half=True), "mailer": s_mailer, "pillow": s_pillow, "rigid": s_rigid,
           "cone_label": s_cone_label, "wrap_label": s_wrap_label, "pouch": s_pouch, "sleeve_grid": s_sleeve_grid,
-          "flowwrap": s_flowwrap}
+          "flowwrap": s_flowwrap, "box_pouch": s_box_pouch}
 TITLES = {"rte": "Reverse tuck end (ECMA A20.20-type)", "ste": "Straight tuck end (ECMA A20.20-type)",
           "sleeve": "Sleeve / tube", "tray": "Glued-corner tray", "rsc": "Regular slotted container (FEFCO 0201)",
           "hsc": "Half slotted container (FEFCO 0200)", "mailer": "Tuck-front mailer (FEFCO 0427-type)",
           "pillow": "Pillow pack", "rigid": "Rigid set-up box: blank + wrap", "cone_label": "Tapered (cone) label",
           "wrap_label": "Wrap-around label", "pouch": "Stand-up pouch print layout", "sleeve_grid": "Shrink-sleeve shrink map",
-          "flowwrap": "Flow-wrap pillow bag (chips / snack packet)"}
+          "flowwrap": "Flow-wrap pillow bag (chips / snack packet)",
+          "box_pouch": "Flat-bottom box pouch print layout"}
 
 
 # ----------------------------------------------------------------- output
