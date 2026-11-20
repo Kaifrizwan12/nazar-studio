@@ -77,3 +77,12 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 - **Simple and in order of importance.** Easy-to-read README, simple cards, one number with what it means, honest about gaps.
 - **He expects the skill to improve itself.** Every failure on a real job is logged in the kit's `LESSONS.md` and patched with his okay. He cares about the skill saving tokens by shipping built engines instead of making Claude write and research them at runtime.
 - **He works in bursts and asks Claude to keep going.** When he is away: continue the loop, test, improve, and push when a round is tested.
+
+## Observed on a real packaging job (2026-11)
+- **Real look is the bar.** Anything that reads "cartoony", "fakey" or "AI slop" gets rejected at once: drawn fruit, creaseless bags, floating/exploding product, a lone dead-centre pouch, pale ghost shadows, white blown highlights that eat the type. Fix the realism, never the design he already liked.
+- **"Family" is a hard rule.** All SKUs and lines (pouch, chips bag, occasion packs) share one layout system; if one changes, all change. When he says "the design was good, only realism was missing", revert the layout and change only the render.
+- **He feeds references mid-job** (a folder, a repo link, one image). Look at every one before the next render and say what you took from it.
+- **AI: plates and textures only, the pack stays ours.** AI makes empty backgrounds and real product photos; the pack (artwork, film, crinkles) is ours, so text stays sharp. Label "AI concept render", internal until the client OKs it in writing.
+- **Prompt like a food stylist,** following nazar-prompts: grounded, one hard light, real texture words, off-centre, shot on paper in the pack colour.
+- **Checklists for clients are WhatsApp-style:** short lines, ticks, no paragraphs.
+- **He wants the loop:** build → look at it yourself → fix → repeat, without waiting, and log every learning in the skill as you go.

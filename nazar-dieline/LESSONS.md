@@ -17,3 +17,10 @@
 - **What worked:** code for the film (contact clarity, veil, tint, double film, opaque ink, volume), a real product-texture photo as the pile inside, AI only for empty plates and textures, composited with matched light. Labelled "AI concept render", internal until the client OKed it in writing.
 - **Feedback that changed the layout:** the single upright dead-centre pouch read as a mockup; top-down flat lays at varied angles, overlapping, cropped by the frame, won. Shadows had to be dense, not a pale ghost.
 - **Added:** `engine/film.py` (generic, brand-free, `--demo` runs standalone) and `references/frosted_film_render.md`.
+
+## 2026-11-20: opaque chips bags (pillow / flow-wrap) that look real
+- **What failed:** (1) code-only pillow shading looked like smooth plastic ("creaseless, slop"); (2) a height-map crinkle model first did nothing because `film.blur` clips to 0..1 (use a float blur for height maps), then looked glossy and noodle-like; (3) using a blank-bag photo's own silhouette cut the artwork where the bag's shadowed edge matched the backdrop grey (white jagged "torn" sides), and its blown highlights hid white type.
+- **What worked:** take only the **crease shading** from a photo of a blank white matte bag (inset past its curled edges), multiply/screen it over the flat art (highlight screen capped ~0.2 so white ink stays legible), wobble the print along the crease gradient with **bilinear** sampling (nearest = jagged type), and draw our **own silhouette** (crimped serrated ends, side pinch, edge roll-off).
+- **Layout:** keep type ≥10 mm in from the sides of a pillow bag (it curves away). Same family layout as the pouch line.
+- **Hero photo:** shot on paper in the exact bag colour and feathered into the flood, so there's no cut-out halo.
+- **Proposed:** move `bag_from_blank` into `engine/film.py` as a generic `mockup_from_blank(art, blank_photo, silhouette)`.
