@@ -41,3 +41,4 @@ Read `../nazar-core/SKILL.md` first. **The user's prompt leads; use what the job
 ## Files
 - `references/models.md`: dated capabilities and per-model prompt translation (Nano Banana, Omni/Veo, Flow, Midjourney, OpenAI, Runway, Kling), structures and examples
 - `references/assets.md`: asset checklists per job (pack hero, reel, product video, OOH), the iteration log template, the disclosure note
+- `references/product_texture_prompts.md`: product-texture photos and empty plates for pack composites (anti-slop lesson, model notes, a template)

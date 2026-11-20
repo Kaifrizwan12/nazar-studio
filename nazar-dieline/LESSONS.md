@@ -11,3 +11,9 @@
 - **Added `box_pouch`** (flat-bottom box pouch print layout: front | gusset | back | gusset + separate bottom, edge seals, zip, base fold-unders). It was needed for a kitchen range; it's drawn as one strip for planning, and the converter's template sets the real web split.
 - **`tray` now draws `header`** (mm): the note had mentioned the option but it wasn't implemented.
 - **QA gap confirmed again:** pouch rounded corner seals are not checked. On a small doypack (110 wide) a batch box at the back's bottom-right sat on the arc with no flag. Proposed: add the corner arcs to the zone check in `art.py`.
+
+## 2026-11-20: frosted film renders (`engine/film.py`)
+- **What happened:** a client's frosted tinted pouches had to be shown before samples existed. Image models couldn't render see-through frosted film or keep the label; drawn product through the film looked like clip-art.
+- **What worked:** code for the film (contact clarity, veil, tint, double film, opaque ink, volume), a real product-texture photo as the pile inside, AI only for empty plates and textures, composited with matched light. Labelled "AI concept render", internal until the client OKed it in writing.
+- **Feedback that changed the layout:** the single upright dead-centre pouch read as a mockup; top-down flat lays at varied angles, overlapping, cropped by the frame, won. Shadows had to be dense, not a pale ghost.
+- **Added:** `engine/film.py` (generic, brand-free, `--demo` runs standalone) and `references/frosted_film_render.md`.

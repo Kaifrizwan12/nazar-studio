@@ -58,6 +58,7 @@ Needs CairoSVG and Pillow; uses the core engine's harfbuzz type when installed (
 - `references/ideation.md`: structural ideation methods and the folding-craft archive
 - `references/inspiration.md`: where to find the best structural references, and how to collect them
 - `references/qa.md`: dieline QA, plus test protocols
+- `references/frosted_film_render.md`: showing frosted / tinted translucent film in 2D (7 cues), the ceiling of code-only renders, the hybrid AI-plate workflow, composition rules
 - `references/sources.md`: every source, by topic
 - `templates/dieline.json`: engine examples (structures + 5 MVP drafts); `templates/STRUCTURE_SPEC.md`: the converter brief; `templates/sample_mark.svg`: a neutral stand-in mark
 - `EXTENDING.md`: how any user's Claude adds structures, art blocks and checks for their own product
@@ -65,3 +66,4 @@ Needs CairoSVG and Pillow; uses the core engine's harfbuzz type when installed (
 ## Engines (besides dieline.py)
 - `engine/art.py`: the pack-art layer. Put real artwork on a structure through an `"art"` block (see `examples/mucha_carton.json`: a real CC0 plate on an RTE carton) and it writes the flat art, the folded view and a QA report. **Block positions: a `logo`/image block's `y` is its CENTRE unless you set `"valign": "top"`**; getting this wrong makes the art cross the safe area (the QA flags it, correctly). P1 = fix before showing anyone; P2 = fix before the converter.
 - `engine/figma.py`: writes the Figma build plan (`--figma`); see `FIGMA.md`.
+- `engine/film.py`: frosted / tinted film pouch renderer. Takes a tint hex, white and dark ink SVGs, geometry and an optional product photo (the pile inside); `composite` makes top-down flat lays (flat colour or photo plate), `scene_photo` stands packs in an eye-level plate. Concept renders, not photos. `python engine/film.py --demo --out <folder>`. Guide: `references/frosted_film_render.md`.
