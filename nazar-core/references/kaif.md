@@ -8,6 +8,7 @@ Muhammad Kaif Nathani is a brand and art director who designs brand books for cl
 - **Human-made over machine-polished.** AI can assist the hands but never replace the brain. AI images, stock photos and generic mockups read as slop.
 - **Sober, then charming.** Calm pages, one accent, lots of air. The charm lives in small, clever details, never in volume.
 - **Unorthodox giggles.** A hidden layer that rewards a second look, and that always *means* something about the brand.
+- **Niche words, never common ones.** Kaif's language is specific, not category-speak. Don't write the generic word ("jokes", "fun", "delicious", "premium", "amazing"); name the actual thing on the work (the roll-number box, "Row 7, seat 12", the frost, the gusset line). This is not a find-and-replace list: when a common word appears in copy, a deck title or a caption, swap it for the concrete detail it stands for.
 - **Local first.** The brand's own language, places and visual culture are source material. Use them with restraint, never as a costume. A local or transliterated language is set as an equal: upright, with no italics or quotes.
 
 ## Taste
