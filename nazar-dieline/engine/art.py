@@ -429,13 +429,13 @@ def render_art(d, out):
     if not seen_principal: qa.append(("P2", "pack", "no artwork on the principal panel (Front / Lid): the brand block is missing"))
     svg = "".join(s)
     base = os.path.join(out, d.name + "_art")
-    open(base + ".svg", "w").write(svg)
+    open(base + ".svg", "w", encoding="utf-8").write(svg)
     _export(svg, base, W)
     if getattr(d, "art_substrate", "board") in ("clear", "metallised"):
         white_plate(d, svg, base, W, H, ox, oy, bleed)
     box = box_view(d, art, faces)
     if box:
-        open(os.path.join(out, d.name + "_box.svg"), "w").write(box[0])
+        open(os.path.join(out, d.name + "_box.svg"), "w", encoding="utf-8").write(box[0])
         _export(box[0], os.path.join(out, d.name + "_box"), box[1], pdf=False)
     write_qa(d, qa, base + "_qa.md")
     for lv, n, msg in qa:
@@ -508,7 +508,7 @@ def write_qa(d, qa, path):
            "- [ ] The 30-second AI-tell test (nazar-core ai_tells.md): no default gradients, glows or centred-everything",
            "- [ ] Elements that cross folds still look right at ±1 mm drift",
            "- [ ] Mandatory copy sized from the client's real text, not placeholders"]
-    open(path, "w").write("\n".join(md) + "\n")
+    open(path, "w", encoding="utf-8").write("\n".join(md) + "\n")
 
 
 def show_fill(art):

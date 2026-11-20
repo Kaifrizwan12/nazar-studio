@@ -142,5 +142,5 @@ def plan(d, out):
                         "finish: get_node_info($FRAME) and export_node_as_image to check against <name>_art.png"],
            "steps": steps}
     path = os.path.join(out, d.name + "_figma.json")
-    json.dump(doc, open(path, "w"), indent=1)
+    json.dump(doc, open(path, "w", encoding="utf-8"), indent=1)
     return path, len(steps)

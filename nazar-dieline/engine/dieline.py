@@ -733,7 +733,7 @@ def render(d, out):
     svg = "".join(o)
     os.makedirs(out, exist_ok=True)
     base = os.path.join(out, d.name)
-    open(base + ".svg", "w").write(svg)
+    open(base + ".svg", "w", encoding="utf-8").write(svg)
     try:
         import cairosvg
         cairosvg.svg2pdf(bytestring=svg.encode(), write_to=base + ".pdf")
@@ -760,7 +760,7 @@ def write_dxf(d, path):
     for g in d.glue: poly("GLUE", g, True)
     layers = {"CUT": 1, "CREASE": 5, "PERF": 30, "GLUE": 8}
     tbl = "".join(f"0\nLAYER\n2\n{n}\n70\n0\n62\n{c}\n6\nCONTINUOUS\n" for n, c in layers.items())
-    open(path, "w").write("0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n"
+    open(path, "w", encoding="utf-8").write("0\nSECTION\n2\nHEADER\n9\n$ACADVER\n1\nAC1009\n0\nENDSEC\n"
                           f"0\nSECTION\n2\nTABLES\n0\nTABLE\n2\nLAYER\n70\n{len(layers)}\n{tbl}0\nENDTAB\n0\nENDSEC\n"
                           "0\nSECTION\n2\nENTITIES\n" + "\n".join(ent) + "\n0\nENDSEC\n0\nEOF\n")
 
@@ -798,7 +798,7 @@ def write_spec(d, path, bbox):
            "- [ ] White sample (unprinted, cut and creased on the real board) built and filled with the real product",
            "- [ ] Grain / flute direction agreed with the converter", "- [ ] Artwork placed on the converter's dieline, never on this one",
            "", "Files: `.svg` (layers), `.pdf` (preview), `.png`, `.dxf` (CUT/CREASE/PERF/GLUE for CAD), this spec."]
-    open(path, "w").write("\n".join(md) + "\n")
+    open(path, "w", encoding="utf-8").write("\n".join(md) + "\n")
 
 
 def build(job, out):
@@ -839,6 +839,9 @@ def contact_sheet(pngs, path, cols=3, cell=900):
 
 
 def main():
+    for _s in (sys.stdout, sys.stderr):
+        try: _s.reconfigure(encoding="utf-8")
+        except Exception: pass
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("config", nargs="?")
     ap.add_argument("--only"); ap.add_argument("--out")
@@ -848,7 +851,7 @@ def main():
     ap.add_argument("--figma", action="store_true", help="also write <name>_figma.json for claude-talk-to-figma-mcp")
     a = ap.parse_args()
     if a.config:
-        cfg = json.load(open(a.config))
+        cfg = json.load(open(a.config, encoding="utf-8"))
         jobs = cfg.get("jobs", [cfg])
         defaults = {k: v for k, v in cfg.items() if k not in ("jobs", "out")}
         out = a.out or os.path.join(os.path.dirname(os.path.abspath(a.config)), cfg.get("out", "../exports/dielines"))
