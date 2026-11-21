@@ -1,0 +1,58 @@
+{
+  "_about": "Generic handover manifest. Runs against the deck demo: python ../engine/example_deck.py, then BEHANCE=1 python ../engine/example_deck.py, then python ../engine/handover.py build handover_manifest.json --dry-run. Keys starting with _ are comments.",
+  "project": "Example Co.",
+  "slug": "EXAMPLE",
+  "version": 1,
+  "date": "2026-11-21",
+  "source_root": "../engine/out_example",
+  "release_root": "../engine/out_example/_release",
+  "build_marker": "../engine/out_example/.build_started",
+  "stale": "fail",
+  "_build_marker": "Run `handover.py mark` at the START of each render run; any non-static source older than the marker was not re-rendered and fails the build.",
+
+  "groups": {
+    "deck":  {"number": "00", "label": "Presentation"},
+    "cards": {"number": "02", "label": "Card range"},
+    "sheet": {"number": "03", "label": "Overview"}
+  },
+
+  "targets": {
+    "client":    {"kind": "client", "folder": "CLIENT_{slug}_{stamp}", "naming": "human", "zip": true,
+                  "intro": "Everything for review and everyday use. The PDF is the full presentation; the card images are ready for slides and screens."},
+    "portfolio": {"kind": "portfolio", "platform": "behance", "folder": "BEHANCE_{slug}_{stamp}", "naming": "safe",
+                  "cover": {"src": "behance/Example_Co_behance_01.png", "_sizes": "omit to use the platform's own: behance 1616x1264 + 808x632"}},
+    "dribbble":  {"kind": "portfolio", "platform": "dribbble", "folder": "DRIBBBLE_{slug}_{stamp}", "naming": "safe", "zip": false,
+                  "cover": {"src": "behance/Example_Co_behance_02.png"}},
+    "press":     {"kind": "press", "folder": "PRESS_{slug}_{stamp}", "naming": "safe", "status": "concept",
+                  "notes": ["Concept PDF only: the printer's PDF/X-4 export, with their profile and the converter's dieline, replaces it."]},
+    "social":    {"kind": "social", "platform": "social", "folder": "SOCIAL_{slug}_{stamp}", "naming": "safe", "zip": false,
+                  "cover": {"src": "behance/Example_Co_behance_03.png"}}
+  },
+
+  "handover": {
+    "studio": "Your Studio",
+    "contact": "hello@example.com",
+    "colour": "Screen files are sRGB. Print colour is set in the press PDF and governed by the printer's profile and a signed proof.",
+    "fonts": [
+      {"name": "Anton", "licence": "SIL Open Font License 1.1", "holder": "the type designer (free, commercial use allowed)", "url": "https://openfontlicense.org"},
+      {"name": "Space Grotesk", "licence": "SIL Open Font License 1.1", "holder": "the type designer", "url": "https://openfontlicense.org"}
+    ],
+    "stock": [],
+    "_ai": "Add an 'ai' block (line, tools) and mark items \"ai\": true when an AI background plate is used; the README then carries the disclosure.",
+    "support": "30 days of small fixes from the delivery date.",
+    "status_note": "These are concept files. Nothing here goes to press until the printer has proofed it."
+  },
+
+  "items": [
+    {"target": "client", "group": "deck", "src": "Example_Co.pdf", "name": "{group} {project} presentation {v}", "status": "concept"},
+    {"target": "client", "group": "cards", "src": "_cache/card_{colour}_{view}.png",
+     "name": "{group} {label} - {colour|cap} {view}", "for": {"colour": ["indigo", "moss", "ochre", "plum", "signal"], "view": ["front", "back"]},
+     "status": "concept"},
+    {"target": "client", "group": "sheet", "src": "Example_Co_contact.jpg", "name": "{group} Every page at a glance"},
+
+    {"target": "portfolio", "src": "behance/Example_Co_behance_*.png", "name": "{slug}_behance_{nn}"},
+    {"target": "dribbble", "src": "behance/Example_Co_behance_0[1-3].png", "name": "{slug}_shot_{nn}"},
+    {"target": "press", "src": "Example_Co.pdf", "name": "{slug}_concept_{stamp}"},
+    {"target": "social", "src": "behance/Example_Co_behance_0[4-6].png", "name": "{slug}_post_{nn}"}
+  ]
+}

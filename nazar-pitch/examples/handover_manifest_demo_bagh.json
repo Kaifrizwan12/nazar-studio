@@ -1,0 +1,70 @@
+{
+  "_about": "DEMO ONLY. Reproduces the CLIENT_ and BEHANCE_ folders of the owner's stand-in BAGH packaging job (an owner-approved demo brand) to show the manifest at real scale. It reads that project's render folder; outside that project it will report missing sources. Safe check against the delivered folders (writes nothing): python ../engine/handover.py build handover_manifest_demo_bagh.json --dry-run --release-root ../../../..  . A real build writes to _demo_release/ unless --release-root is given.",
+  "project": "BAGH",
+  "slug": "BAGH",
+  "version": 2,
+  "date": "2026-11-21",
+  "source_root": "../../../../04_packaging/azbuka-core-reference/01_versions/v01_stand-in/out",
+  "release_root": "_demo_release",
+
+  "groups": {
+    "pdf":     {"number": "00", "label": "Packaging presentation"},
+    "family":  {"number": "01", "label": "All packs together"},
+    "pouch":   {"number": "02", "label": "Fruit pouch 100 g"},
+    "single":  {"number": "03", "label": "Single serve 30 g"},
+    "chips":   {"number": "04", "label": "Fruit chips 25 g"},
+    "sharing": {"number": "05", "label": "Fruit chips 70 g"},
+    "kitchen": {"number": "06", "label": "Kitchen 250 g"},
+    "kit":     {"number": "07", "label": "Occasion 6-pack"},
+    "support": {"number": "08", "label": "Boxes and display"},
+    "film":    {"number": "09", "label": "Flavour cycle film"},
+    "photo":   {"number": "10", "label": "The range on the line"},
+    "views":   {"number": "11", "label": "Every side"},
+    "base":    {"number": "12", "label": "How the base works"}
+  },
+
+  "targets": {
+    "client":    {"kind": "client", "folder": "CLIENT_{slug}_{stamp}", "naming": "human", "readme": false, "checksums": false,
+                  "_readme": "Off here only so the dry run matches the folder as delivered; turn both on for a real handover."},
+    "portfolio": {"kind": "portfolio", "platform": "behance", "folder": "BEHANCE_{slug}_{stamp}", "naming": "safe", "readme": false, "checksums": false,
+                  "cover": {"src": "behance/BAGH_behance_cover_1616x1264.png", "sizes": [[1616, 1264], [808, 632], [768, 576]],
+                            "names": ["00_COVER_{w}x{h}", "00_COVER_{w}x{h}", "00_COVER_{w}x{h}_4x3"]}}
+  },
+
+  "handover": {"studio": "Nazar Studio", "ai": {"line": "The range photo uses an AI-generated background plate (empty scene only); the packs are the real artwork renders."}},
+
+  "items": [
+    {"target": "client", "group": "pdf", "src": "deliverables/BAGH_packaging_v02_client.pdf", "name": "{group} {slug} packaging {v}", "status": "concept"},
+    {"target": "client", "group": "family", "src": "_qa/family_sheet.jpg", "name": "{group} {label}"},
+    {"target": "client", "group": "pouch", "src": "{sku}_pouch-{view}.png", "name": "{group} {label} - {sku|cap} {view}",
+     "for": {"sku": ["mango", "strawberry", "kiwi", "apricot", "mulberry"], "view": ["front", "back"]}, "status": "concept"},
+    {"target": "client", "group": "single", "src": "fruit_line/d2_{sku}_pouch-front.png", "name": "{group} {label} - {sku|cap}",
+     "for": {"sku": ["mango", "strawberry", "kiwi", "apricot", "mulberry"]}},
+    {"target": "client", "group": "chips", "src": "chips/{sku}-chips_bag.png", "name": "{group} {label} - {sku|cap}",
+     "for": {"sku": ["mango", "apple", "banana"]}},
+    {"target": "client", "group": "sharing", "src": "chips_sharing/{sku}-chips_bag-{view}.png", "name": "{group} {label} - {sku|cap} {view}",
+     "for": {"sku": ["mango", "apple", "banana"], "view": ["front", "back"]}},
+    {"target": "client", "group": "kitchen", "src": "kitchen/{sku}_pouch-{file}.png", "name": "{group} {label} - {sku|cap} {view}",
+     "for": {"sku": ["onion", "tomato", "methi"]},
+     "rows": [{"file": "front", "view": "front"}, {"file": "back", "view": "back"}, {"file": "34", "view": "standing"}]},
+    {"target": "client", "group": "kit", "src": "fruit_line/kit_{occ}_deck.png", "name": "{group} {label} - {occ|words|title}",
+     "for": {"occ": ["exam-night", "movie-night"]}},
+    {"target": "client", "group": "support", "src": "support/*_view*.png", "name": "{group} {nice} - {view}",
+     "match": "^(?P<code>d\\d+)_.*?view(?:-(?P<view>.+))?$", "defaults": {"view": "main"},
+     "map": {"nice": {"from": "code", "values": {"d6": "Gift box", "d7": "Six-pack carton", "d9": "Mailer", "d10": "Counter display"}}}},
+    {"target": "client", "group": "film", "src": "motion/flavour-cycle_all_4x5.mp4", "name": "{group} {label} film", "with": {"label": "Flavour cycle"}},
+    {"target": "client", "group": "film", "src": "motion/{file}.mp4", "name": "{group}{s} Flavour cycle film - {line}",
+     "rows": [{"s": "a", "file": "flavour-cycle_4x5", "line": "Fruit pouches"},
+              {"s": "b", "file": "flavour-cycle_chips_4x5", "line": "Fruit chips"},
+              {"s": "c", "file": "flavour-cycle_kitchen_4x5", "line": "Kitchen"}]},
+    {"target": "client", "group": "photo", "src": "photo/range_drying-line.jpg", "name": "{group} {label}", "ai": true, "static": true},
+    {"target": "client", "group": "views", "src": "views/views_{code}.jpg", "name": "{group} {label} - {nice}",
+     "rows": [{"code": "d1", "nice": "Fruit pouch 100 g"}, {"code": "d2", "nice": "Single serve 30 g"}, {"code": "d3", "nice": "Fruit chips 25 g"},
+              {"code": "d4", "nice": "Sharing bag 70 g"}, {"code": "d8", "nice": "Kitchen 250 g"}]},
+    {"target": "client", "group": "base", "src": "mango_base-fold.png", "name": "{group} {label}"},
+
+    {"target": "portfolio", "src": "behance/BAGH_behance_*.png", "name": "{stem}"},
+    {"target": "portfolio", "src": "motion/flavour-cycle_{line}_16x9.mp4", "name": "FILM_flavour-cycle_{nice}_16x9",
+     "rows": [{"line": "fruit", "nice": "fruit-pouches"}, {"line": "chips", "nice": "fruit-chips"}, {"line": "kitchen", "nice": "kitchen"}]}
+  ]
+}

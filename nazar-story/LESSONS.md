@@ -6,3 +6,7 @@
 - 2026-11-21: Include a measured flats page (every structure with grams and mm). It reads as a real job and answers the printer's first question.
 - 2026-11-21: The studio contact page (mark, one line, founder, email, phone, social) goes before thank-you, never after it. Use owner-supplied details only.
 - 2026-11-21: Show the full contact sheet before shipping. The owner reviews by page number, so fix that page, then hunt the same class of problem on every page.
+- 2026-11-21: Product groups were hand-built per job (fan, couple, till row, bleed hero, padded flat-lay), each with its own shadow offset, so shadows on one page fell different ways. Now `engine/composers.py` is generic: one shared `Light`, soft plus tight contact shadow from the silhouette, true scale by mm, a device log. Self-test and `test_composers.py` pass.
+- 2026-11-21: A flat colour fill beside a lit gradient showed a Mach band at the seam on the first contact sheet. `extend_canvas` now carries the edge's falloff on and eases it flat, with matched grain.
+- 2026-11-21: An overlap row with the right item on top hid every tuck shadow (the light was from the left). `row(on_top="auto")` puts the item nearer the light on top, so each tuck casts onto its neighbour.
+- 2026-11-21: A stack placed by bounding boxes floated with gaps between tilted items. `stack` now drops each item until its silhouette touches the pile.

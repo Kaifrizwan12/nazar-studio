@@ -90,4 +90,6 @@ The engine writes panels at 2880 × 1620 (2x of the 1440 grid; Behance scales to
 - Packaging award entry FAQs: https://pentawards.com/live/en/page/faq and https://dielineawards.squarespace.com/faqs
 - Student award presentation caps: https://media.dandad.org/documents/NBA26-tutor-pack_iz7WW5Y.pdf ; board text guidance: https://awards.kyoorius.com/2014/student/more-info-presentation-boards/index.html
 
+The composers engine has its own dated research: `research_composers.md` (composition conventions, scale truth and misleading-size law, shadow physics and compositing, F/Z attention, seam blending).
+
 Gaps: the official awards presentation-board specs (full entry guides) were not readable from here; the 1.7 s figure is secondary; no Behance module-count limit was found.

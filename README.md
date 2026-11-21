@@ -4,7 +4,7 @@
 
 17 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
 
-`20 kits` · `51 engines, about 11,900 lines of Python` · `121 research references` · `72 lessons logged from real runs`
+`20 kits` · `54 engines, about 14,300 lines of Python` · `124 research references` · `86 lessons logged from real runs`
 
 
 <table>
@@ -80,7 +80,7 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 <table><tr>
 <td width="34%"><img src="assets/demo-flavour-cycle.webp" width="100%" alt="Cinematic flavour-cycle film: eleven BAGH packs, each pushing in slowly under a light sweep, handed over by a crisp light-edge wipe, ending on the BAGH card"></td>
-<td><b>Flavour-cycle films</b> (built with <code>nazar-shoot</code>). One script turns the pack renders into films: one 16:9 film per line for Behance, and phone-size 4:5 films for the client. They're cinematic, not slideshow cuts: each pack holds for 1.2 s with an eased push-in and a slight sway, the name type behind it drifts in soft focus, and a light sweep crosses the film. Packs hand over with a crisp diagonal wipe that has a light edge, and a feathered blend is banned because it doubles the type. A tight contact shadow keeps the seal teeth and notches sharp. Before any video renders, four stills (start, mid-shot, mid-wipe, next) are shown for a yes. Rules: <a href="nazar-shoot/references/motion.md"><code>motion.md</code></a>.</td>
+<td><b>Flavour-cycle films</b> (built with <code>nazar-shoot</code>). One script turns the pack renders into films: one 16:9 film per line for Behance, and phone-size 4:5 films for the client. They're cinematic, not slideshow cuts: each pack holds for 1.2 s with an eased push-in and a slight sway, the name type behind it drifts in soft focus, and a light sweep crosses the film. Packs hand over with a crisp diagonal wipe that has a light edge, and a feathered blend is banned because it doubles the type. A tight contact shadow keeps the seal teeth and notches sharp. The engine works for any product range, with presets for Reels, Stories, TikTok, Shorts, LinkedIn, X and Behance, and a built-in flash-safety check (WCAG 2.3.1). Before any video renders, four stills (start, mid-shot, mid-wipe, next) are shown for a yes. Rules: <a href="nazar-shoot/references/motion.md"><code>motion.md</code></a>.</td>
 </tr></table>
 
 **Every side, no 3D.** `nazar-packaging/engine/views.py` builds one sheet per structure (front, back, side, base from below, 3/4) from the pack renders and print art. It knows a doypack has no side panel, a pillow bag's fin is on the back and a box pouch base has no diagonal folds. `nazar-dieline/engine/base_fold.py` draws the doypack base: the gusset folds in, then out. Rules: [`views.md`](nazar-packaging/references/views.md).
@@ -139,8 +139,8 @@ Every card is an engine run on real material, public-domain or a real brand arch
 | `nazar-social` | Feeds and the slop test, Roman Urdu included | `social_lint` · `roman_urdu` |
 | `nazar-dieline` / `nazar-packaging` | Real dielines with art on them; packs that win the shelf and print cleanly | `dieline` · `film` · `press_pdf` · pack QA |
 | `nazar-illustration` | Drawing in code, like a hand | `ink` · `trace` |
-| `nazar-story` / `nazar-pitch` | Case studies and decks that never repeat a layout: one idea per page, every front and back, Behance panels and covers | `deck` |
-| `nazar-shoot` | Pack-in-scene shots: AI makes only the empty plate, the real render is seated with shadows, light wrap, tone match and grain | `composite` |
+| `nazar-story` / `nazar-pitch` | Case studies and decks that never repeat a layout: one idea per page, every front and back, Behance panels and covers. Composers build fans, couples, rows (true to scale in mm), stacks, bleed heroes, grids and scatters under one light; the handover packager fills client, portfolio and print folders with clean names, checksums and a changed-panels diff | `deck` `composers` `handover` |
+| `nazar-shoot` | Pack-in-scene shots: AI makes only the empty plate, the real render is seated with shadows, light wrap, tone match and grain. Product films for any range: 12 platform presets, cinematic or snap, loops, beat cuts and a WCAG flash check | `composite` `flavour_cycle` |
 | `nazar-ooh` · `nazar-web` · `nazar-motion` | Billboards, sites, logos that move | `ooh_check` · `web_audit` · `motion_check` |
 | `nazar-strategy` · `nazar-logo` · `nazar-brand-book` · `nazar-art-direction` · `nazar-prompts` | Method and checklists for positioning, proposals, marks, the identity book, photo and illustration briefs, and AI prompts (only with the client's written yes) | |
 

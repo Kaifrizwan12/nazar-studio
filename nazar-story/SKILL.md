@@ -57,8 +57,21 @@ d.build(cover="hero_front_on_colour.png")
 - `img()` flattens PNG alpha onto the page colour as a cached JPEG. It fails the build on any image off the page or overlapping another.
 - Compose overlaps with `couple`, `fan`, `toss` and `bleed`, so each group lands on the page as one picture.
 
+**The composers engine** (`engine/composers.py`, generic, any product: pouches, bottles, cans, boxes, cosmetics, books, devices) is the fuller version of those helpers. Each call returns one RGBA plus metadata (per-product box, scale, mask; px/mm when true scale) and its device name:
+```python
+sys.path.insert(0, ".claude/skills/nazar-story/engine")
+from composers import Item, Light, DeviceLog, fan, couple, row, cascade, stack, bleed_hero, grid, scatter, extend_canvas
+c = row([Item("30g.png", height_mm=140), Item("250g.png", height_mm=260)], 520, overlap=-0.1, true_scale=True)
+b += d.img(c.save(os.path.join(d.cache, "sizes.png")), 960, 260, 880, 700); d.page(b, device=c.device)
+```
+- `fan` hand of cards · `couple` front over back (overlap fraction, rise, tilt) · `row` overlap/standing/scale lineup on one baseline (`true_scale` by real mm) · `cascade` · `stack` (a pile that rests on its own silhouettes) · `bleed_hero` (exact box, one edge cut by a requested fraction) · `grid` specimen · `scatter` seeded flat-lay (no touching, or a capped overlap) · `extend_canvas` (edge-colour extension, matched grain, eased falloff, feathered seam).
+- Shadows: one shared `Light` (default from above-left) gives every composer the same direction. Each product gets a soft shadow plus a tight contact shadow from its own silhouette (notches and seal teeth survive), with an optional ground-plane `cast` shadow.
+- Devices: `DeviceLog().add(page, comp)` / `.add_deck(d)` / `.report()` warns when a device repeats across pages. `check_scale()` proves true-scale ratios.
+- `python nazar-story/engine/composers.py --selftest` (all guarantees on synthetic products) · `... sheet` (writes `examples/composers_sheet.jpg`) · `... compose row a.png b.png -o out.png --mm 120,200` · `... extend photo.jpg -o out.jpg --left 300` · `... demo <folder of *front*.png>` (an optional demo on real renders, labelled demo).
+
 ## QA before showing
 - [ ] The build passes with no overflow, overlap or device-repeat warning
+- [ ] Every product group comes from one `Light`; size comparisons use `true_scale` with real mm
 - [ ] The SKU × side list is all ticked, and no pack image appears twice
 - [ ] At phone width, every panel's line reads in about 2 s (look at `_behance_contact.jpg` at 480 px)
 - [ ] The flatplan check in `references/sequence.md` passes
@@ -68,4 +81,7 @@ d.build(cover="hero_front_on_colour.png")
 ## Files
 - `references/sequence.md`: the beats, the application rhythm, device names, the flatplan checklist
 - `references/research.md`: story structure, award and gallery patterns, scroll-attention data, Behance specs, sources
+- `references/research_composers.md`: dated research behind the composers (composition, scale truth and misleading-size law, shadow physics, F/Z attention, seam blending)
+- `engine/composers.py`: product-group composers (one RGBA each), shared Light, contact shadows, true scale, device registry; `engine/test_composers.py` (`python` or `pytest`)
+- `examples/composers_sheet.jpg`: every composer on synthetic stand-in products; `examples/composers_demo_bagh.jpg`: the same on the BAGH demo pack renders (demo only)
 - `LESSONS.md`: what real jobs taught; add to it after every story

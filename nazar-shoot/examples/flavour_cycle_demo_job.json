@@ -1,0 +1,14 @@
+{
+  "_note": "DEMO ONLY: the owner's own stand-in pouch range (BAGH), used as an example of a job file. The packs live in the owner's project, not in this repo; if the paths are absent, run --selftest instead. Paths are relative to this file (repo at <project>/.claude/skills).",
+  "items": [
+    {"name": "Mango",      "pack": "../../../../04_packaging/azbuka-core-reference/01_versions/v01_stand-in/out/mango_pouch-front.png",      "tint": "#F4B91E", "label": ["MANGO"]},
+    {"name": "Strawberry", "pack": "../../../../04_packaging/azbuka-core-reference/01_versions/v01_stand-in/out/strawberry_pouch-front.png", "tint": "#E43D55", "label": ["STRAWBERRY"]},
+    {"name": "Kiwi",       "pack": "../../../../04_packaging/azbuka-core-reference/01_versions/v01_stand-in/out/kiwi_pouch-front.png",       "tint": "auto",    "label": ["KIWI"]},
+    {"name": "Apricot",    "pack": "../../../../04_packaging/azbuka-core-reference/01_versions/v01_stand-in/out/apricot_pouch-front.png",    "tint": "#EE7F2D", "label": ["APRICOT"]},
+    {"name": "Mulberry",   "pack": "../../../../04_packaging/azbuka-core-reference/01_versions/v01_stand-in/out/mulberry_pouch-front.png",   "tint": "#7E3F92", "label": ["MULBERRY"]}
+  ],
+  "brand": {"title": "BAGH", "tagline": "FIVE FRUITS. NOTHING ELSE.", "sign": "NAZAR STUDIO",
+            "paper": "#F6F2EA", "ink": "#1E1A17"},
+  "options": {"aspect": "4:5", "fps": 30, "style": "cinematic", "loop": false,
+              "name": "demo_flavour-cycle_4x5", "out": "out_demo"}
+}

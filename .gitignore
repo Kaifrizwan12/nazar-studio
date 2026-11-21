@@ -4,3 +4,4 @@ __pycache__/
 exports/
 out/
 *.pyc
+nazar-pitch/examples/_demo_release/
