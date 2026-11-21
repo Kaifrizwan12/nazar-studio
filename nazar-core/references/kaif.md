@@ -92,3 +92,11 @@ Kaif's personal taste is a dial, not a default. Offer it as at least one route w
 - **"Clean up and finalise" after a run of changes** means re-run every output, regenerate dielines and print files, delete scratch files, and update the deliverable pack, not just the file he looked at.
 - **He wants the loop:** build → look at it yourself → fix → repeat, without waiting, and log every learning in the skill as you go.
 - **Every flagged mistake becomes a checkbox.** Keep a `FAMILY_RULES.md` per job (front, back, print, renders, scenes, copy). When work is delegated to subagents, they must audit against it before rendering and report pass/fail per item. He hates paying twice for the same mistake on another pack.
+
+## Review habits (learned on BAGH v02)
+- Show a preview before any commit; push only on a clear yes. Stop a running build the moment a flaw is flagged.
+- Structure must be physically true: check every view against how the pack is made (seals, gussets, folds). Say what the converter's dieline and white sample will settle.
+- A design device is all-or-none across SKUs, measured in code, never hand-tuned per SKU.
+- Check rhythm before showing: equal gaps, aligned card edges, no dead hole in one column, nothing jammed under a logo.
+- Legal type never shrinks below 2.2 mm cap to fit; restructure instead.
+- When asked, rate options in a short table and pick one; if an earlier version wins, revert to it exactly, then refine.
