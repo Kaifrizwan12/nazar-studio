@@ -30,7 +30,4 @@ Images: the strongest single image first, then the system, then applications in 
 
 
 ## Review wall (comments that reach Claude)
-- Publish every deck page as a numbered 16:9 sheet on one private claude.ai Artifact. Declare `comments` with `composer_only: true`, so the page asks for no consent.
-- Put a **Comment** button under each sheet that calls `openComposer({element: sheet})`. Mark each sheet `data-comment-target`, so a click anywhere on it anchors to it.
-- The reviewer writes the note and presses *Send to Claude*. The note lands in the session that published the page. Ask for one note per change.
-- The page is private until the owner shares it from the Share menu; say so when you hand over the link.
+Use `nazar-core/engine/review_wall.py` and follow `nazar-core/references/review_wall.md`: one command builds the page, one publish puts it live, and notes sent to Claude come back to the chat.

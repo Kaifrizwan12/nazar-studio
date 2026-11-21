@@ -4,7 +4,7 @@
 
 17 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
 
-`17 kits` · `41 engines, about 8,250 lines of Python` · `103 research references, 218 sources` · `37 lessons logged from real runs`
+`17 kits` · `42 engines, about 8,350 lines of Python` · `103 research references, 218 sources` · `37 lessons logged from real runs`
 
 
 <table>
@@ -72,6 +72,21 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 ![29 packs, one family: every BAGH pouch, chips bag, kit and box](assets/demo-pack-family.jpg)
 
+## Review live, with Claude listening
+
+![Review wall: numbered designs with a Comment button each; a note sent to Claude arrives in the chat, Claude fixes it across the family, runs QA and republishes](assets/demo-review-wall.jpg)
+
+Show the client the work on a live page instead of a PDF they mark up and email back.
+
+```bash
+python nazar-core/engine/review_wall.py <designs folder> <out folder> --title "<Brand> review"
+```
+
+- **One command, one publish.** The engine writes the page, the images and `publish.json`. Claude publishes it as a private claude.ai Artifact with the comments capability.
+- **Comment on the design itself.** Each design is a numbered sheet with its own Comment button, and the numbers match the deck.
+- **Send to Claude, and the chat answers.** The note lands in the working session. Claude makes the fix in the engine, applies it across the whole family, runs QA, republishes to the same link and replies in the thread. Anyone with the page open sees the update.
+- **Private by default.** Only the people the owner shares it with can open it. How it works: [`review_wall.md`](nazar-core/references/review_wall.md).
+
 ## Proof, on real work
 
 Every card is an engine run on real material, public-domain or a real brand archive. Each links to what the number means.
@@ -103,7 +118,7 @@ Every card is an engine run on real material, public-domain or a real brand arch
 
 | Kit | What it does | Engines |
 |---|---|---|
-| `nazar-core` | The shared brain: studio rules, research method, QA, and the fast path | `studio` · `chain_check` · `qa_views` · `read_text` · `place_asset` · `draw` · `selftest` · `trace` · renderer |
+| `nazar-core` | The shared brain: studio rules, research method, QA, the fast path, and the live review wall | `studio` · `chain_check` · `qa_views` · `read_text` · `place_asset` · `draw` · `review_wall` · `selftest` · `trace` · renderer |
 | `nazar-voiceprint` | Reads your own work (words, story, visuals) and writes a pattern that makes any AI work like you | `portfolio` · `score_pattern` · `devices` · `analyze` · `visual` · `grade` · `strokes` · `layout` · `cluster` · `video` · `pose` · `pick_test` |
 | `nazar-colour` | Palettes from real archives, contrast and colour-blindness | `palette_check` |
 | `nazar-type` | Choose and check fonts, Urdu included | `type_check` · `font_match` |
@@ -185,6 +200,6 @@ Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vigne
 - **`nazar-shoot`: product shoots and hyper-real scenarios.** It covers plates, compositing and the camera pass (light wrap, tone match, halation, lens, grain), story-driven scenes (hands, sky and local life), and flavour-cycle motion loops. AI makes only empty plates and textures; the product is always the real artwork.
 - **Hybrid-scene compositor in `nazar-shoot`:** promote the plate-seating pass (light/cast carry, black lift, sheen, bend, edge occlusion, shelf-lip re-lay) from project code into a reusable engine.
 - **Deck builder with overflow guard in `nazar-pitch`:** a reusable visual-first deck/Behance engine (fit-or-fail text, contact sheet, JPEG-page PDF).
-- **Review site: comment on every design, and the comment reaches Claude.** First version built and in use: a private claude.ai Artifact showing every page of the deck as a numbered sheet. Each sheet has a Comment button, and the composer's *Send to Claude* delivers the note to the working session. Next: write the recipe into `nazar-pitch` once a full client round has gone through it.
+- **Review wall, next round:** built and in use (`nazar-core/engine/review_wall.py`). Next: add a per-sheet *resolved* state once a full client round has gone through it, and a before/after toggle on republished sheets.
 
 Made with two eyes open. 👁️👁️

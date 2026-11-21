@@ -57,10 +57,12 @@ python nazar-core/engine/studio.py check <your slides folder> <copy.json> <out f
 | `references/ai_tells.md` | What makes work look AI-made (colour, layout, type, images, copy, process), the 30-second test, sources |
 | `references/sources.md` | Archives and references by topic |
 | `references/improve.md` | How any Claude improves a kit from real work: what to log, when to patch, what never to record |
+| `references/review_wall.md` | Live review: a private page of numbered designs; a comment sent with *Send to Claude* lands in the chat, Claude fixes it and republishes |
 | `references/studio_flow.md` | How every Kaif job runs: brief → research → routes → build → QA → handover |
 | `templates/research_log.md` | Research log format |
 | `templates/brand.json` | Engine config template |
 | `engine/` | The renderer: outlined type (harfbuzz, RTL-safe), exact logos, OSM maps, PNG + PDF + contact sheet |
+| `engine/review_wall.py` | A folder of designs → a review page + `publish.json` (Artifact args with the comments capability); one publish and the chat is listening |
 | `engine/selftest.py` | Checks the install in about 15 s: runs every tool on synthetic slides and says what is missing |
 | `engine/read_text.py` | Reads the text on slides (macOS Vision via `ocr_mac.swift`, or tesseract) into `copy.json`; a first draft, check it |
 | `engine/studio.py` | The fast path: `learn` (measure the archive, write the pattern and prompt block) and `check` (chain check and QA in one call) |
