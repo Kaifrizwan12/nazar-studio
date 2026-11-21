@@ -33,3 +33,4 @@ Read `../nazar-core/SKILL.md` first. Good process protects the work: a clear sco
 - `references/contract.md`: the key terms to include (from the AIGA Standard Form of Agreement and common practice)
 - `references/presenting.md`: presenting work, feedback, change requests
 - `references/handover.md`: handover pack, closing the project, case study and Behance write-up
+- `engine/deck.py`: the deck engine (SVG pages, outlined type, fit-or-fail and overlap guards, compose helpers, PDF, contact sheet, Behance panels + covers); `engine/example_deck.py` is a 6-page demo. Case-study sequencing lives in `../nazar-story/`
