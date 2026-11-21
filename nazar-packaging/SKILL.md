@@ -35,5 +35,7 @@ Read `../nazar-core/SKILL.md` first. Structure, dielines and drafting art onto t
 - `references/shelf.md`: shelf research, category codes, findability vs visibility
 - `references/system.md`: range architecture, front-of-pack hierarchy, variant systems, back of pack and mandatory panels
 - `references/structure.md`: formats, substrates, sustainability, structural ideas
+- `references/press_files.md`: one master, two branches (press PDF + mockups), press PDF structure, bleed/scale rules, colour spec, version freeze
+- `engine/press_pdf.py`: layered SVG masters -> concept press PDFs (composite, plates, technical layers, trim/bleed boxes) + COLOUR_SPEC.md + press_readiness.md. `python engine/press_pdf.py --in "<glob>" --out <dir> --prefix BRAND`
 - `references/production.md`: colour management, CMYK and Pantone, finishes, dielines, preflight, proofing, press check
 - `references/qa.md`: packaging QA and tests
