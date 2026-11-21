@@ -41,3 +41,7 @@
 - **Frost strength:** Azbuka's window is clearer than a uniform haze (deep gaps where product presses the film), but going all the way lost realism; the owner picked the halfway setting. Make big look changes in halves and show both.
 - **Origin cue in the top band** (from the Ararre reference): crescent-star + "MADE IN PAKISTAN", drawn as paths so it is one-colour safe.
 - **Scenes that beat the "AI lineup":** a real local practice as the set (pouches pegged on a washing line next to apricots sun-drying; charpai rooftop). Re-layer the plate's pegs/rope over the pack tops; match the plate's own shadow throw and slant (copy it from an existing object's shadow in the plate); leave one peg empty and hang one pack by a corner for a human touch.
+
+## 2026-11-21: press files 4% small (SVG width vs viewBox)
+- **What happened:** pouch masters had `viewBox="-3 -3 W+6 H+6"` (bleed included) but `width="W mm"`. Every PDF export shrank to about 96%, and preview PNGs were letterboxed with black strips. Nobody saw it on screen.
+- **Fix:** the width and height in mm must equal the viewBox span. `nazar-packaging/engine/press_pdf.py` now flags any mismatch and gives panels without bleed 3 mm at export. Guide: `nazar-packaging/references/press_files.md`.

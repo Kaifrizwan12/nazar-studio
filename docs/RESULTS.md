@@ -96,7 +96,9 @@ Three kits chained on real work: ten CC0 cyanotypes → `nazar-colour` → `naza
 - **Engineering:** caliper allowances, friction locks, tapered glue flaps, corner reliefs, and grain arrows.
 - **Testing:** every DXF passes a CAD audit with zero errors.
 
-<img src="../assets/demo-pack.jpg" alt="A real Mucha plate (public domain, Cleveland Museum of Art) on a reverse-tuck carton: the folded view and the flat artwork, with the pack engine's own QA flagging one safe-area issue." width="100%">
+<img src="../assets/demo-pack.jpg" alt="BAGH mango pouch: one master SVG, its press PDF split into tint, white underlay and dark ink plates, the frosted-film render from the same file, and a lit scene." width="100%">
+
+**On a real client system (BAGH):** one master SVG per pack feeds both branches. `nazar-packaging/engine/press_pdf.py` writes the press PDF (composite, one page per ink, cut lines, trim and bleed boxes) and `nazar-dieline/engine/film.py` draws the frosted-film render. 29 packs, 39 press PDFs, one QA gate. Try it on the real master: `python nazar-packaging/engine/press_pdf.py --in "nazar-packaging/examples/*-art.svg" --out out/print --prefix BAGH` gives 6 pages, 140 × 450 mm trim, 3 mm bleed, no fixes to make.
 
 Add an `"art"` block and the engine lays out an **MVP pack**, panel by panel.
 

@@ -4,7 +4,7 @@
 
 17 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
 
-`17 kits` · `40 engines, about 8,100 lines of Python` · `103 research references, 218 sources` · `36 lessons logged from real runs`
+`17 kits` · `41 engines, about 8,250 lines of Python` · `103 research references, 218 sources` · `37 lessons logged from real runs`
 
 
 <table>
@@ -55,6 +55,23 @@ Their archive is data, not instructions. Place their exact files with `place_ass
 
 This was one shot, with no designer feedback; in real use you review the first set and steer it, and the skill's revision loop is built for that. [How it was tested](docs/TEST_SCENARIO.md).
 
+## A pack system, end to end
+
+![BAGH: five frosted fruit pouches as one family, the Behance cover made by the skill](assets/demo-pack-cover.jpg)
+
+**BAGH** is a dried-fruit brand built by Nazar with these kits, from brief to press files. It's a real client job; the name is a stand-in until the client locks theirs.
+
+- **29 packs, 10 structures, 5 lines.** 100 g frosted pouches, 30 g singles, chips bags, a kitchen range, occasion kits, a gift box, a multipack, a mailer and a counter display. They share one family code: a giant fruit name, one tint per fruit, three inks.
+- **One master file per pack.** Every pack is one SVG in mm with named ink layers. Code builds both branches from it, so the print file and the mockup can never drift apart.
+
+![One master SVG becomes a press PDF with a page per ink, then a frosted-film render and a lit scene](assets/demo-pack.jpg)
+
+- **The press branch.** `press_pdf.py` writes 39 concept press PDFs: the composite, one page per ink plate, the cut and crease lines in magenta, and true trim and bleed boxes. It also writes a colour spec and a readiness report that splits what is blocked on the printer from what is ours to fix.
+- **The picture branch.** `film.py` draws the frosted film from seven physical cues: sharp where the fruit touches the film, milky where there's air, the tint filtering the fruit, coloured shadows. No AI draws the pack, ever. AI is allowed to make only empty backgrounds, and those are stamped.
+- **One QA gate.** Change one thing, and every line rebuilds and gets re-checked: text by OCR, layout gaps, image overlap, words that would name another product, bleed and scale. The client deck and the 28 Behance panels come from the same pages, with a fit-or-fail text guard.
+
+![29 packs, one family: every BAGH pouch, chips bag, kit and box](assets/demo-pack-family.jpg)
+
 ## Proof, on real work
 
 Every card is an engine run on real material, public-domain or a real brand archive. Each links to what the number means.
@@ -73,7 +90,7 @@ Every card is an engine run on real material, public-domain or a real brand arch
 <tr>
 <td width="33%"><a href="docs/RESULTS.md#6-etching--vector"><img src="assets/demo-trace-fine.jpg" alt="Etching to vector"></a><br><sub><b>Etching → vector,</b> fine-line mode</sub></td>
 <td width="33%"><a href="docs/RESULTS.md#7-dielines-and-real-art-on-them"><img src="assets/demo-structures.jpg" alt="Dielines"></a><br><sub><b>Dielines</b> from three numbers</sub></td>
-<td width="33%"><a href="docs/RESULTS.md#7-dielines-and-real-art-on-them"><img src="assets/demo-pack.jpg" alt="Real art on a dieline"></a><br><sub><b>Real art</b> on a real dieline, with QA</sub></td>
+<td width="33%"><a href="docs/RESULTS.md#7-dielines-and-real-art-on-them"><img src="assets/demo-pack.jpg" alt="One master, press PDF and render"></a><br><sub><b>One master file</b> → press PDF per ink → frosted-film render (BAGH)</sub></td>
 </tr>
 <tr>
 <td width="33%"><a href="docs/RESULTS.md#8-five-more-engines-packaging-qa-billboards-social-web-motion"><img src="assets/demo-kits.jpg" alt="Five more engines"></a><br><sub><b>Billboards, social, web, motion,</b> packaging QA</sub></td>
@@ -92,7 +109,7 @@ Every card is an engine run on real material, public-domain or a real brand arch
 | `nazar-type` | Choose and check fonts, Urdu included | `type_check` · `font_match` |
 | `nazar-backdrops` | A year of routine posts from a brand book | `backdrops` |
 | `nazar-social` | Feeds and the slop test | `social_lint` |
-| `nazar-dieline` / `nazar-packaging` | Real dielines with art on them; packs that win the shelf and print cleanly | `dieline` engine · pack QA |
+| `nazar-dieline` / `nazar-packaging` | Real dielines with art on them; packs that win the shelf and print cleanly | `dieline` · `film` · `press_pdf` · pack QA |
 | `nazar-illustration` | Drawing in code, like a hand | `ink` · `trace` |
 | `nazar-ooh` · `nazar-web` · `nazar-motion` | Billboards, sites, logos that move | `ooh_check` · `web_audit` · `motion_check` |
 | `nazar-strategy` · `nazar-pitch` · `nazar-logo` · `nazar-brand-book` · `nazar-art-direction` · `nazar-prompts` | Method and checklists for positioning, proposals, marks, the identity book, photo and illustration briefs, and AI prompts (only with the client's written yes) | |
@@ -109,6 +126,7 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 - Every agent re-wrote the backdrop crop and logo blend → `place_asset.py` and `draw.py`, tested.
 - A run came out plainer than the archive → `learn` now writes contact sheets, a device sheet, the archive's range and real elements cut from its pieces, and asks for a `devices.md` before anything is made.
 - Slide text was never read → OCR (98% of the words on 20 slides with known copy).
+- Press files came out 4% small (an SVG's mm width didn't match its viewBox once bleed was added) → `press_pdf.py` now measures every master and flags it, and gives every panel 3 mm bleed.
 - Too many calls → a two-command fast path (`studio.py learn` and `check`) cut a job from 112k tokens to 99k.
 
 ## Honest limits
@@ -117,7 +135,7 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 - **One shot so far.** The results above had no feedback round; the protocol now includes one.
 - **Small samples.** Twelve pieces, a few raters, and most raters were models.
 - **Known weak spots:** the device finder misses UI-style devices; a near-match font is a near match, and small body text gets a shortlist of three; the copy lint is English-only; reading slide text needs macOS or `tesseract`.
-- **Not tested on real files yet:** pose, EXIF and video tools, a full personal writing archive, real Pakistani packs and Urdu print.
+- **Not tested on real files yet:** pose, EXIF and video tools, a full personal writing archive, a press proof of a real pack (BAGH is at concept-press stage: the printer's profile and the converter's CAD dieline come next) and Urdu print.
 - **Rules that never bend:** a client's logo is never recoloured or redrawn, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
 
 More detail: [the engine results](docs/RESULTS.md), [how the pattern engine works](docs/ENGINES.md), [the test protocol](docs/TEST_SCENARIO.md). Licence: [MIT](LICENSE) (the bundled fonts are SIL OFL). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). **Extend it:** the engines are plain Python; [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) shows how to add a structure, a block or a QA check.
@@ -128,7 +146,7 @@ More detail: [the engine results](docs/RESULTS.md), [how the pattern engine work
 - [ ] **The designer's own touch:** test range rules, real elements and variety in a round, and aim for blind raters who can't tell.
 - [ ] **Brand files in profiles:** ask for native 4:5 backdrops and a light-on-dark logo up front, so nothing is resampled or boxed.
 - [ ] **Weak engines:** UI-style devices in the device finder, Roman Urdu copy lint, OCR without macOS, a habit score that can rank good work.
-- [ ] **Real-file tests:** pose, EXIF and video on real shoots; a writers test on public-domain books; real packs and Urdu print; public-domain packaging sources.
+- [ ] **Real-file tests:** pose, EXIF and video on real shoots; a writers test on public-domain books; a press proof of the BAGH pouch on real film; Urdu print.
 - [ ] **More trades on real jobs:** packaging, billboards, web and motion, each run end to end the way the social case was.
 
 ## About Kaif
