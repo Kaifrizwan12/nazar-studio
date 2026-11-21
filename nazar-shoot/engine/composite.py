@@ -456,7 +456,7 @@ def synthetic_product(w=520, h=760, tint=(224, 132, 40), header=(176, 92, 22), n
     except Exception:
         f1 = f2 = ImageFont.load_default()
     d.text((w / 2, h * 0.52), name, fill=(30, 26, 23), font=f1, anchor="mm")
-    d.text((w / 2, h * 0.64), "DRIED FRUIT · 100 g", fill=(30, 26, 23), font=f2, anchor="mm")
+    d.text((w / 2, h * 0.64), "PRODUCT · 100 g", fill=(30, 26, 23), font=f2, anchor="mm")
     d.rectangle([0, int(h * 0.95), w, h], fill=header + (255,))
     return im
 
