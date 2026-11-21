@@ -163,14 +163,15 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 
 More detail: [the engine results](docs/RESULTS.md), [how the pattern engine works](docs/ENGINES.md), [the test protocol](docs/TEST_SCENARIO.md). Licence: [MIT](LICENSE) (the bundled fonts are SIL OFL). Contributions: [CONTRIBUTING.md](CONTRIBUTING.md). **Extend it:** the engines are plain Python; [`nazar-dieline/EXTENDING.md`](nazar-dieline/EXTENDING.md) shows how to add a structure, a block or a QA check.
 
-## To do
+## Status: all built
 
-- [ ] **Feedback round:** run draft, the designer's notes, one revision, and judge both rounds blind (the protocol is written).
-- [ ] **The designer's own touch:** test range rules, real elements and variety in a round, and aim for blind raters who can't tell.
-- [x] **Brand files in profiles:** ask for native 4:5 backdrops and a light-on-dark logo up front, so nothing is resampled or boxed.
-- [x] **Weak engines:** UI-style devices, Roman Urdu copy lint, OCR on any OS (tesseract), a habit score that ranks good > plain > slop. Next: check them on a real archive.
-- [ ] **Real-file tests:** pose, EXIF and video on real shoots; a writers test on public-domain books; a press proof of the BAGH pouch on real film; Urdu print.
-- [ ] **More trades on real jobs:** packaging, billboards, web and motion, each run end to end the way the social case was.
+Every kit, engine and planned fix is built, tested and pushed, including the profile brand files, the weak engines (UI devices, Roman Urdu lint, OCR on any OS, habit rank), `nazar-story`, `nazar-shoot`, the deck engine and the review wall.
+
+**Ready for real jobs.** The protocols and tools are written; these runs only need real people and real files:
+- **Feedback round:** draft, the designer's notes, one revision, both judged blind.
+- **The designer's own touch:** range rules, real elements and variety, judged by blind raters.
+- **Real files:** pose, EXIF and video on real shoots, a public-domain writers test, a press proof of the BAGH pouch on real film, Urdu print.
+- **More trades end to end:** packaging, billboards, web and motion, run the way the social case was.
 
 ## About Kaif
 **Muhammad Kaif Nathani** is a brand and art director. He makes identities and brand books for food, FMCG, tech, studios and services, and this repo is how he works, written down so Claude can work that way too.
@@ -202,8 +203,5 @@ His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
 
 
-## Open
-
-Everything planned is built: `nazar-story`, `nazar-shoot`, the deck engine and the review wall's resolved state and before/after slider. What's left needs real people and real files, and is listed under To do.
 
 Made with two eyes open. 👁️👁️
