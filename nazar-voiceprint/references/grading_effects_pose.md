@@ -22,7 +22,7 @@ Confidence tags: [V] confirmed in sources, [K] standard technique, [F] practitio
 | Grain | Immerkær (1996) noise σ on the flattest third of 8×8 blocks; grain is correlated and level-dependent, so measure on flat patches | [V]; Liu, Tanaka & Okutomi TIP 2013 |
 | Softness | Variance of the Laplacian | [K] |
 | Halation / bloom | Brighter **and** warmer ring around clipped highlights; a blurred white edge alone isn't halation | [K] |
-| Chromatic aberration | R/B displacement against G at strong edges, growing with radius | US 8,965,118 [V]; not built yet |
+| Chromatic aberration | R/B displacement against G at strong edges, growing with radius | US 8,965,118 [V]; built as an optional camera-pass step (off by default, capped at 0.12% of centre-to-corner) with a measurement for its self-test: `nazar-shoot/engine/composite.py` (`lateral_ca`, `measure_ca`) |
 | Film-colour history | FilmColors (Flueckiger, University of Zurich, ERC 670446, 2015–21) and the Timeline of Historical Film Colors | [V]; no published "taxonomy of colour aesthetics" found |
 
 ## Look labels (`grade.py looks()`)
