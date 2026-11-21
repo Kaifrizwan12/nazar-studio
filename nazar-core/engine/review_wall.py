@@ -1,4 +1,4 @@
-"""Review wall: a folder of designs -> a private live page where the client or designer comments on each design,
+"""Review wall: a folder of designs -> a private live page (beta, for the designer) to comment on each design in progress,
 and every note sent with "Send to Claude" lands in the working chat. Generic, brand-free.
 
     python review_wall.py <images folder> <out folder> --title "Brand review" [--titles titles.json] [--accent "#hex,#hex"]
@@ -72,7 +72,7 @@ PAGES.forEach(([f, t, s], i) => {{
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("src"); ap.add_argument("out")
     ap.add_argument("--title", default="Review wall"); ap.add_argument("--titles"); ap.add_argument("--accent", default="")
-    ap.add_argument("--kicker", default="Design review"); ap.add_argument("--footer", default="Private review page. Comments stay with this page.")
+    ap.add_argument("--kicker", default="Designer review · beta"); ap.add_argument("--footer", default="Private review page. Comments stay with this page.")
     a = ap.parse_args()
     files = sorted(f for f in os.listdir(a.src) if f.lower().endswith(EXT))
     if not files: sys.exit("no images in " + a.src)

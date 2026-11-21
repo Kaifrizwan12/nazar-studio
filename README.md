@@ -72,20 +72,20 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 ![29 packs, one family: every BAGH pouch, chips bag, kit and box](assets/demo-pack-family.jpg)
 
-## Review live, with Claude listening
+## Review live, with Claude listening (beta)
 
 ![Review wall: numbered designs with a Comment button each; a note sent to Claude arrives in the chat, Claude fixes it across the family, runs QA and republishes](assets/demo-review-wall.jpg)
 
-Show the client the work on a live page instead of a PDF they mark up and email back.
+**Beta, for the designer.** Review the work on a live page while it's being made, instead of screenshots pasted into chat. Note what to change on the design itself, and the working session picks it up.
 
 ```bash
 python nazar-core/engine/review_wall.py <designs folder> <out folder> --title "<Brand> review"
 ```
 
 - **One command, one publish.** The engine writes the page, the images and `publish.json`. Claude publishes it as a private claude.ai Artifact with the comments capability.
-- **Comment on the design itself.** Each design is a numbered sheet with its own Comment button, and the numbers match the deck.
+- **Comment on the design itself.** Each design is a numbered sheet with its own Comment button, and the numbers match the deck, so "20" means the same in chat, page and PDF.
 - **Send to Claude, and the chat answers.** The note lands in the working session. Claude makes the fix in the engine, applies it across the whole family, runs QA, republishes to the same link and replies in the thread. Anyone with the page open sees the update.
-- **Private by default.** Only the people the owner shares it with can open it. How it works: [`review_wall.md`](nazar-core/references/review_wall.md).
+- **Private by default.** It's a studio tool, not the client deliverable: the client still gets the finished PDF. Only the people the owner shares it with can open it. How it works: [`review_wall.md`](nazar-core/references/review_wall.md).
 
 ## Proof, on real work
 

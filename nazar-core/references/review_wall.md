@@ -1,6 +1,6 @@
-# Review wall: live comments that reach Claude
+# Review wall (beta, for the designer): live comments that reach Claude
 
-A private page that shows every design as a numbered sheet. The client or designer comments on any sheet and presses **Send to Claude**. The note arrives in the working chat, Claude fixes the design and republishes, and the page updates for everyone who has it open.
+A private studio page that shows every design as a numbered sheet, made for the designer reviewing work in progress (the client still gets the finished PDF). The designer comments on any sheet and presses **Send to Claude**. The note arrives in the working chat, Claude fixes the design and republishes, and the page updates for everyone who has it open.
 
 ## Fire it up (three steps)
 1. **Build:**
