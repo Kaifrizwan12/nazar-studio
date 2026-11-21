@@ -74,7 +74,14 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 ![Every side of a BAGH pack: front, back, side, base from below and 3/4 on one sheet](assets/demo-views.jpg)
 
+![Six Behance pages made by nazar-story, six different devices: a hero with its colour edge, a fanned hand of backs, a tilted bag bleeding off the page, front-and-back couples, a standing 3/4 trio, the studio contact page](assets/demo-story.jpg)
+
 **A case study that never repeats itself** (built with `nazar-story`). Every pack's front and back is in the deck, and each page uses its own device: a hero with its colour edge, five tint columns, a fanned hand of backs, a front-over-back specimen grid, one bag tilted and bleeding off the page, front-and-back couples, a standing 3/4 trio, a dark backs page. One flats page lists all ten dielines with grams and flat size in mm. The Behance cut closes with a studio contact page. Overlaps (couples, fans, tossed bags) are composed into one image first, so the deck's no-overlap guard still holds.
+
+<table><tr>
+<td width="34%"><img src="assets/demo-flavour-cycle.gif" alt="Cinematic flavour-cycle film: eleven BAGH packs, each pushing in slowly under a light sweep, handed over by a crisp light-edge wipe, ending on the BAGH card"></td>
+<td><b>Flavour-cycle films</b> (built with <code>nazar-shoot</code>). One script turns the pack renders into films: one 16:9 film per line for Behance, and phone-size 4:5 films for the client. They're cinematic, not slideshow cuts: each pack holds for 1.2 s with an eased push-in and a slight sway, the name type behind it drifts in soft focus, and a light sweep crosses the film. Packs hand over with a crisp diagonal wipe that has a light edge, and a feathered blend is banned because it doubles the type. A tight contact shadow keeps the seal teeth and notches sharp. Before any video renders, four stills (start, mid-shot, mid-wipe, next) are shown for a yes. Rules: <a href="nazar-shoot/references/motion.md"><code>motion.md</code></a>.</td>
+</tr></table>
 
 **Every side, no 3D.** `nazar-packaging/engine/views.py` builds one sheet per structure (front, back, side, base from below, 3/4) from the pack renders and print art. It knows a doypack has no side panel, a pillow bag's fin is on the back and a box pouch base has no diagonal folds. `nazar-dieline/engine/base_fold.py` draws the doypack base: the gusset folds in, then out. Rules: [`views.md`](nazar-packaging/references/views.md).
 
