@@ -68,7 +68,7 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 - **The press branch.** `press_pdf.py` writes 39 concept press PDFs: the composite, one page per ink plate, the cut and crease lines in magenta, and true trim and bleed boxes. It also writes a colour spec and a readiness report that splits what is blocked on the printer from what is ours to fix.
 - **The picture branch.** `film.py` draws the frosted film from seven physical cues: sharp where the fruit touches the film, milky where there's air, the tint filtering the fruit, coloured shadows. No AI draws the pack, ever. AI is allowed to make only empty backgrounds, and those are stamped.
-- **One QA gate.** Change one thing, and every line rebuilds and gets re-checked: text by OCR, layout gaps, image overlap, words that would name another product, bleed and scale. The client deck and the 28 Behance panels come from the same pages, with a fit-or-fail text guard.
+- **One QA gate.** Change one thing, and every line rebuilds and gets re-checked: text by OCR, layout gaps, image overlap, words that would name another product, bleed and scale. The client deck (27 pages) and the 26 Behance panels come from the same pages, with a fit-or-fail text guard.
 
 ![29 packs, one family: every BAGH pouch, chips bag, kit and box](assets/demo-pack-family.jpg)
 
@@ -134,6 +134,8 @@ Every card is an engine run on real material, public-domain or a real brand arch
 | `nazar-strategy` · `nazar-pitch` · `nazar-logo` · `nazar-brand-book` · `nazar-art-direction` · `nazar-prompts` | Method and checklists for positioning, proposals, marks, the identity book, photo and illustration briefs, and AI prompts (only with the client's written yes) | |
 
 A job never uses all of them: Claude reads the brief and pulls only what it needs. **Your prompt leads; kits are add-ons.**
+
+**A case study that never repeats itself.** Every pack's front and back is in the deck, and each page uses its own device: a hero with its colour edge, five tint columns, a fanned hand of backs, a front-over-back specimen grid, one bag tilted and bleeding off the page, front-and-back couples, a standing 3/4 trio, a dark backs page. One flats page lists all ten dielines with grams and flat size in mm. The Behance cut closes with a studio contact page. Overlaps (couples, fans, tossed bags) are composed into one image first, so the deck's no-overlap guard still holds.
 
 ## It learns from every run
 
