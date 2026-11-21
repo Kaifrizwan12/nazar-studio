@@ -4,7 +4,7 @@
 
 17 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
 
-`17 kits` · `42 engines, about 8,350 lines of Python` · `103 research references, 218 sources` · `37 lessons logged from real runs`
+`17 kits` · `44 engines, about 8,700 lines of Python` · `103 research references, 218 sources` · `40 lessons logged from real runs`
 
 
 <table>
@@ -71,6 +71,10 @@ This was one shot, with no designer feedback; in real use you review the first s
 - **One QA gate.** Change one thing, and every line rebuilds and gets re-checked: text by OCR, layout gaps, image overlap, words that would name another product, bleed and scale. The client deck and the 28 Behance panels come from the same pages, with a fit-or-fail text guard.
 
 ![29 packs, one family: every BAGH pouch, chips bag, kit and box](assets/demo-pack-family.jpg)
+
+![Every side of a BAGH pack: front, back, side, base from below and 3/4 on one sheet](assets/demo-views.jpg)
+
+**Every side, no 3D.** `nazar-packaging/engine/views.py` builds one sheet per structure (front, back, side, base from below, 3/4) from the pack renders and print art. It knows a doypack has no side panel, a pillow bag's fin is on the back and a box pouch base has no diagonal folds. `nazar-dieline/engine/base_fold.py` draws the doypack base: the gusset folds in, then out. Rules: [`views.md`](nazar-packaging/references/views.md).
 
 ## Review live, with Claude listening (beta)
 

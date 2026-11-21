@@ -53,3 +53,9 @@ A full-body sleeve shrinks around the container: little at the full diameter and
 - Rules: no barcodes, small type or faces in high-shrink zones; keep the barcode in the flattest, least-shrink band; avoid fine horizontal lines where shrink changes fast.
 - The professional route is 3D shrink simulation in prepress software plus a **printed grid shrunk on the real container**, often several rounds [SRC]. Our map is the first pass that keeps the layout honest before that.
 - Perforated tear strips for tamper evidence and recycling (the sleeve should come off so the bottle can be recycled).
+
+## Doypack base: in, then out
+- The bottom gusset folds IN (up, inside the pouch) and then back OUT. Cut across the empty pouch, it is a W.
+- Filled, the product's weight opens the W into a floor. The base seen from below is an eye or lens shape with its own print and a crease in the middle.
+- Engine `engine/base_fold.py` draws three views from the real print art: the printed flat, a side cut (empty and filled) and the base from below with the gusset print. Worked example: BAGH.
+- The converter's CAD dieline and a white sample settle the real fold. This diagram shows intent.

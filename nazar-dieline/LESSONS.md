@@ -45,3 +45,6 @@
 ## 2026-11-21: press files 4% small (SVG width vs viewBox)
 - **What happened:** pouch masters had `viewBox="-3 -3 W+6 H+6"` (bleed included) but `width="W mm"`. Every PDF export shrank to about 96%, and preview PNGs were letterboxed with black strips. Nobody saw it on screen.
 - **Fix:** the width and height in mm must equal the viewBox span. `nazar-packaging/engine/press_pdf.py` now flags any mismatch and gives panels without bleed 3 mm at export. Guide: `nazar-packaging/references/press_files.md`.
+
+## 2026-11-21: doypack base, in then out
+- The gusset folds IN then back OUT (a W when empty); filled, weight opens it into a floor. `engine/base_fold.py` draws it from the real print art. See `references/flexibles_labels.md`.

@@ -34,6 +34,8 @@ Read `../nazar-core/SKILL.md` first. Structure, dielines and drafting art onto t
 - `references/intake.md`: questions in 3 rounds
 - `references/shelf.md`: shelf research, category codes, findability vs visibility
 - `references/system.md`: range architecture, front-of-pack hierarchy, variant systems, back of pack and mandatory panels
+- `references/views.md`: every-side view sheets per structure (doypack, pillow, side gusset, box pouch); `engine/views.py`
+- `references/back_panels.md`: compact back for narrow pillow bags (grid, type floor, photo bite)
 - `references/structure.md`: formats, substrates, sustainability, structural ideas
 - `references/press_files.md`: one master, two branches (press PDF + mockups), press PDF structure, bleed/scale rules, colour spec, version freeze
 - `engine/press_pdf.py`: layered SVG masters -> concept press PDFs (composite, plates, technical layers, trim/bleed boxes) + COLOUR_SPEC.md + press_readiness.md. `python engine/press_pdf.py --in "<glob>" --out <dir> --prefix BRAND`. Worked example: `examples/bagh_mango_pouch-art.svg`, a real client master (BAGH, used with the owner's rights), 6 pages, no fixes.
