@@ -50,3 +50,10 @@
 - **Shelves:** bag bases tuck behind the shelf lip (re-lay the lip band over the packs), slight lean, overlapping facings.
 - **Tool limits:** some connectors return only small previews (unusable as plates); some cap free model runs. Check full-resolution output and quota before promising a set.
 - **Owner preference may still be "no hyper-real for now":** keep scenes optional; the designs lead.
+
+### Standing packs in a plate: what stops the "pasted sticker" look
+- **The base is not a straight cut.** A stand-up pouch seen from a little above has a gusset: the bottom bows forward into an arc, the side-seal corners pull up, and the film turns under. Warp the bottom 15–20% of a flat front render that way, darken the underside and add a soft crest. A straight bottom edge reads as a card standing on its edge.
+- **The shadow lies on the surface.** Project the silhouette onto the ground plane from the base, sheared away from the key and squashed to the camera's height. A translated copy behind the pack reads as a drop shadow. Glossy tops (marble, polished wood) also need a faint, soft, flipped reflection.
+- **Stock it like a hand did.** Let tilt, height and spacing drift by about 1%. Perfect repetition reads as generated.
+- **Shop graphics are print, not AI.** Header boards and shelf-edge strips are drawn by code with the brand's real type, then lit by the plate's own light map. Ask the image model for a blank header panel and blank strips only.
+- **Ceiling:** flat front renders can't turn in perspective. For true 3/4 or lying poses, use a 3D model with the flat art as its texture.
