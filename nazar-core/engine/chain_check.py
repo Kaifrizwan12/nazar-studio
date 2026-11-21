@@ -129,4 +129,4 @@ else:
         if r.get('accent_bands') and acc is not None and acc < 4.5:
             bb = r['accent_bands']; best = max(bb, key=lambda t_: t_[2])
             print('   accent type by height: ' + ', '.join(f'{a_}-{b_}%: {v}:1' for a_, b_, v in bb) + f'  (best: {best[0]}-{best[1]}% of the height at {best[2]}:1; move the line there, or set it in the brand ink colour; never recolour the accent)')
-        print(f"   Hindustani words {r['roman_urdu_share']} | words {r['words']} | lint {r['lint'] or 'clean'}{' (English-only: about ' + format(r['nonlinted_share'], '.0%') + ' of the words are Hindustani and were not linted)' if (r.get('nonlinted_share') or 0) > 0.1 else ''} | layout {r['layout']}")
+        print(f"   Hindustani words {r['roman_urdu_share']} | words {r['words']} | lint {r['lint'] or 'clean'}{' (Roman Urdu words are read as Roman Urdu, not typos; spellings are checked for consistency)' if (r.get('nonlinted_share') or 0) > 0.1 else ''} | layout {r['layout']}")

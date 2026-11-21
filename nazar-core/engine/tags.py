@@ -11,7 +11,8 @@ nazar-core/engine/tags.py: short prompts with tags. A person tags what is releva
   always  the generic rules (the person's prompt leads, logos never redrawn, AI imagery needs the client's written yes, ...).
 
     python tags.py brand save NAME OUT_FOLDER           # keep a learn run as the profile NAME (in ~/.nazar/brands/NAME)
-    python tags.py brand assets NAME "backdrop_light=/p/a.png; logo=/p/l.jpg; mascot=/p/m1.png,/p/m2.png"
+    python tags.py brand assets NAME "backdrop_light=/p/a.png; backdrop_dark=/p/b.png; logo=/p/l.png; logo_on_dark=/p/w.png; mascot=/p/m1.png"
+                                                        # checks each backdrop is native 4:5 and says which brand files are still missing
     python tags.py brand show NAME
     python tags.py brief "6 slides for @NAME #carousel: ..."      # the enhanced brief (studio.py brief calls this when tags are present)
 
@@ -24,7 +25,7 @@ import shutil
 import sys
 
 HOME = os.environ.get("NAZAR_HOME", os.path.expanduser("~/.nazar")) + "/brands"
-KEEP = ("pattern.json", "prompt.md", "devices.md", "voice.json", "train_copy.json", "learn.json", "contact_1.jpg", "contact_2.jpg", "devices_sheet.jpg", "assets.json", "usage.json", "range.json")
+KEEP = ("pattern.json", "prompt.md", "devices.md", "voice.json", "train_copy.json", "learn.json", "contact_1.jpg", "contact_2.jpg", "devices_sheet.jpg", "assets.json", "usage.json", "range.json", "ui_devices.json")
 
 ALWAYS = ["The person's prompt leads; kits are add-ons. Ask only what the prompt and the profile don't already say.",
           "A client's logo is never redrawn or recoloured. Place exact files as supplied (`place_asset.py`).",
@@ -77,6 +78,52 @@ def save(name, out):
     print(f"profile @{name}: {n} files saved in {d}")
 
 
+# The brand files every feed job needs, asked for UP FRONT so nothing is resampled or boxed: a square or 9:16 backdrop
+# cropped to 4:5 loses or stretches its art, and a dark-on-light logo on a dark slide ends up in a white box.
+BRAND_FILES = [("backdrop_light", "a native 4:5 light backdrop (1080 x 1350, the exact export, not a crop of another size)"),
+               ("backdrop_dark", "a native 4:5 dark backdrop (1080 x 1350)"),
+               ("logo", "the logo for light grounds (dark-on-light; SVG, or PNG with a transparent background)"),
+               ("logo_on_dark", "the light-on-dark logo (the brand's reversed or white version; SVG, or transparent PNG)")]
+LOGO_ON_DARK = ("logo_on_dark", "logo_light", "logo_reversed", "logo_white", "logo_reverse", "logo_dark_ground")
+
+
+def missing_files(assets):
+    """The BRAND_FILES a profile still lacks, as plain descriptions to ask for."""
+    have = set(assets)
+    out = []
+    for role, what in BRAND_FILES:
+        if role == "logo_on_dark":
+            ok = bool(have & set(LOGO_ON_DARK))
+        elif role.startswith("backdrop"):
+            ok = role in have or (role == "backdrop_light" and "backdrop" in have)
+        else:
+            ok = role in have
+        if not ok:
+            out.append(what)
+    return out
+
+
+def check_files(assets):
+    """Warnings for files that would be resampled or boxed: a backdrop that isn't 4:5, a logo with no transparency."""
+    warn = []
+    try:
+        from PIL import Image
+    except ImportError:
+        return warn
+    for role, paths in assets.items():
+        for p in paths:
+            if not os.path.isfile(p) or not p.lower().endswith((".png", ".jpg", ".jpeg", ".webp", ".tif", ".tiff")):
+                continue
+            im = Image.open(p)
+            if role.startswith("backdrop") and abs(im.width / im.height - 0.8) > 0.008:
+                warn.append(f"{role} {os.path.basename(p)} is {im.width}x{im.height}, not 4:5: a 4:5 post would have to crop or resample it "
+                            f"(place_asset labels either) and lose part of the art or its sharpness. Ask for the native 4:5 export.")
+            if role.startswith("logo") and im.mode not in ("RGBA", "LA", "P") and not p.lower().endswith(".svg"):
+                warn.append(f"{role} {os.path.basename(p)} has no transparency: it can only sit on white paper (multiply), never on a "
+                            f"dark ground. Ask for an SVG or a transparent PNG" + (" of the light-on-dark version." if role in LOGO_ON_DARK else "."))
+    return warn
+
+
 def set_assets(name, spec):
     os.makedirs(_dir(name), exist_ok=True)
     assets = {}
@@ -86,6 +133,10 @@ def set_assets(name, spec):
             assets[role.strip()] = [p.strip() for p in paths.split(",") if p.strip()]
     json.dump(assets, open(os.path.join(_dir(name), "assets.json"), "w"), indent=1)
     print(f"profile @{name}: assets {', '.join(f'{k} ({len(v)})' for k, v in assets.items())}")
+    for w in check_files(assets):
+        print("  WARNING: " + w)
+    for m in missing_files(assets):
+        print("  STILL NEEDED: " + m)
 
 
 def load(name):
@@ -111,6 +162,9 @@ def show(name):
     dv = [ln.strip("- ").strip() for ln in p["devices"].splitlines() if ln.strip() and not ln.startswith(("#", "<!--", "     Think"))]
     out.append("  Devices: " + (", ".join(dv) if dv else "not recorded yet (look at devices_sheet.jpg, then `studio.py devices`)"))
     out.append("  Exact files (place as supplied): " + ("; ".join(f"{k}: {', '.join(v)}" for k, v in p["assets"].items()) if p["assets"] else "none saved (`tags.py brand assets`)"))
+    miss = missing_files(p["assets"])
+    if miss:
+        out.append("  Brand files still needed (ask up front, so nothing is resampled or boxed): " + "; ".join(miss))
     return "\n".join(out)
 
 
@@ -175,9 +229,12 @@ def questions(prompt, tags, names):
     q = []
     if archive_job and not prof and not has_paths:
         q.append(("Where is your finished work for this brand?", ["A folder of 30+ finished pieces (Recommended): I will learn how you work from it", "I have a saved profile: tell me its @name", "I have no archive yet: ask me for the brand's rules instead"]))
-    if archive_job and not (prof and prof["assets"]) and not re.search(r"\.(png|jpe?g|svg|pdf)\b", low):
-        q.append(("Which exact files must I place as supplied (backdrops, logo, mascot), and where may each go?",
-                  ["Here are the files and the usage rules: I will list them (Recommended)", "Take the backdrops and logo from my archive pieces", "None: build everything fresh from the brand's colours and type"]))
+    miss = missing_files(prof["assets"]) if prof else [w for _, w in BRAND_FILES]
+    if archive_job and miss and not (re.search(r"\.(png|jpe?g|svg|pdf)\b", low) and re.search(r"4:5|1080\s*x\s*1350", low) and re.search(r"on.dark|reversed|white logo|light logo", low)):
+        q.append(("Please send the exact brand files, so nothing is resampled or boxed: " + "; ".join(miss) + ". Where may each go?",
+                  ["Here they are, with the usage rules (Recommended): native 4:5 exports and the reversed logo, placed as supplied",
+                   "I only have other sizes: crop them to 4:5 and label each crop (art at the edges may be lost)",
+                   "No light-on-dark logo: keep the logo on light grounds only (never boxed on a dark slide)"]))
     if archive_job and not re.search(r"light|dark|ground|backdrop|background", low):
         q.append(("Which backdrop goes with which kind of slide?",
                   ["Learn it from my archive (Recommended): the skill measures which ground carries which content", "I will tell you the rule", "No rule: any of the supplied backdrops"]))

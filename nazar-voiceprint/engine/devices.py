@@ -13,10 +13,11 @@ How: per piece (downscaled to 320 px wide) the page ground is the colour(s) domi
 Text lines are dropped (thin, one colour, or made of many small letter parts). Each crop gets a thumbnail, a colour
 histogram, a size and an aspect. Two crops from DIFFERENT pieces link if the thumbnails match (same sticker) or the
 colour family, size and aspect agree (same character in another pose). Groups count distinct pieces.
+UI-style devices (chat bubbles, pills, cards, progress bars, badges, toggles) are found by ui_devices.py; write() adds them.
 Limits: photo or gradient grounds have no single ground colour, so objects there are missed; an object touching the page
 edge is cut; a card with text inside is one device (that is intended). Pure numpy + Pillow.
 """
-import argparse, os, sys, glob
+import argparse, os, sys, glob, json
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
@@ -215,7 +216,12 @@ def write(folder, out, min_pieces=2):
         b = r["best"]
         lines.append(f"{k}. in {r['n']} of {total} pieces ({r['n_exact']} near-identical); size {b['size']*100:.0f}% of page, "
                      f"aspect {b['asp']:.2f}, usually at ({b['pos'][0]:.2f},{b['pos'][1]:.2f}); e.g. {', '.join(r['pieces'][:3])}")
+    import ui_devices          # UI-style devices are flat fills the pass above drops (a pill reads as a text line)
+    ui = ui_devices.shares([im for _, im in load(folder)])
+    seen = [f"{k} in {v:.0%}" for k, v in sorted(ui.items(), key=lambda kv: -kv[1]) if v > 0]
+    lines.append("UI-style devices (ui_devices.py, candidates; look before naming them): " + (", ".join(seen) + " of pieces" if seen else "none found"))
     open(os.path.join(out, "devices.txt"), "w").write("\n".join(lines) + "\n")
+    json.dump(ui, open(os.path.join(out, "ui_devices.json"), "w"))
     return res, total, lines
 
 

@@ -30,7 +30,7 @@ Built from: <N documents, N words, date range, all pre-30 Nov 2022 unless noted;
 
 ## 4. Visual layer (designers only)
 - **Format and grounds:** <e.g. "1080x1350 (4:5) in 86% of pieces; two grounds: light ~64%, dark ~36%" (from `portfolio.py`)>
-- **Exact assets (place as-is, never redraw, recolour or regenerate):** <file paths or names: backdrops, logo and its variants, mascot, badges; which ground each can sit on>
+- **Exact assets (place as-is, never redraw, recolour or regenerate):** <file paths or names: backdrops, logo and its variants, mascot, badges; which ground each can sit on>. Ask up front for a native 4:5 light and dark backdrop (1080x1350) and the light-on-dark logo (SVG or transparent PNG); write "missing" for any not supplied, never stand in a resampled or boxed version.
 - **Type:** <e.g. "heavy condensed caps, one word in the accent; closest installed font Anton (0.86 overlap, 7% wider): UNCONFIRMED, ask the maker for the file"> (from `nazar-type/engine/font_match.py`; never name a font by eye)
 - **Palette habit:** <e.g. "pale warm ground (#F0EDE5) ~85%, one hot accent (#E76842) under 3%, near-black ink">
 - **Air and balance:** <e.g. "mostly empty frames; asymmetric; weight sits left">

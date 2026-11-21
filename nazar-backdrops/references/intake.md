@@ -8,6 +8,8 @@ Read whatever the client sent before asking. If there's a brand book, only ask w
 - Only a logo and some colours: run a mini-extraction and log the gaps (type, devices, photo rules) as risks.
 - Nothing yet: stop. Backdrops come after the identity (`nazar-logo` / `nazar-brand-book`).
 
+**Q1b. The exact logo files (ask now, not at handover):** the logo for light grounds AND the light-on-dark (reversed or white) version, as SVG or transparent PNG. The dark backdrops need the reversed file; never box a dark-on-light logo on a dark ground, never recolour it. If the client already has backdrops they love, ask for their native 4:5 exports (1080 x 1350) rather than a square or story to crop.
+
 **Q2. Where do they post weekly?** (multi-select) Instagram feed · stories · reels · TikTok · LinkedIn posts / documents · X · YouTube · Facebook · Pinterest · WhatsApp status.
 Recommended: only the platforms they post on every week. Unused formats rot.
 

@@ -17,6 +17,7 @@ FIT (advisory) is the share of nine structural features (headline and subline si
 accent share...) inside the archive's own 2-SD range. It is wide when the archive is varied: on a real archive of
 chat bubbles, memes, cards and headline slides, real held-out pieces scored 0.92 and generated ones 0.89 to 0.95, so it
 cannot rank them. Use it to spot an outlier, not to pick a winner.
+HABIT (--rank) is the score built to order good work: devices, range and AI tells on top of the gate (block below).
 It scores conformance to the habits, so it says nothing about whether a piece is good or
 whether the habits are the right ones. Two uses:
   held-out real pieces   a pattern built from some of a person's work, scored on the rest:
@@ -27,6 +28,8 @@ whether the habits are the right ones. Two uses:
                                                                                  # asset files (exact backdrops) add their colours
     python score_pattern.py --prompt pattern.json                 # the pattern as a paste-ready prompt block
     python score_pattern.py pattern.json folder [--json]
+    python score_pattern.py --rank pattern.json folder [copy.json]  # HABIT: rank candidates by the designer's devices,
+                                                                     # range and AI tells (see the HABIT block below)
 
 pattern.json: {"format": [1080, 1350], "grounds": ["#DFE3DE", ...], "swatches": ["#FFFFFF", ...], "accent": "#338AE9"}
 """
@@ -72,12 +75,7 @@ def features(im, accent_lab=None):
     widest line runs, how much of the canvas is ink, and how much is the accent colour."""
     import layout
     m = layout.ink(im); h, w = m.shape
-
-    def tight(b):
-        sub = m[b[1]:b[3], b[0]:b[2]]; ys, xs = np.where(sub)
-        return (b[0] + int(xs.min()), b[1] + int(ys.min()), b[0] + int(xs.max()) + 1, b[1] + int(ys.max()) + 1) if len(ys) else b[:4]
-    raw = [tight(b) for b in layout.components(layout.dilate_x(m, max(6, w // 28)))]
-    lines = sorted([b for b in raw if (b[2] - b[0]) > 0.12 * w and 0.006 * h < (b[3] - b[1]) < 0.2 * h and (b[2] - b[0]) > 1.6 * (b[3] - b[1])], key=lambda b: b[1])
+    lines = text_lines(im, m)
     if not lines:
         return None
     hs = [b[3] - b[1] for b in lines]
@@ -89,6 +87,19 @@ def features(im, accent_lab=None):
     return {"headline_h": max(hs) / h, "subline_h": min(hs) / h, "size_ratio": max(hs) / max(min(hs), 1), "n_lines": len(lines),
             "left_x": min(b[0] for b in lines) / w, "top_y": lines[0][1] / h, "widest": max(b[2] - b[0] for b in lines) / w,
             "ink": float(m.mean()), "accent_share": acc}
+
+
+def text_lines(im, m=None):
+    """Boxes (x0, y0, x1, y1) of the text lines, top to bottom, in the ink mask's pixels."""
+    import layout
+    m = layout.ink(im) if m is None else m
+    h, w = m.shape
+
+    def tight(b):
+        sub = m[b[1]:b[3], b[0]:b[2]]; ys, xs = np.where(sub)
+        return (b[0] + int(xs.min()), b[1] + int(ys.min()), b[0] + int(xs.max()) + 1, b[1] + int(ys.max()) + 1) if len(ys) else b[:4]
+    raw = [tight(b) for b in layout.components(layout.dilate_x(m, max(6, w // 28)))]
+    return sorted([b for b in raw if (b[2] - b[0]) > 0.12 * w and 0.006 * h < (b[3] - b[1]) < 0.2 * h and (b[2] - b[0]) > 1.6 * (b[3] - b[1])], key=lambda b: b[1])
 
 
 def typ_vector(im, accent_lab):
@@ -245,6 +256,8 @@ def build(folder, assets=()):
     if len(vecs) >= 8:
         pat["typ"] = typ_stats(vecs)
         pat["typ"]["names"] = names
+    flat_ims = [im_ for im_ in (Image.open(f).convert("RGB") for f in files) if not is_photo(im_)]
+    pat["habit"] = habit_stats([habit_measures(im_) for im_ in flat_ims])
     return pat
 
 
@@ -261,6 +274,151 @@ def prompt_block(pat):
              "Do not add buttons, pills or any device this brand's own work doesn't use" + (f" (a filled accent block, such as a chat bubble, appears in {pat['devices']['accent_pill']:.0%} of its pieces: use it only the way those pieces do)." if pat.get("devices") else "."),
              "Not measured, so the person writes it in: <exact asset files and where they sit> <headline style, from the VLM pass> <voice and language mix> <two or three reference pieces>."]
     return "\n".join(lines)
+
+
+# ---- HABIT score: can it rank good work? ------------------------------------------------------------------------------
+# The gate above saturates (every good slide scores 1.0); FIT and TYPICAL are too wide to pick a winner. HABIT adds what
+# separated real from generated pieces in our own tests and what layout-aesthetics research measures (nazar-voiceprint/
+# references/research_design_quality.md): does the piece use the designer's own recurring devices, does it sit inside
+# the designer's RANGE (alignment habit, lines per piece), and does it carry AI tells (nazar-core/references/ai_tells.md)
+# that the archive itself does not. Tells the archive DOES use (a brand whose own backdrops carry a gradient) cost nothing.
+#   habit = 0.30 gate + 0.20 typical/fit + 0.25 devices + 0.25 range - 0.12 per tell or invented device - 0.05 per copy flag (max 0.2)
+# A ranking for a human look, not proof. Tested on synthetic fixtures (test_habit_rank.py), not yet against expert picks.
+
+TELLS = ("soft gradient or glow", "purple-blue gradient", "everything centred", "three-card skeleton", "pill badge above the headline")
+
+
+def alignment(im, m=None, ls=None):
+    """'left', 'centre' or 'right': where the text lines line up (None with fewer than 2 lines)."""
+    import layout
+    m = layout.ink(im) if m is None else m
+    ls = text_lines(im, m) if ls is None else ls
+    if len(ls) < 2:
+        return None
+    w = m.shape[1]
+    lefts = np.array([b[0] for b in ls]) / w; rights = np.array([b[2] for b in ls]) / w; mids = (lefts + rights) / 2
+    spread = {"left": np.ptp(lefts), "centre": np.ptp(mids), "right": np.ptp(rights)}
+    if spread["left"] < 0.03:
+        return "left"                                  # one shared left edge wins: the most common designer habit
+    k = min(spread, key=spread.get)
+    if k == "centre" and abs(float(np.mean(mids)) - 0.5) > 0.06:
+        return "left" if spread["left"] <= spread["right"] else "right"
+    return k
+
+
+def pixel_tells(im, ui=None, m=None, ls=None):
+    """The AI tells that pixels can show (ai_tells.md sections 1 to 3). ui: ui_devices.find(im) if already run."""
+    import layout
+    import ui_devices
+    out = []
+    a = np.asarray(im.convert("RGB").resize((27, 34), Image.BOX), float)    # heavy averaging: noise and fine type cancel out
+    lum = a @ [0.2126, 0.7152, 0.0722]
+    g = np.maximum(np.abs(np.diff(lum, axis=1))[:-1], np.abs(np.diff(lum, axis=0))[:, :-1])
+    if float(((g > 0.25) & (g < 8)).mean()) > 0.5:     # gentle change in most cells: a ramp or a bloom, not flat fills
+        out.append("soft gradient or glow")
+        r, gg, b = a[..., 0], a[..., 1], a[..., 2]
+        if float(((b > gg + 25) & (r > gg - 10)).mean()) > 0.3:
+            out.append("purple-blue gradient")
+    m = layout.ink(im) if m is None else m
+    ls = text_lines(im, m) if ls is None else ls
+    if alignment(im, m, ls) == "centre":
+        out.append("everything centred")
+    ui = ui_devices.find(im) if ui is None else ui
+    cards = [d["box"] for d in ui if d["kind"] == "card"]
+    areas = [(c[2] - c[0]) * (c[3] - c[1]) for c in cards]
+    for i in range(len(cards)):
+        same = [j for j in range(len(cards)) if 0.75 < areas[j] / areas[i] < 1.33 and
+                (abs(cards[j][1] - cards[i][1]) < 0.03 or abs(cards[j][0] - cards[i][0]) < 0.03)]
+        if len(same) >= 3:
+            out.append("three-card skeleton"); break
+    pills = [d["box"] for d in ui if d["kind"] == "button/pill"]
+    if pills and ls:
+        head = max(ls, key=lambda b: b[3] - b[1])
+        top = head[1] / m.shape[0]
+        if any(p[3] <= top + 0.01 and top - p[3] < 0.15 and (p[2] - p[0]) < 0.4 for p in pills):
+            out.append("pill badge above the headline")
+    return out
+
+
+def habit_measures(im):
+    import layout
+    import ui_devices
+    ui = ui_devices.find(im)
+    m = layout.ink(im); ls = text_lines(im, m)
+    return {"devices": sorted(ui_devices.summary(ui)), "alignment": alignment(im, m, ls), "lines": len(ls),
+            "tells": pixel_tells(im, ui, m, ls)}
+
+
+def habit_stats(rows):
+    """The archive's habits for HABIT: device shares, alignment shares, lines range, how often each tell appears."""
+    n = max(len(rows), 1)
+    dev = {}
+    for r in rows:
+        for k in r["devices"]:
+            dev[k] = dev.get(k, 0) + 1
+    al = [r["alignment"] for r in rows if r["alignment"]]
+    lines = [r["lines"] for r in rows if r["lines"]] or [1]
+    return {"devices": {k: round(v / n, 2) for k, v in dev.items()},
+            "alignment": {k: round(al.count(k) / max(len(al), 1), 2) for k in ("left", "centre", "right")},
+            "lines": [int(np.percentile(lines, 10)), int(np.median(lines)), int(np.percentile(lines, 90))],
+            "tells": {k: round(sum(k in r["tells"] for r in rows) / n, 2) for k in TELLS}}
+
+
+def habit_score(path, pat, refs, copy_text=None):
+    """One number to RANK candidates by the designer's habits, with the reasons."""
+    hs = pat.get("habit")
+    if not hs:
+        raise SystemExit("this pattern has no habit stats: rebuild it with `score_pattern.py --build`")
+    base = score(path, pat, refs)
+    m = habit_measures(Image.open(path).convert("RGB"))
+    why = []
+    adv = [v for v in (base.get("typical"), base.get("fit")) if v is not None]
+    habitual = {k for k, v in hs["devices"].items() if v >= 0.25}
+    used = set(m["devices"])
+    dev = 1.0
+    if habitual:
+        dev = 1.0 if used & habitual else 0.0
+        why.append(f"uses the archive's device ({', '.join(sorted(used & habitual))})" if dev else
+                   f"none of the archive's devices ({', '.join(sorted(habitual))})")
+    invented = sorted(k for k in used if hs["devices"].get(k, 0) == 0)
+    rng = 0.0
+    al = m["alignment"]
+    if al is None or hs["alignment"].get(al, 0) >= 0.2:
+        rng += 0.5
+    else:
+        why.append(f"{al} alignment: the archive does it in {hs['alignment'].get(al, 0):.0%} of pieces")
+    lo, _, hi = hs["lines"]
+    if lo <= m["lines"] <= hi:
+        rng += 0.5
+    else:
+        why.append(f"{m['lines']} text lines; the archive runs {lo} to {hi}")
+    tells = [t for t in m["tells"] if hs["tells"].get(t, 0) < 0.2]
+    pen = 0.12 * (len(tells) + len(invented))
+    if tells:
+        why.append("AI tells the archive doesn't have: " + ", ".join(tells))
+    if invented:
+        why.append("devices the archive never uses: " + ", ".join(invented))
+    if copy_text:
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "nazar-social", "engine"))
+        import social_lint
+        hits = social_lint.lint(copy_text)["hits"]
+        pen += min(0.2, 0.05 * len(hits))
+        if hits:
+            why.append("copy: " + "; ".join(h[1] for h in hits[:3]))
+    if adv:
+        h = 0.30 * base["score"] + 0.20 * float(np.mean(adv)) + 0.25 * dev + 0.25 * rng
+    else:
+        h = 0.375 * base["score"] + 0.3125 * dev + 0.3125 * rng
+    return {"file": base["file"], "habit": round(max(0.0, min(1.0, h - pen)), 2), "gate": base["score"], "why": why, "measures": m}
+
+
+def rank(pat, folder, copy=None):
+    """Candidates ordered by HABIT, best first. copy: {file: text} adds the copy lint."""
+    refs = {"grounds": lab_of_hex(pat["grounds"]), "accent": lab_of_hex([pat["accent"]]),
+            "swatches": lab_of_hex(pat["swatches"] + pat.get("asset_swatches", []) + pat["grounds"] + [pat["accent"]])}
+    files = sorted(os.path.join(folder, f) for f in os.listdir(folder) if os.path.splitext(f)[1].lower() in EXTS)
+    rows = [habit_score(f, pat, refs, (copy or {}).get(os.path.basename(f))) for f in files]
+    return sorted(rows, key=lambda r: -r["habit"])
 
 
 def run(pat, folder):
@@ -282,6 +440,11 @@ if __name__ == "__main__":
         sys.exit(__doc__)
     if sys.argv[1] == "--prompt":
         print(prompt_block(json.load(open(sys.argv[2])))); sys.exit()
+    if sys.argv[1] == "--rank":
+        cp = json.load(open(sys.argv[4], encoding="utf-8")) if len(sys.argv) > 4 else None
+        for i, r in enumerate(rank(json.load(open(sys.argv[2])), sys.argv[3], cp), 1):
+            print(f"{i}. {r['file']}  HABIT {r['habit']:.2f}  (gate {r['gate']:.2f})" + ("  " + " | ".join(r["why"]) if r["why"] else ""))
+        sys.exit()
     if sys.argv[1] == "--build":
         pat = build(sys.argv[2], sys.argv[4:]); json.dump(pat, open(sys.argv[3], "w"), indent=1); print(json.dumps(pat)); sys.exit()
     r = run(json.load(open(sys.argv[1])), sys.argv[2])
