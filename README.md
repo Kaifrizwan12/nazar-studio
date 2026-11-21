@@ -83,6 +83,14 @@ This was one shot, with no designer feedback; in real use you review the first s
 <td><b>Flavour-cycle films</b> (built with <code>nazar-shoot</code>). One script turns the pack renders into films: one 16:9 film per line for Behance, and phone-size 4:5 films for the client. They're cinematic, not slideshow cuts: each pack holds for 1.2 s with an eased push-in and a slight sway, the name type behind it drifts in soft focus, and a light sweep crosses the film. Packs hand over with a crisp diagonal wipe that has a light edge, and a feathered blend is banned because it doubles the type. A tight contact shadow keeps the seal teeth and notches sharp. The engine works for any product range, with presets for Reels, Stories, TikTok, Shorts, LinkedIn, X and Behance, and a built-in flash-safety check (WCAG 2.3.1). Before any video renders, four stills (start, mid-shot, mid-wipe, next) are shown for a yes. Rules: <a href="nazar-shoot/references/motion.md"><code>motion.md</code></a>.</td>
 </tr></table>
 
+**New from this job, made generic for any product:**
+
+![Composers on the BAGH packs: a fanned hand of five pouches, a chips bag front-over-back couple on mango, a mulberry pouch bleeding off the page, a seeded flat-lay scatter, every shadow from one light](assets/demo-composers.jpg)
+
+- **`composers`** (nazar-story) builds a whole product group as one picture: fan, couple, row, stack, cascade, bleed hero, grid, scatter and edge extension. Every shadow falls from one light, with a tight contact line that keeps notches and seal teeth. A true-scale row refuses to run without real millimetres, because packs that look bigger than they are break consumer law in the EU, US, UK and India. It works the same for bottles, cans, jars, tubes, books and devices, and it warns when a deck uses the same device twice.
+- **`flavour_cycle`** (nazar-shoot) makes the films above for any range. It has 12 platform presets, cinematic or snap cuts, loops that end on the first frame, cuts on the beat and a WCAG flash-safety check.
+- **`handover`** (nazar-pitch) builds the client, portfolio, printer and social folders from one manifest. Names are safe on any OS, every file gets a checksum, and a stale render is caught before it ships. It writes a handover note listing the licences and any AI use. Old files are moved aside, never deleted. A dry run says exactly which portfolio panels to re-upload: on BAGH it matched the delivered client folder, 56 of 56 files.
+
 **Every side, no 3D.** `nazar-packaging/engine/views.py` builds one sheet per structure (front, back, side, base from below, 3/4) from the pack renders and print art. It knows a doypack has no side panel, a pillow bag's fin is on the back and a box pouch base has no diagonal folds. `nazar-dieline/engine/base_fold.py` draws the doypack base: the gusset folds in, then out. Rules: [`views.md`](nazar-packaging/references/views.md).
 
 ## Review live, with Claude listening (beta)
@@ -105,6 +113,16 @@ python nazar-core/engine/review_wall.py <designs folder> <out folder> --title "<
 Every card is an engine run on real material, public-domain or a real brand archive. Each links to what the number means.
 
 <table>
+<tr>
+<td width="33%"><a href="nazar-shoot/SKILL.md"><img src="assets/demo-shoot-flatlay.jpg" alt="Pack seated in a flat-lay"></a><br><sub><b>Pack in scene.</b> AI made only the empty plate (stamped). The real render is seated with a contact shadow, light wrap and grain</sub></td>
+<td width="33%"><a href="nazar-shoot/SKILL.md"><img src="assets/demo-shoot-line.jpg" alt="Range on a drying line"></a><br><sub><b>The range on a drying line:</b> five real renders on an AI plate, one light, cast shadows on the wall</sub></td>
+<td width="33%"><a href="nazar-shoot/references/motion.md"><img src="assets/demo-film-tile.webp" alt="Cinematic product film"></a><br><sub><b>Product films</b> for any range: 12 platform presets, light-edge wipes, a flash-safety check</sub></td>
+</tr>
+<tr>
+<td width="33%"><a href="nazar-story/SKILL.md"><img src="assets/demo-composers-tile.jpg" alt="Composers"></a><br><sub><b>Composers:</b> fan, couple, bleed hero, scatter and more, as one picture under one light, true to scale in mm</sub></td>
+<td width="33%"><a href="nazar-story/SKILL.md"><img src="assets/demo-story-tile.jpg" alt="Case-study page"></a><br><sub><b>Case studies that never repeat a device:</b> one idea per page, fit-or-fail type</sub></td>
+<td width="33%"><a href="nazar-dieline/SKILL.md"><img src="assets/demo-flats.jpg" alt="Ten flats measured"></a><br><sub><b>Ten structures, ten flats,</b> each with grams and size in mm</sub></td>
+</tr>
 <tr>
 <td width="33%"><a href="docs/ENGINES.md"><img src="assets/demo-illustration.jpg" alt="Drawing in code"></a><br><sub><b>Drawing in code,</b> like a hand: pressure strokes, hatching, misregistration</sub></td>
 <td width="33%"><a href="docs/RESULTS.md#1-can-the-engines-tell-designers-apart"><img src="assets/demo-voiceprint-designers.jpg" alt="Telling designers apart"></a><br><sub><b>Tell designers apart.</b> 60% of 35 real prints, blind, against 37% for guessing</sub></td>
