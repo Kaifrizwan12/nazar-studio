@@ -27,3 +27,10 @@ Images: the strongest single image first, then the system, then applications in 
 - **Behance = the same pages in case-study order,** no folios, no client to-do page. Keep the PDF light (render pages to JPEG; vector-embedded photos blew one deck past 100 MB).
 - **Client folder:** a root folder with only the PDF, pack images, film and one range photo, friendly file names, no tech files.
 - **End the client deck with "How far are we":** Done / Next / Need from you, short bullets.
+
+
+## Review wall (comments that reach Claude)
+- Publish every deck page as a numbered 16:9 sheet on one private claude.ai Artifact. Declare `comments` with `composer_only: true`, so the page asks for no consent.
+- Put a **Comment** button under each sheet that calls `openComposer({element: sheet})`. Mark each sheet `data-comment-target`, so a click anywhere on it anchors to it.
+- The reviewer writes the note and presses *Send to Claude*. The note lands in the session that published the page. Ask for one note per change.
+- The page is private until the owner shares it from the Share menu; say so when you hand over the link.

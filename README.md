@@ -185,6 +185,6 @@ Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vigne
 - **`nazar-shoot`: product shoots and hyper-real scenarios.** It covers plates, compositing and the camera pass (light wrap, tone match, halation, lens, grain), story-driven scenes (hands, sky and local life), and flavour-cycle motion loops. AI makes only empty plates and textures; the product is always the real artwork.
 - **Hybrid-scene compositor in `nazar-shoot`:** promote the plate-seating pass (light/cast carry, black lift, sheen, bend, edge occlusion, shelf-lip re-lay) from project code into a reusable engine.
 - **Deck builder with overflow guard in `nazar-pitch`:** a reusable visual-first deck/Behance engine (fit-or-fail text, contact sheet, JPEG-page PDF).
-- **Review site: comment on every design, and the comment reaches Claude.** Each design image goes on a private page where Kaif or the client comments per image, and each comment arrives in the working session. The route to research first is a claude.ai Artifact with comments, then add it to the kits and test.
+- **Review site: comment on every design, and the comment reaches Claude.** First version built and in use: a private claude.ai Artifact showing every page of the deck as a numbered sheet. Each sheet has a Comment button, and the composer's *Send to Claude* delivers the note to the working session. Next: write the recipe into `nazar-pitch` once a full client round has gone through it.
 
 Made with two eyes open. 👁️👁️
