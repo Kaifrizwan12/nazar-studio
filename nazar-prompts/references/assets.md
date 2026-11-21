@@ -57,3 +57,4 @@
 - **Stock it like a hand did.** Let tilt, height and spacing drift by about 1%. Perfect repetition reads as generated.
 - **Shop graphics are print, not AI.** Header boards and shelf-edge strips are drawn by code with the brand's real type, then lit by the plate's own light map. Ask the image model for a blank header panel and blank strips only.
 - **Ceiling:** flat front renders can't turn in perspective. For true 3/4 or lying poses, use a 3D model with the flat art as its texture.
+- **Faded packs:** lifting the pack's blacks to the plate's darkest tone washes packs out on white sets (shelving, studio). Keep the lift near 0.1 there, keep full saturation, add local contrast on the print, then grade the whole frame once (gentle S-curve, vignette) so pack and plate share one finish.
