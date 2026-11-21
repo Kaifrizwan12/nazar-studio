@@ -4,7 +4,7 @@
 
 17 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
 
-`17 kits` · `44 engines, about 8,700 lines of Python` · `103 research references, 218 sources` · `40 lessons logged from real runs`
+`20 kits` · `51 engines, about 11,900 lines of Python` · `121 research references` · `72 lessons logged from real runs`
 
 
 <table>
@@ -74,6 +74,8 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 ![Every side of a BAGH pack: front, back, side, base from below and 3/4 on one sheet](assets/demo-views.jpg)
 
+**A case study that never repeats itself** (built with `nazar-story`). Every pack's front and back is in the deck, and each page uses its own device: a hero with its colour edge, five tint columns, a fanned hand of backs, a front-over-back specimen grid, one bag tilted and bleeding off the page, front-and-back couples, a standing 3/4 trio, a dark backs page. One flats page lists all ten dielines with grams and flat size in mm. The Behance cut closes with a studio contact page. Overlaps (couples, fans, tossed bags) are composed into one image first, so the deck's no-overlap guard still holds.
+
 **Every side, no 3D.** `nazar-packaging/engine/views.py` builds one sheet per structure (front, back, side, base from below, 3/4) from the pack renders and print art. It knows a doypack has no side panel, a pillow bag's fin is on the back and a box pouch base has no diagonal folds. `nazar-dieline/engine/base_fold.py` draws the doypack base: the gusset folds in, then out. Rules: [`views.md`](nazar-packaging/references/views.md).
 
 ## Review live, with Claude listening (beta)
@@ -123,19 +125,19 @@ Every card is an engine run on real material, public-domain or a real brand arch
 | Kit | What it does | Engines |
 |---|---|---|
 | `nazar-core` | The shared brain: studio rules, research method, QA, the fast path, and the live review wall | `studio` · `chain_check` · `qa_views` · `read_text` · `place_asset` · `draw` · `review_wall` · `selftest` · `trace` · renderer |
-| `nazar-voiceprint` | Reads your own work (words, story, visuals) and writes a pattern that makes any AI work like you | `portfolio` · `score_pattern` · `devices` · `analyze` · `visual` · `grade` · `strokes` · `layout` · `cluster` · `video` · `pose` · `pick_test` |
+| `nazar-voiceprint` | Reads your own work (words, story, visuals) and writes a pattern that makes any AI work like you | `portfolio` · `score_pattern` · `devices` · `ui_devices` · `analyze` · `visual` · `grade` · `strokes` · `layout` · `cluster` · `video` · `pose` · `pick_test` |
 | `nazar-colour` | Palettes from real archives, contrast and colour-blindness | `palette_check` |
 | `nazar-type` | Choose and check fonts, Urdu included | `type_check` · `font_match` |
 | `nazar-backdrops` | A year of routine posts from a brand book | `backdrops` |
-| `nazar-social` | Feeds and the slop test | `social_lint` |
+| `nazar-social` | Feeds and the slop test, Roman Urdu included | `social_lint` · `roman_urdu` |
 | `nazar-dieline` / `nazar-packaging` | Real dielines with art on them; packs that win the shelf and print cleanly | `dieline` · `film` · `press_pdf` · pack QA |
 | `nazar-illustration` | Drawing in code, like a hand | `ink` · `trace` |
+| `nazar-story` / `nazar-pitch` | Case studies and decks that never repeat a layout: one idea per page, every front and back, Behance panels and covers | `deck` |
+| `nazar-shoot` | Pack-in-scene shots: AI makes only the empty plate, the real render is seated with shadows, light wrap, tone match and grain | `composite` |
 | `nazar-ooh` · `nazar-web` · `nazar-motion` | Billboards, sites, logos that move | `ooh_check` · `web_audit` · `motion_check` |
-| `nazar-strategy` · `nazar-pitch` · `nazar-logo` · `nazar-brand-book` · `nazar-art-direction` · `nazar-prompts` | Method and checklists for positioning, proposals, marks, the identity book, photo and illustration briefs, and AI prompts (only with the client's written yes) | |
+| `nazar-strategy` · `nazar-logo` · `nazar-brand-book` · `nazar-art-direction` · `nazar-prompts` | Method and checklists for positioning, proposals, marks, the identity book, photo and illustration briefs, and AI prompts (only with the client's written yes) | |
 
 A job never uses all of them: Claude reads the brief and pulls only what it needs. **Your prompt leads; kits are add-ons.**
-
-**A case study that never repeats itself.** Every pack's front and back is in the deck, and each page uses its own device: a hero with its colour edge, five tint columns, a fanned hand of backs, a front-over-back specimen grid, one bag tilted and bleeding off the page, front-and-back couples, a standing 3/4 trio, a dark backs page. One flats page lists all ten dielines with grams and flat size in mm. The Behance cut closes with a studio contact page. Overlaps (couples, fans, tossed bags) are composed into one image first, so the deck's no-overlap guard still holds.
 
 ## It learns from every run
 
@@ -155,7 +157,7 @@ Each real test found weaknesses in the skill itself. Each was fixed and logged i
 - **It does not yet look like the designer made it.** In a blind pick test the designer named 11 of 12 slides correctly. It holds the brand kit (blind brand-manager approval 10 of 12 as is); the designer's own touch is the next work.
 - **One shot so far.** The results above had no feedback round; the protocol now includes one.
 - **Small samples.** Twelve pieces, a few raters, and most raters were models.
-- **Known weak spots:** the device finder misses UI-style devices; a near-match font is a near match, and small body text gets a shortlist of three; the copy lint is English-only; reading slide text needs macOS or `tesseract`.
+- **Known weak spots:** a near-match font is a near match, and small body text gets a shortlist of three. The UI-device finder and the habit-score weights are tested on synthetic fixtures only, not yet on a real archive.
 - **Not tested on real files yet:** pose, EXIF and video tools, a full personal writing archive, a press proof of a real pack (BAGH is at concept-press stage: the printer's profile and the converter's CAD dieline come next) and Urdu print.
 - **Rules that never bend:** a client's logo is never recoloured or redrawn, every image is looked at by eye before it ships, and AI imagery needs the client's written yes.
 
@@ -165,8 +167,8 @@ More detail: [the engine results](docs/RESULTS.md), [how the pattern engine work
 
 - [ ] **Feedback round:** run draft, the designer's notes, one revision, and judge both rounds blind (the protocol is written).
 - [ ] **The designer's own touch:** test range rules, real elements and variety in a round, and aim for blind raters who can't tell.
-- [ ] **Brand files in profiles:** ask for native 4:5 backdrops and a light-on-dark logo up front, so nothing is resampled or boxed.
-- [ ] **Weak engines:** UI-style devices in the device finder, Roman Urdu copy lint, OCR without macOS, a habit score that can rank good work.
+- [x] **Brand files in profiles:** ask for native 4:5 backdrops and a light-on-dark logo up front, so nothing is resampled or boxed.
+- [x] **Weak engines:** UI-style devices, Roman Urdu copy lint, OCR on any OS (tesseract), a habit score that ranks good > plain > slop. Next: check them on a real archive.
 - [ ] **Real-file tests:** pose, EXIF and video on real shoots; a writers test on public-domain books; a press proof of the BAGH pouch on real film; Urdu print.
 - [ ] **More trades on real jobs:** packaging, billboards, web and motion, each run end to end the way the social case was.
 
@@ -200,12 +202,8 @@ His preferences live in [`nazar-core/references/kaif.md`](nazar-core/references/
 Method and taste by **Kaif Nathani** / Nazar. Standing on the shoulders of Vignelli, Rand, Rams, Müller-Brockmann, Aicher, Crouwel, Games, Gill, Bass, Albers and a lot of very patient archivists. Fonts in `nazar-core/engine/fonts` are SIL OFL (licences included).
 
 
-## Open: next kits (planned, not built yet)
+## Open
 
-- **`nazar-story`: case-study and brand-story maker.** It builds Behance-style continuous case studies for any brand: hook, insight, idea, system, applications, payoff, credits. It will be grounded in deep research on storytelling craft (screenwriting structure, editorial pacing, award-winning case studies) plus Kaif's voice and his unorthodox giggles. It writes the PNG sequence and the copy.
-- **`nazar-shoot`: product shoots and hyper-real scenarios.** It covers plates, compositing and the camera pass (light wrap, tone match, halation, lens, grain), story-driven scenes (hands, sky and local life), and flavour-cycle motion loops. AI makes only empty plates and textures; the product is always the real artwork.
-- **Hybrid-scene compositor in `nazar-shoot`:** promote the plate-seating pass (light/cast carry, black lift, sheen, bend, edge occlusion, shelf-lip re-lay) from project code into a reusable engine.
-- **Deck builder with overflow guard in `nazar-pitch`:** a reusable visual-first deck/Behance engine (fit-or-fail text, contact sheet, JPEG-page PDF).
-- **Review wall, next round:** built and in use (`nazar-core/engine/review_wall.py`). Next: add a per-sheet *resolved* state once a full client round has gone through it, and a before/after toggle on republished sheets.
+Everything planned is built: `nazar-story`, `nazar-shoot`, the deck engine and the review wall's resolved state and before/after slider. What's left needs real people and real files, and is listed under To do.
 
 Made with two eyes open. 👁️👁️
