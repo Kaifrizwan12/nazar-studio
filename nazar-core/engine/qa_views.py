@@ -21,7 +21,12 @@ from PIL import Image, ImageFilter, ImageOps
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 sys.path.insert(0, os.path.join(ROOT, "nazar-voiceprint", "engine"))
-import layout  # noqa: E402
+try:
+    import layout  # noqa: E402
+except ModuleNotFoundError:
+    raise SystemExit("qa_views.py needs the nazar-voiceprint kit beside nazar-core: run it from the skills folder "
+                     "(.claude/skills/nazar-core/engine/qa_views.py), not from a copied engine. A project keeps only its own "
+                     "brand.json and points the engine at it with NAZAR_BRAND.")
 
 
 def measure(im):

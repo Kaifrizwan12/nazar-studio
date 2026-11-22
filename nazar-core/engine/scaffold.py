@@ -2,10 +2,13 @@
 
   python scaffold.py tasks
       lists the task recipes (steps, kits, folders)
-  python scaffold.py init "<Brand or working name>" --task packaging[,social,...] [--root .] [--new-brand]
+  python scaffold.py init "<Brand or working name>" --task packaging[,social,...] [--root .] [--new-brand] [--layout MAP]
       creates only the folders the task(s) need, a hub README.md, SPEC.md, STATUS.md, CLAUDE.md, .gitignore,
       _archive/MANIFEST.md, installs the nazar-researcher subagent and lays out 01_research/ for the tasks' research
       profiles. Re-run with a new task when the project grows: it adds what's missing and never overwrites.
+      --layout follows a folder map the client or brief sets, e.g. "02=02_brand/strategy,03=02_brand,08=04_photo,archive=99_archive"
+      (keys: 00-10 and archive; unmapped keys keep the default names). It is saved in <root>/.claude/nazar.json, so later
+      archive / release / status calls use the same map.
   python scaffold.py archive <path> "<why>" [--root .]
       moves a file or folder into _archive/ (never deletes) and appends a line to _archive/MANIFEST.md
   python scaffold.py release <src_dir> <BRAND> vNN [--root .] [--kind CLIENT|BEHANCE]
@@ -37,6 +40,39 @@ FOLDERS = {
 }
 SUB = {"04": ["_architecture", "core-reference/01_versions", "core-reference/02_dielines", "core-reference/03_mockups", "print-production"],
        "03": ["logo", "colour", "type"], "05": ["backdrops", "templates", "posts"], "08": ["plates", "films"]}
+ARCHIVE = "_archive"
+
+
+def _cfg_path(root):
+    return os.path.join(root, ".claude", "nazar.json")
+
+
+def _parse_layout(spec):
+    """'02=02_brand/strategy,archive=99_archive' -> {'02': '02_brand/strategy', 'archive': '99_archive'}"""
+    out = {}
+    for part in [p.strip() for p in (spec or "").split(",") if p.strip()]:
+        k, _, v = part.partition("=")
+        k, v = k.strip(), v.strip().strip("/")
+        if k not in FOLDERS and k != "archive" or not v or os.path.isabs(v) or ".." in v.split("/"):
+            raise SystemExit(f"bad --layout entry {part!r}: use KEY=relative/folder with KEY in {', '.join(FOLDERS)} or archive")
+        out[k] = v
+    return out
+
+
+def layout(root=".", spec=None):
+    """The folder names this project uses: defaults, overridden by a saved or given map (a given map is saved)."""
+    cfg = json.load(open(_cfg_path(root), encoding="utf-8")) if os.path.exists(_cfg_path(root)) else {}
+    lay = dict(cfg.get("layout", {}))
+    if spec:
+        lay.update(_parse_layout(spec))
+        cfg["layout"] = lay
+        os.makedirs(os.path.dirname(_cfg_path(root)), exist_ok=True)
+        json.dump(cfg, open(_cfg_path(root), "w", encoding="utf-8"), indent=1)
+    names = {k: lay.get(k, v[0]) for k, v in FOLDERS.items()}
+    names["archive"] = lay.get("archive", ARCHIVE)
+    return names
+
+
 # task -> (steps, research kits, folders, folders added for a new brand)
 TASKS = {
     "identity":  ("brief > research > strategy (lock name, tagline) > logo > colour + type > brand book > applications > story > release",
@@ -74,11 +110,12 @@ def _tasks(arg):
     return ts
 
 
-def init(brand, tasks, root=".", new_brand=False):
+def init(brand, tasks, root=".", new_brand=False, layout_spec=None):
     made = []
+    N = layout(root, layout_spec)
     keys = sorted({k for t in tasks for k in TASKS[t][2] + (TASKS[t][3] if new_brand else [])})
     for k in keys:
-        name, what = FOLDERS[k]
+        name, what = N[k], FOLDERS[k][1]
         os.makedirs(os.path.join(root, name), exist_ok=True)
         for sub in SUB.get(k, []):
             os.makedirs(os.path.join(root, name, sub), exist_ok=True)
@@ -86,14 +123,15 @@ def init(brand, tasks, root=".", new_brand=False):
             made.append(name + "/")
     today = time.strftime("%Y-%m-%d")
     plan = "\n".join(f"- **{t}**: {TASKS[t][0]}" for t in tasks)
-    fmap = "\n".join(f"{FOLDERS[k][0] + '/':22s}{FOLDERS[k][1]}" for k in keys)
+    fmap = "\n".join(f"{N[k] + '/':22s}{FOLDERS[k][1]}" for k in keys)
+    A, R = N["archive"], N["01"]
     files = {
-        "README.md": f"# {brand}: project hub\n\n> Confidential client work. Keep this repo private.\n\n## Task\n{plan}\n\n## Start here\n1. `SPEC.md` (locked decisions)\n2. `STATUS.md` (where we are)\n3. `01_research/summary.md`\n\n## Folder map\n```\n{fmap}\nCLIENT_<BRAND>_vNN_<date>/  release the client receives (latest only at the root)\nBEHANCE_<BRAND>_vNN_<date>/ portfolio release\n_archive/             superseded, moved never deleted (MANIFEST.md)\n```\n\n## Conventions\n- Images `brand_what-it-shows.jpg` · artwork `sku_size_side_vNN` · notes `YYYY-MM_topic.md`\n- Sent versions are frozen; archive, never delete; show before commit.\n",
+        "README.md": f"# {brand}: project hub\n\n> Confidential client work. Keep this repo private.\n\n## Task\n{plan}\n\n## Start here\n1. `SPEC.md` (locked decisions)\n2. `STATUS.md` (where we are)\n3. `{R}/summary.md`\n\n## Folder map\n```\n{fmap}\nCLIENT_<BRAND>_vNN_<date>/  release the client receives (latest only at the root)\nBEHANCE_<BRAND>_vNN_<date>/ portfolio release\n{A + '/':22s}superseded, moved never deleted (MANIFEST.md)\n```\n\n## Conventions\n- Images `brand_what-it-shows.jpg` · artwork `sku_size_side_vNN` · notes `YYYY-MM_topic.md`\n- Sent versions are frozen; archive, never delete; show before commit.\n",
         "SPEC.md": f"# {brand}: locked decisions\n\nLock each line in writing before production. A change after the lock costs a rebuild.\n\n| Decision | Value | Locked on |\n|---|---|---|\n| Name |  |  |\n| Tagline |  |  |\n| Core idea (one sentence) |  |  |\n| Palette |  |  |\n| Type |  |  |\n| Scope |  |  |\n\n## Open questions\n- \n",
         "STATUS.md": f"# Status\n\n- {today}: project scaffolded for {', '.join(tasks)}.\n",
-        "CLAUDE.md": f"# {brand} (client project)\n\nUse the nazar skills: read `.claude/skills/nazar-core/SKILL.md` and `references/project_playbook.md` first.\nTask(s): {', '.join(tasks)}. Follow the recipe in the playbook, adjusted to the brief.\nResearch goes through `nazar-research` (subagent `nazar-researcher`) into `01_research/`.\nShow previews before big renders and before every commit; commit only on a clear yes.\nNever delete: `scaffold.py archive`. Sent versions are frozen.\n",
+        "CLAUDE.md": f"# {brand} (client project)\n\nUse the nazar skills: read `.claude/skills/nazar-core/SKILL.md` and `references/project_playbook.md` first.\nTask(s): {', '.join(tasks)}. Follow the recipe in the playbook, adjusted to the brief.\nResearch goes through `nazar-research` (subagent `nazar-researcher`) into `{R}/`.\nShow previews before big renders and before every commit; commit only on a clear yes.\nNever delete: `scaffold.py archive`. Sent versions are frozen.\n",
         ".gitignore": "*.zip\n__pycache__/\n_cache/\n.DS_Store\nThumbs.db\n",
-        "_archive/MANIFEST.md": "# Archive manifest\n\nMoved here, never deleted. One line per move: date, what, from, why.\n\n",
+        f"{A}/MANIFEST.md": "# Archive manifest\n\nMoved here, never deleted. One line per move: date, what, from, why.\n\n",
     }
     for f, t in files.items():
         if _w(os.path.join(root, f), t):
@@ -105,7 +143,7 @@ def init(brand, tasks, root=".", new_brand=False):
     kits = sorted({k for t in tasks for k in TASKS[t][1]})
     ds = os.path.join(SKILLS, "nazar-research", "engine", "dataset.py")
     if kits and os.path.exists(ds):
-        subprocess.run([sys.executable, ds, "plan", os.path.join(root, "01_research"), f"{brand}: {', '.join(tasks)}", "--kit", ",".join(kits)],
+        subprocess.run([sys.executable, ds, "plan", os.path.join(root, R), f"{brand}: {', '.join(tasks)}", "--kit", ",".join(kits)],
                        check=False, stdout=subprocess.DEVNULL)
     if made:
         open(os.path.join(root, "STATUS.md"), "a", encoding="utf-8").write(f"- {today}: added {', '.join(made)}\n")
@@ -117,13 +155,14 @@ def archive(path, why, root="."):
     src = os.path.join(root, path) if not os.path.isabs(path) else path
     if not os.path.exists(src):
         raise SystemExit(f"not found: {path}")
-    dst = os.path.join(root, "_archive", os.path.basename(os.path.normpath(src)))
+    A = os.path.join(root, layout(root)["archive"])
+    dst = os.path.join(A, os.path.basename(os.path.normpath(src)))
     if os.path.exists(dst):
         dst += time.strftime("_%Y%m%d-%H%M%S")
-    os.makedirs(os.path.join(root, "_archive"), exist_ok=True)
+    os.makedirs(A, exist_ok=True)
     shutil.move(src, dst)
-    _w(os.path.join(root, "_archive", "MANIFEST.md"), "# Archive manifest\n\n")
-    open(os.path.join(root, "_archive", "MANIFEST.md"), "a", encoding="utf-8").write(
+    _w(os.path.join(A, "MANIFEST.md"), "# Archive manifest\n\n")
+    open(os.path.join(A, "MANIFEST.md"), "a", encoding="utf-8").write(
         f"- {time.strftime('%Y-%m-%d')}: `{os.path.basename(dst)}` from `{os.path.relpath(src, root)}`: {why}\n")
     print("archived", os.path.relpath(src, root), "->", os.path.relpath(dst, root)); return dst
 
@@ -144,13 +183,14 @@ def release(src, brand, ver, root=".", kind="CLIENT"):
 
 def status(root="."):
     rel = sorted(d for d in os.listdir(root) if re.match(r"(CLIENT|BEHANCE)_.+_v\d{2}_", d))
-    have = [FOLDERS[k][0] for k in FOLDERS if os.path.isdir(os.path.join(root, FOLDERS[k][0]))]
+    N = layout(root)
+    have = sorted({N[k] for k in FOLDERS if os.path.isdir(os.path.join(root, N[k]))})
     empty = []
     sp = os.path.join(root, "SPEC.md")
     if os.path.exists(sp):
         empty = [m.group(1).strip() for m in re.finditer(r"^\|\s*([^|]+?)\s*\|\s*\|", open(sp, encoding="utf-8").read(), re.M)]
     r = dict(folders=have, releases=rel, spec_unlocked=empty,
-             research_summary=os.path.exists(os.path.join(root, "01_research", "summary.md")))
+             research_summary=os.path.exists(os.path.join(root, N["01"], "summary.md")))
     print(json.dumps(r, indent=1)); return r
 
 
@@ -173,6 +213,20 @@ def selftest():
     rel = [d for d in os.listdir(root) if d.startswith("CLIENT_")]; assert len(rel) == 1 and "_v02_" in rel[0]
     assert "CLIENT_TESTBRAND_v01" in open(os.path.join(root, "_archive", "MANIFEST.md")).read()
     s = status(root); assert "Name" in s["spec_unlocked"] and s["research_summary"]
+    # a client-set folder map: folders, research, archive and status all follow it, and later calls remember it
+    lr = tempfile.mkdtemp(prefix="nazar_layout_")
+    init("Mapco", ["identity", "shoot"], lr, layout_spec="02=02_brand/strategy,03=02_brand,08=04_photo,archive=99_archive")
+    for d in ("02_brand/strategy", "02_brand/logo", "04_photo/plates", "99_archive"):
+        assert os.path.isdir(os.path.join(lr, d)), d
+    assert not os.path.exists(os.path.join(lr, "02_strategy")) and not os.path.exists(os.path.join(lr, "_archive"))
+    assert os.path.exists(os.path.join(lr, "01_research", "summary.md")) and "99_archive/" in open(os.path.join(lr, "README.md")).read()
+    open(os.path.join(lr, "old.txt"), "w").write("x"); archive("old.txt", "test", lr)        # no --layout: read from nazar.json
+    assert os.path.exists(os.path.join(lr, "99_archive", "old.txt"))
+    assert "02_brand" in status(lr)["folders"]
+    try:
+        _parse_layout("02=../outside"); raise AssertionError("escaped the root")
+    except SystemExit:
+        pass
     print("SELFTEST PASS")
 
 
@@ -189,7 +243,7 @@ if __name__ == "__main__":
         for t, (steps, kits, f, nb) in TASKS.items():
             print(f"{t:10s} {steps}\n{'':10s} folders {', '.join(FOLDERS[k][0] for k in f)}" + (f" (+ {', '.join(FOLDERS[k][0] for k in nb)} for a new brand)" if nb else "") + "\n")
     elif a[0] == "init":
-        init(a[1], _tasks(opt("--task", "piece")), root, "--new-brand" in a)
+        init(a[1], _tasks(opt("--task", "piece")), root, "--new-brand" in a, opt("--layout"))
     elif a[0] == "archive":
         archive(a[1], a[2], root)
     elif a[0] == "release":

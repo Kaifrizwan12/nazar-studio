@@ -7,7 +7,7 @@ nazar-core/engine/tags.py: short prompts with tags. A person tags what is releva
   @name   a saved brand profile: what `studio.py learn` measured (format, grounds, accent, voice, devices) plus the brand's EXACT files
           (backdrops, logo, mascot), so they are never pasted into a prompt again.
   #tag    the kind of job. Only that job's kits and rules are loaded, not every kit: #carousel #post #story #banner #packaging #logo
-          #billboard #web #motion #strategy #pitch #voice #shoot #casestudy #study.
+          #billboard #campaign #web #motion #strategy #pitch #voice #shoot #casestudy #study.
   always  the generic rules (the person's prompt leads, logos never redrawn, AI imagery needs the client's written yes, ...).
 
     python tags.py brand save NAME OUT_FOLDER           # keep a learn run as the profile NAME (in ~/.nazar/brands/NAME)
@@ -48,6 +48,8 @@ TAGS = {
     "packaging": dict(job="packaging", kits=["nazar-packaging", "nazar-dieline", "nazar-type (legal text)", "nazar-colour (print-safe)"], rules=["Real dielines first; the pack QA checks the art, not just the box."], chain="dieline -> art -> pack QA"),
     "logo": dict(job="a new logo or identity", kits=["nazar-strategy", "nazar-logo", "nazar-brand-book", "nazar-colour", "nazar-type"], rules=["Never redraw an existing client logo unless the job is the logo."], chain="strategy -> routes -> logo -> brand book"),
     "billboard": dict(job="out-of-home", kits=["nazar-ooh (ooh_check.py: letter height and legibility at a distance)", "nazar-type", "nazar-colour"], rules=["Road-sign rules (about 7 words) belong here, not in a feed."], chain="ooh_check on the real copy, distance and speed"),
+    "campaign": dict(job="a campaign (idea, key visual, posters, social and OOH adaptations)", kits=["nazar-strategy (the campaign idea)", "nazar-ooh (posters, sites, ooh_check.py)", "nazar-social (feed and reel adaptations)", "nazar-art-direction (photography and illustration direction)"],
+                     rules=["One idea, then a key visual, then adaptations per site; each medium composed for itself, not the key visual resized."], chain="idea -> routes -> key visual -> adaptations per site -> mockups in place"),
     "web": dict(job="a website or landing page", kits=["nazar-web (web_audit.py)", "nazar-type", "nazar-colour"], rules=[], chain="build -> web_audit"),
     "motion": dict(job="motion or video", kits=["nazar-motion (motion_check.py)"], rules=[], chain="motion_check on the render"),
     "strategy": dict(job="strategy, naming or positioning", kits=["nazar-strategy"], rules=[], chain="method and checklists"),
@@ -180,8 +182,14 @@ AUTO = [("carousel", r"carousel|swipe|multi-?slide"), ("story", r"\bstor(?:y|ies
         ("shoot", r"product (?:shot|shoot|photo)|photo ?shoot|pack ?shot|hyper.?real|flat.?lay|nano banana"), ("casestudy", r"case stud|behance|award entry"),
         ("study", r"back.?engineer|reverse.?engineer|recipe card"),
         ("packaging", r"packag|label|carton|dieline|pouch|sachet|\btin\b"), ("logo", r"(?:design|make|create|redo|refresh|draw)\s+(?:a\s+|my\s+|the\s+)?(?:new\s+)?(?:logo|wordmark)|brand book|rebrand"),
-        ("billboard", r"billboard|out-of-home|\booh\b|hoarding|signage"), ("web", r"website|landing page|web page"), ("motion", r"animat|motion|video|\bidents?\b"),
+        ("billboard", r"billboard|out-of-home|\booh\b|hoarding|signage"), ("campaign", r"campaign|key visual|\bposters?\b"), ("web", r"website|landing page|web page"), ("motion", r"animat|motion|video|\bidents?\b"),
         ("strategy", r"naming|tagline|positioning|strategy"), ("pitch", r"proposal|pitch|pricing"), ("voice", r"in my voice|like me|my writing|sound like me")]
+
+
+def prompt_line(prompt, limit=600):
+    """The prompt as shown back: whole, or visibly cut (matching always reads the whole prompt)."""
+    s = re.sub(r"\s+", " ", prompt).strip()
+    return "Prompt: " + (s if len(s) <= limit else s[:limit] + f" ... (+{len(s) - limit} characters not shown; the whole prompt was read)")
 
 
 def auto_tags(prompt):
@@ -200,7 +208,7 @@ def auto_tags(prompt):
     assumed = False
     if not names and len(saved) == 1 and set(tags) & {"post", "carousel", "story", "banner", "voice"}:
         names, assumed = saved, True                                   # only one saved brand, and this job learns from an archive: assume it, and say so
-    return tags[:2], names, assumed
+    return tags, names, assumed                                      # every job the prompt names: a full brief is many jobs
 
 
 def expand(prompt):
@@ -261,7 +269,7 @@ def _expand(prompt):
     names = [n for n in re.findall(r"@([A-Za-z][\w-]*)", prompt) if os.path.isdir(_dir(n))]
     jobs = [TAGS[t] for t in dict.fromkeys(tags) if t in TAGS]
     unknown = [t for t in tags if t not in TAGS]
-    out = ["ENHANCED BRIEF (tags resolved; correct anything that is wrong)", "Prompt: " + re.sub(r"\s+", " ", prompt).strip()[:300], ""]
+    out = ["ENHANCED BRIEF (tags resolved; correct anything that is wrong)", prompt_line(prompt), ""]
     for n in dict.fromkeys(names):
         out += [show(n), ""]
     for j in jobs:

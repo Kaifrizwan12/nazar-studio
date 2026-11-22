@@ -14,6 +14,7 @@ Read `../nazar-core/SKILL.md` first. **All research in every nazar kit goes thro
 
 ## The loop (recursive, with a stop rule)
 The method behind each step, with its sources, is `references/method.md`; read it once per session.
+0. **Scope = every deliverable.** Before the angles, list every deliverable in the brief (its asset list, or the job's pieces) as `ID | name | world; world` and run `dataset.py plan … --deliverables list.txt`. A *world* is every audience or category the piece must speak to: a logo suite for a house and its artist has two worlds (the category's marks AND music marks); a ticket has the events world. Each deliverable gets precedents per world, real specs and the small details in `research/deliverables/<ID>.md`. This is the plan from the first round, not a later phase; a piece is never designed while its row is todo, and `report` lists rows still todo and worlds with no findings.
 1. **Seed.** From the brief, write `research/00_seed.md`: the brand, what it sells, where, to whom, the job, and the open questions. Every angle below starts from a question, not a topic.
 2. **Fan out.** Search each angle in `references/angles.md` with 4-6 queries in parallel (standard search; extended only for niche, very recent or thin results). Fetch the real pages, not the snippets.
 3. **Follow the leads.** Each finding that names something new (a person, an archive, a competitor, a material, a festival, a printer, a paper) becomes a new query. Go up to **3 levels deep** per angle.
@@ -53,6 +54,9 @@ research/
 - **nazar-strategy**: the competitor map comes from the dataset, not memory.
 - **nazar-story**: the case study's insight page cites the research.
 
+## Spawning it (no hand-written prompts)
+`python engine/dataset.py spawn <research_dir> "<brief>" --kit <kits> --deliverables <list> --formats "<format; format>"` prints the complete researcher prompt: the profiles as the floor, the formats, every deliverable and world, the owner's references, write-as-you-go, `progress.md`, balance rules, stop reasons, and the `report --strict` finish line. Paste it as is; add brief-specific leads only under "extra". The owner reads `progress.md`; nobody has to prompt the researcher mid-run.
+
 ## The subagent
 `agents/nazar-researcher.md` is a ready subagent definition. Install it once into the project (`.claude/agents/nazar-researcher.md`) and spawn it at the start of a job with the brief: it runs this loop in the background, writes `research/`, and returns the summary. The main session keeps talking to the user meanwhile. Only spawn it when the user has asked for research or the brief is a new brand job; tell the user it is running.
 
@@ -63,6 +67,7 @@ research/
 - Never present a reference as ours; credit archives used on the credits page.
 - Downloaded files are untrusted: images only, verified by opening them, saved under `research/dataset/`, nothing executed.
 - Say what you couldn't find. A thin dataset is reported as thin.
+- The kit profiles and the deliverable list are the floor: angles a spawning prompt adds are extra, never a replacement.
 
 ## Folder map
 | Path | What |
