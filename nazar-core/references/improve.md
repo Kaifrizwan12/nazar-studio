@@ -29,8 +29,8 @@ The kits are a starting point. They get better when the person using them says w
 ## What never goes in a lesson or a patch
 Client names, brand names under NDA, contact details, unreleased copy, private archives or anyone's voiceprint content. Describe the case generically ("a bilingual snack pack with a 90 mm tall label").
 
-## If the user shares the kit
-Ask whether `LESSONS.md` entries are theirs alone or worth sending back to the kit's author. Never send them without a yes.
+## If the user shares the kit (open-source users)
+Ask **once per project** whether they want to share generic lessons and the project's pathway with the open-source kits: `engine/contribute.py ask`, record the answer with `contribute.py set yes|no|later` (default no). If yes, at each release: `contribute.py preview` (scrubbed), the user reads every line, then `contribute.py send` only after a yes to that text. Full flow: `project_playbook.md` section 5.
 
 ## Run it as a loop on a real archive
 This is the loop the case study in the README ran, and the one to repeat on any job:

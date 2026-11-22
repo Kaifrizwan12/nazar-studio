@@ -86,6 +86,11 @@ def main():
     step("qa_views.py", lambda: py(f"{ENGINE}/qa_views.py", slides, os.path.join(tmp, "qa.jpg")) and "ok")
     step("read_text.py (reads text on slides)", ocr, "needs macOS with swiftc, or tesseract on the PATH; otherwise write copy.json by hand")
     step("place_asset.py (crop a backdrop to 4:5)", lambda: py(f"{ENGINE}/place_asset.py", "backdrop", os.path.join(train, "p1.png"), os.path.join(tmp, "bd.png"), "4:5").strip()[:70])
+    for name, rel in (("shotplan.py (plan the shot before the prompt)", "nazar-shoot/engine/shotplan.py"),
+                      ("proxy.py (stand-in route, our pixels kept)", "nazar-shoot/engine/proxy.py"),
+                      ("look.py (back-engineer a look)", "nazar-study/engine/look.py")):
+        if os.path.exists(os.path.join(ROOT, rel)):
+            step(name, lambda rel=rel: "PASS" if "SELFTEST PASS" in py(os.path.join(ROOT, rel), "--selftest") else (_ for _ in ()).throw(RuntimeError("self-test failed")))
     width = max(len(n) for n, _, _ in results)
     for n, ok, note in results:
         print(f"{'OK  ' if ok else 'FAIL'}  {n:<{width}}  {note}")

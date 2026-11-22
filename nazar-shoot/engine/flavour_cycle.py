@@ -82,8 +82,8 @@ STYLES = {   # frame counts at 30 fps; scaled to the film's fps
     "snap":      dict(beat=14, wipe=0,  fast=4, rounds=2),
 }
 HOLD, FADE, END = 30, 12, 40          # hero hold, fade into the end card, end card hold (frames at 30 fps)
-GLOW = 48                             # light-edge glow peak (8-bit levels); kept well under a full-frame flash
-SWEEP = 0.20                          # light sweep strength on the pack film (max 20%)
+GLOW = 26                             # light-edge glow peak (8-bit levels): a thin light edge, not a flare
+SWEEP = 0.0                           # no light sweep over the pack by default: a white band read as a cheap glaze (real review)
 
 DEMO_NOTE = "DEMO ONLY: the owner's stand-in range, used as an example; not part of the engine."
 
@@ -301,7 +301,9 @@ class Film:
             raise SystemExit("no items")
         self._plan()
         yy, xx = np.mgrid[0:self.H, 0:self.W].astype(np.float32)
-        self.vig = (1 - 0.22 * (((xx - self.W / 2) / (self.W * 0.62)) ** 2 + ((yy - self.H / 2) / (self.H * 0.62)) ** 2)).clip(0.7, 1)[..., None]
+        cine = self.style == "cinematic"
+        self.vig = (1 - (0.34 if cine else 0.22) * (((xx - self.W / 2) / (self.W * 0.62)) ** 2 + ((yy - self.H / 2) / (self.H * 0.62)) ** 2)).clip(0.55 if cine else 0.7, 1)[..., None]
+        self.key = (0.88 + 0.12 * np.exp(-(((xx - self.W * 0.44) / (self.W * 0.30)) ** 2 + ((yy - self.H * 0.40) / (self.H * 0.36)) ** 2)))[..., None].astype(np.float32)
         self.grain = np.random.default_rng(7).normal(0, 1, (4, self.H, self.W)).astype(np.float32) * (4.0 * self.H / 1350 + 1.0)
         self.edge = ((xx + yy * 0.35) / (self.W + self.H * 0.35)).astype(np.float32)
         self._cache = {}
@@ -407,7 +409,7 @@ class Film:
             reps = int(math.ceil(self.W * 2 / unit)) + 3
             strip = Image.new("RGB", (int(unit * reps) + 2, pitch), tint)
             ImageDraw.Draw(strip).text((0, pitch / 2 + cap / 2), word * reps, font=f, fill=ink, anchor="ls")
-            rows.append((strip.filter(ImageFilter.GaussianBlur(2.2 * self.H / 1080)), unit))
+            rows.append((strip.filter(ImageFilter.GaussianBlur(4.0 * self.H / 1080)), unit))   # shallow depth of field
         self._cache[idx] = (base, rows, pitch)
         return self._cache[idx]
 
@@ -445,22 +447,27 @@ class Film:
             py = int(sy0 + 0.51 * (sy1 - sy0) - p.height / 2)
             a = np.asarray(p.split()[3], np.float32) / 255
             kk = ph / 1000
-            for m, blur, (dx, dy) in ((120, 30, (20, 34)), (110, 3, (7, 10))):     # soft drop + tight contact
+            for m, blur, (dx, dy) in ((135, 34, (22, 38)), (150, 3, (6, 9))):      # soft drop + tight contact
                 sh = Image.fromarray((a * m).astype(np.uint8)).filter(ImageFilter.GaussianBlur(max(0.6, blur * kk)))
                 blk = Image.new("RGBA", p.size, (0, 0, 0, 0))
                 blk.putalpha(sh)
                 c.alpha_composite(blk, (px + int(dx * kk), py + int(dy * kk)))
-            if self.style == "cinematic":                                        # light sweep across the film
+            if self.style == "cinematic" and SWEEP > 0:                          # optional light sweep (off by default)
                 yy, xx = np.mgrid[0:p.height, 0:p.width].astype(np.float32)
                 pos = (-0.4 + 1.8 * ease(t)) * (p.width + p.height)
                 band = np.exp(-(((xx + yy * 0.6) - pos) / (p.width * 0.16)) ** 2) * a * SWEEP
                 pa = np.asarray(p, np.float32).copy()
                 pa[..., :3] += (255 - pa[..., :3]) * band[..., None]
                 p = Image.fromarray(pa.clip(0, 255).astype(np.uint8))
+            if self.style == "cinematic":
+                p = p.filter(ImageFilter.UnsharpMask(radius=1.4 * kk + 0.6, percent=55, threshold=2))   # crisp print detail
             c.alpha_composite(p, (px, py))
             if info is not None:
                 info.update(box=(px, py, p.width, p.height), alpha=a)
-        im = np.asarray(c.convert("RGB"), np.float32) * self.vig + self.grain[gi % 4][..., None]
+        im = np.asarray(c.convert("RGB"), np.float32)
+        if self.style == "cinematic":                     # key-light pool (never brighter than the tint) + S-curve grade
+            im = np.clip(im * self.key, 0, 255); im = (im / 255.0 - 0.06 * np.sin(2 * np.pi * im / 255.0)) * 255.0
+        im = im * self.vig + self.grain[gi % 4][..., None]
         return Image.fromarray(im.clip(0, 255).astype(np.uint8))
 
     def wipe(self, a_im, b_im, t, glow=GLOW):

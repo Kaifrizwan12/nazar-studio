@@ -200,6 +200,15 @@ JOBS = [
     ("strategy, naming or a pitch", r"naming|tagline|positioning|strategy|proposal|pitch|pricing", ["nazar-strategy", "nazar-pitch"], "method and checklists"),
     ("illustration or art direction", r"illustrat|icon|art direction|photography brief", ["nazar-illustration", "nazar-art-direction"], "drawing in code; `trace.py` for sketches"),
     ("writing or scripts in the person's own voice", r"in my voice|like me|my writing|my style|sound like me|script", ["nazar-voiceprint: words and story layers"], "ingest -> analyze -> confirm loop -> PATTERN.md"),
+    ("a product shoot or hyper-real product image", r"product (shot|shoot|photo)|photo ?shoot|pack ?shot|hyper.?real|scene with the (pack|product)|flat.?lay|nano banana|gemini",
+     ["nazar-shoot: plan before prompt (`shotplan.py`), routes A plate / B proxy / C textures (`references/gemini_routes.md`), `composite.py` / `proxy.py`",
+      "nazar-study: the target look from 6-20 references (`look.py set`), compare after", "nazar-prompts: model translation, ONLY with the client's written yes"],
+     "story line -> target look -> `shotplan.py plan` (clear warnings) -> plate prompt -> generate, kill on physics -> read the plate -> composite or proxy -> `look.py compare` -> look at 100% and phone size"),
+    ("a case study or Behance project", r"case stud|behance|portfolio (page|project)|award entry",
+     ["nazar-story: teardown, flatplan, panels (`deck.py`, `composers.py`), project text (`references/case_study_playbook.md`)", "nazar-study: teardown of 6-10 strong projects; `look.py set` on the panels", "nazar-pitch: write-up, credits, permissions"],
+     "teardown -> flatplan -> build (guards) -> contact sheet to the owner -> `look.py set` consistency -> project text -> publish"),
+    ("learning from references (back-engineering a look)", r"back.?engineer|reverse.?engineer|learn from|study (the|these|this)|reference (study|look)|recipe card",
+     ["nazar-study: `look.py card/set/compare`, eight clues of light, recipe cards, archives"], "references -> look.py set -> recipe cards -> TARGET.md -> hand to the making kit -> compare"),
     ("AI image or video prompts", r"midjourney|image prompt|ai image|generate an image|ai video", ["nazar-prompts: ONLY with the client's written yes"], "ask for the written yes first"),
 ]
 

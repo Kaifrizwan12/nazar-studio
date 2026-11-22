@@ -7,6 +7,9 @@ description: Nazar Studio's case-study kit. Use to turn finished work (packaging
 
 Read `../nazar-core/SKILL.md` and `../nazar-core/references/kaif.md` first. The write-up side of a case study (what to say, credits, permissions) is in `../nazar-pitch/references/handover.md`. This kit decides the sequence and composition, and `../nazar-pitch/engine/deck.py` renders it. The research behind every rule is in `references/research.md` (dated sources).
 
+## Before the intake
+Tear down 6-10 strong projects in the category first (`references/case_study_playbook.md` §1, `../nazar-study/references/teardown.md` §3). It takes about 30 minutes and decides what our story owns.
+
 ## Intake (one message, options and a pick)
 1. **Where will it live?** Behance (panels + cover, recommended) / client PDF / awards cut (8 panels or fewer).
 2. **The one idea** in a sentence, and its proof image. Get a yes before page 1.
@@ -31,6 +34,12 @@ Read `../nazar-core/SKILL.md` and `../nazar-core/references/kaif.md` first. The 
     - GIFs go inside the project only. A film is embedded from a video host for full width.
 13. **Show the contact sheet to the owner before shipping.** They flag issues by page number: fix that page, then hunt the same class of problem on every page.
 14. English only. Never name other brands in panels or copy.
+15. **Nothing arrives with its own ground.** A studio view rendered on its own sweep, a print flat on white paper, a contact sheet on grey: each reads as a pasted rectangle. Re-set the sweep onto the page colour (keep the floor shadow as a multiply), lay a flat on the page as a multiply, compose a family as cutouts on the page itself. Never paste a QA contact sheet as a presentation page.
+16. **No baked captions.** Renderers write tiny captions ("concept preview, not a photo") into the image. Crop them; the page says it in its own type, at a readable size, or not at all.
+17. **Structures show their flat.** A carton, gift box, mailer or display page shows the 3D object beside the sheet it folds from, each named in one small label, plus at most three lines read off the flat. A 3D view alone looks dropped in.
+18. **Photos are woven in, not tacked on.** A picked shot goes where it carries the story (the idea made real, right after the idea page), one page, its own device. Never a scenes section at the end. If its copy doesn't sit, drop the copy and let the picture work (a wide + 1:1 detail diptych).
+19. **Spread the heroes.** One fruit or SKU leads at most the cover and one more page; hand the other hero moments to the rest of the range. Count hero uses on the contact sheet.
+20. **No running footer line on panels or client PDF pages** unless the owner asks for one; the page number alone is enough in the PDF.
 
 ## Build
 ```
@@ -70,15 +79,27 @@ b += d.img(c.save(os.path.join(d.cache, "sizes.png")), 960, 260, 880, 700); d.pa
 - `python nazar-story/engine/composers.py --selftest` (all guarantees on synthetic products) · `... sheet` (writes `examples/composers_sheet.jpg`) · `... compose row a.png b.png -o out.png --mm 120,200` · `... extend photo.jpg -o out.jpg --left 300` · `... demo <folder of *front*.png>` (an optional demo on real renders, labelled demo).
 
 ## QA before showing
+- [ ] The teardown is written and the flatplan answers its gap (`references/case_study_playbook.md`)
+- [ ] Measured consistency: `look.py set` on the panels; no clipped highlights on pack pages, no stray black point (playbook §5)
+- [ ] The project text is filled: title, one line, the seven blocks, fields, tags, tools, credits, status and disclosures (playbook §3)
 - [ ] The build passes with no overflow, overlap or device-repeat warning
+- [ ] **Behance is one scroll, not a stack of slides.** Panels touch with no gap, so every seam is a decision: *flow* (same ground inside a chapter, 72 px of air either side, even all the way down), *cut* (a new chapter, marked by a change of ground: one ground per chapter, so a colour change always means "new chapter"), or *bridge* (an element that really belongs to both panels crosses the seam). Bridges only where the content already joins; a decorative rail or forced bridge reads as filler. `engine/seam_check.py <panels> --sheet seams.jpg` measures every seam; look at the stacked scroll before publishing
+- [ ] Air under every headline: measured on the rendered panels, the first content ink sits at least 45 px (at 1920 wide) below the headline's ink, and 60 px is the target. Edge-to-edge images such as line-ups and fans need the most room (`engine/gap_check.py <panels>`)
+- [ ] No faint rectangle around re-set views: the view's ground matches the page within 1 level at its border
 - [ ] Every product group comes from one `Light`; size comparisons use `true_scale` with real mm
 - [ ] The SKU × side list is all ticked, and no pack image appears twice
 - [ ] At phone width, every panel's line reads in about 2 s (look at `_behance_contact.jpg` at 480 px)
 - [ ] The flatplan check in `references/sequence.md` passes
 - [ ] The cover reads at 202 × 158
+- [ ] No image carries its own ground or a baked caption; no contact sheet pasted as a page (rules 15-16)
+- [ ] Every structure page shows the object beside its flat (rule 17); every family page is cutouts on the page, readable at phone width
+- [ ] Hero count: no fruit/SKU leads more than two pages; photos sit inside the story, not at the end (rules 18-19)
+- [ ] Headlines checked for collisions at 100% (two-line titles, comma tails in stacked lockups)
 - [ ] The contact sheet has been shown to the owner and their notes are applied
 
 ## Files
+- `references/case_study_playbook.md`: teardown, flatplan checks (thinking visible, honest status), the written project text and Behance fields, media, the pre-publish list
+- `references/research_behance_2026.md`: dated curation and case-study sources
 - `references/sequence.md`: the beats, the application rhythm, device names, the flatplan checklist
 - `references/research.md`: story structure, award and gallery patterns, scroll-attention data, Behance specs, sources
 - `references/research_composers.md`: dated research behind the composers (composition, scale truth and misleading-size law, shadow physics, F/Z attention, seam blending)

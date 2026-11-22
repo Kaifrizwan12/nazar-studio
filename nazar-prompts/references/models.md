@@ -37,6 +37,16 @@ Templates (fill in the brackets):
 - **Edit:** "Using the provided image of [subject], [add/remove/modify] [element]; keep everything else exactly the same: style, lighting, composition."
 - **Compose:** "Combine: take [element from image 1] and place it with/on [element from image 2]; match lighting and shadows."
 
+### Google's own prompting guides (checked 2026-11-22)
+- *7 tips to get the most out of Nano Banana Pro* (blog.google, 2025-11-20) and *The ultimate Nano Banana prompting guide* (Google Cloud, 2026-03-06). Nano Banana Pro = Gemini 3 Pro Image; Nano Banana 2 = Gemini 3.1 Flash Image. Re-check IDs in the docs; the guides give none.
+- Structures: text-to-image = [Subject] + [Action] + [Location/context] + [Composition] + [Style]; with references = [Reference images] + [Relationship instruction] + [New scenario].
+- **Give every reference a role** in words ("Use image A for the pose, image B for the style, image C for the background"). Up to 14 references, the number varies by surface.
+- Name the light setup ("three-point softbox setup", "chiaroscuro with harsh, high contrast"), the lens and aperture ("shallow depth of field (f/1.8)", "macro lens"), the camera or film stock; define the canvas ("a 9:16 vertical poster").
+- Edits: say what changes and "keep everything else the same". Google warns that blending and **lighting changes can produce unnatural artifacts**: for new light, generate a new plate (`../../nazar-shoot/references/gemini_routes.md`).
+- Text: put words in quotes, name the type style and placement; small text and spelling "may not work perfectly", so final type is always set in post.
+- Every output carries SynthID and C2PA credentials. Knowledge cutoff of both models: January 2025.
+- For the shot itself (camera, lights, glare, reflections) write the prompt from `../../nazar-shoot/engine/shotplan.py`'s plan, not from adjectives.
+
 ### Video: Gemini Omni Flash, Veo, Flow
 - **Formula** (Google Cloud Veo 3.1 guide): **[Cinematography] + [Subject] + [Action] + [Context] + [Style & Ambiance]**.
 - **Audio:** dialogue in quotes (`A woman says, "…"`), `SFX: …`, `Ambient noise: …`. Keep dialogue within the clip length.

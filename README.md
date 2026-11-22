@@ -2,9 +2,9 @@
 
 > **Your AI stops guessing. It measures your own work first.**
 
-17 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
+21 [Claude](https://claude.com/claude-code) skills for design studios, one shared brain, and the engines that do the measuring. From **Nazar**, a Karachi creative studio run by Kaif Nathani. It doesn't replace a designer: the designer leads, and the skill supplies what the AI would otherwise guess or build mid-job.
 
-`20 kits` · `54 engines, about 14,300 lines of Python` · `124 research references` · `86 lessons logged from real runs`
+`21 kits` · `57 engines, about 16,400 lines of Python` · `134 research references` · `lessons logged from every real run`
 
 
 <table>
@@ -34,6 +34,22 @@ Check and QA your own work before you show me, and tell me what you couldn't che
 ```
 
 It measures your pieces (format, light and dark grounds, palette, accent, what you never use, your voice and handle), makes the work, then checks it: contrast on the colour actually used, language, copy, layout, margins, font, a QA sheet with 100% detail crops. Concept, copy and taste stay yours. Reading slide text needs macOS or `tesseract`; otherwise write `copy.json` by hand. For a project, copy the kits into `.claude/skills/` in that repo and drop [`CLAUDE.md`](CLAUDE.md) in the root. More prompts: [`PROMPTS.md`](PROMPTS.md).
+
+**Starting a brand from an empty folder?** Put the kits in `.claude/skills/` and say what the brand needs. The task decides the shape: Claude names the task, picks its recipe from the [project playbook](nazar-core/references/project_playbook.md) (identity, packaging, rebrand, social, campaign, web, motion, shoot or a single piece), and scaffolds only the folders that task needs:
+
+```bash
+python3 .claude/skills/nazar-core/engine/scaffold.py init "<brand>" --task packaging    # re-run with a new task as the project grows
+```
+
+Each recipe starts with research, which runs in the background while you answer the intake. The other steps follow the task, with a gate between each. The playbook holds the practices learnt on real jobs:
+- lock the name and tagline before production
+- a sent version is frozen
+- archive, never delete
+- release folders are real copies
+- one QA gate before anything ships
+- show a preview before every big render and every commit
+
+It also asks you once whether you'd like to share what your project taught the kits. That's opt-in, and you read the scrubbed text before anything is sent.
 
 **For a Claude reading this:** read [`nazar-core/SKILL.md`](nazar-core/SKILL.md) first (its "first time" list), check the install with `selftest.py`, then run the two commands that cover a brand-asset job:
 
@@ -76,7 +92,7 @@ This was one shot, with no designer feedback; in real use you review the first s
 
 ![Six Behance pages made by nazar-story, six different devices: a hero with its colour edge, a fanned hand of backs, a tilted bag bleeding off the page, front-and-back couples, a standing 3/4 trio, the studio contact page](assets/demo-story.jpg)
 
-**A case study that never repeats itself** (built with `nazar-story`). Every pack's front and back is in the deck, and each page uses its own device: a hero with its colour edge, five tint columns, a fanned hand of backs, a front-over-back specimen grid, one bag tilted and bleeding off the page, front-and-back couples, a standing 3/4 trio, a dark backs page. One flats page lists all ten dielines with grams and flat size in mm. The Behance cut closes with a studio contact page. Overlaps (couples, fans, tossed bags) are composed into one image first, so the deck's no-overlap guard still holds.
+**A case study that never repeats itself** (built with `nazar-story`). Every pack's front and back is in the deck, and each page uses its own device: a hero with its colour edge, five tint columns, a fanned hand of backs, a front-over-back specimen grid, one bag tilted and bleeding off the page, front-and-back couples, a standing 3/4 trio, a dark backs page. One flats page lists all ten dielines with grams and flat size in mm. The Behance cut closes with a studio contact page. Overlaps (couples, fans, tossed bags) are composed into one image first, so the deck's no-overlap guard still holds. Nothing is pasted in with its own background: studio views are re-set onto the page colour, print flats lie on the page like ink, structure pages show the box beside the sheet it folds from, and the family page is cutouts on the page, never a contact sheet. A picked photo goes where it carries the story, not at the end.
 
 <table><tr>
 <td width="34%"><img src="assets/demo-flavour-cycle.webp" width="100%" alt="Cinematic flavour-cycle film: eleven BAGH packs, each pushing in slowly under a light sweep, handed over by a crisp light-edge wipe, ending on the BAGH card"></td>
@@ -92,6 +108,37 @@ This was one shot, with no designer feedback; in real use you review the first s
 - **`handover`** (nazar-pitch) builds the client, portfolio, printer and social folders from one manifest. Names are safe on any OS, every file gets a checksum, and a stale render is caught before it ships. It writes a handover note listing the licences and any AI use. Old files are moved aside, never deleted. A dry run says exactly which portfolio panels to re-upload: on BAGH it matched the delivered client folder, 56 of 56 files.
 
 **Every side, no 3D.** `nazar-packaging/engine/views.py` builds one sheet per structure (front, back, side, base from below, 3/4) from the pack renders and print art. It knows a doypack has no side panel, a pillow bag's fin is on the back and a box pouch base has no diagonal folds. `nazar-dieline/engine/base_fold.py` draws the doypack base: the gusset folds in, then out. Rules: [`views.md`](nazar-packaging/references/views.md).
+
+## Plan the shot before the prompt
+
+A generator averages; a photographer decides. `nazar-shoot` now plans every product shot in numbers before a word of prompt is written, then keeps the pack's print ours whichever route makes the scene.
+
+![A shot plan: top and side view of camera, product and three lights, the key's shadow direction, and the lights that would mirror into the lens drawn in red](assets/demo-shotplan.png)
+
+- **`shotplan.py`** turns a camera, light and finish spec into the field of view, depth of field, signed keystone, each light's hardness and penumbra, shadow direction and length, falloff and key-to-fill in stops, colour-temperature clashes in mired, the glare each light throws on a satin, gloss or foil face (the "family of angles"), and the floor's reflection strength (Fresnel). It warns, suggests the nearest clean light position, writes the diagram above, the plate prompt and the composite arguments.
+- **`proxy.py`** is the stand-in route: the model lights a blank, unprinted pack of the same shape inside the scene, and our exact render takes its place with the stand-in's shading and highlights. The model's real shadows and reflections stay; our print is never regenerated.
+
+![The proxy route on a synthetic test: left, a plate with a white stand-in lit from the left and its cast shadow; right, our printed pack in its place, carrying the same light, the shadow untouched](assets/demo-proxy.jpg)
+
+<table><tr>
+<td width="42%"><img src="assets/demo-proxy-hand.jpg" alt="Hands tearing open a mango pouch against a sunlit orange wall"></td>
+<td><b>On real work: hand-held.</b> The model drew two hands tearing a blank green stand-in; <code>proxy.py --key green --occlude --clip --quad</code> put the exact mango pouch in. The fingers stay in front, the tear and the slice are the model's, the creases and the sun are carried onto our print, and the green spill on the skin is cleaned. The plate is stamped as AI.<br><br>
+What it took, and what the kit now checks:
+<ul>
+<li><b>Green key, not white</b>, on warm plates: shaded white and shaded skin are the same colour.</li>
+<li><b>Fruit stays in front:</b> banana and leaf green carry red, the stand-in carries blue (self-tested).</li>
+<li><b>No dark rims</b> from the art's transparent pixels when the print is softened or bent over creases (self-tested).</li>
+<li><b>Six realism gates</b> before anything ships: beside a real photo at 100%, one or two packs, the whole moment, a gesture the hand would make with no camera, flat art only where the pack is flat, every edge zoomed. A five-shot set taught them: only this shot and the drying line passed.</li>
+</ul></td>
+</tr></table>
+
+<table><tr>
+<td><b>On real work: the drying line.</b> Five pouches hung from a line on wooden pegs, the way fruit is dried. The plate is the model's: an empty wall, a rope and pegs, stamped as AI. Each pouch is our exact render, seated by <code>composite.py</code>. Each one hangs at its own angle from its peg, and the shadow on the wall comes from the same sun as the peg shadows already in the plate. That match is what passed the realism gates. It closes the case study as the thank-you page.</td>
+<td width="42%"><img src="assets/demo-drying-line.jpg" alt="Five fruit pouches hanging from a rope on wooden pegs against a sunlit wall"></td>
+</tr></table>
+
+- **`nazar-research`** goes first on every job. One `research/` folder per project grows as kits join: `dataset.py plan --kit packaging,logo` lays out the angles and targets, `harvest <page>` pulls a product, retailer, award or archive page's images (checked as real images, de-duplicated, logged with source and rights), `sheets` makes contact sheets, and `codes.md` sorts what the shelf shows into fading, dominant (the cliché) and emerging codes. The `nazar-researcher` subagent runs it in the background and hands back a one-page summary, counts and gaps. How to research was researched first: the plan-reflect loop behind deep-research agents (Stanford STORM), snowballing (Wohlin), saturation (Guest et al.), lateral reading (Caulfield's SIFT), semiotic codes and Romaniuk's fame × uniqueness test.
+- **`nazar-study`** is the research step with a camera person's eye: `look.py` measures 6-20 references from the masters into a target look (`set`), and `compare` lists how far our image sits outside it, biggest gap first, with the fix. The kit carries the still-life lineage (Cotán to Penn and Leutwyler), cinematographers' light (Deakins, Subrata Mitra, Willis), open-access archives and the vision-science and forensics papers behind the rules.
 
 ## Review live, with Claude listening (beta)
 
@@ -158,13 +205,17 @@ Every card is an engine run on real material, public-domain or a real brand arch
 | `nazar-dieline` / `nazar-packaging` | Real dielines with art on them; packs that win the shelf and print cleanly | `dieline` · `film` · `press_pdf` · pack QA |
 | `nazar-illustration` | Drawing in code, like a hand | `ink` · `trace` |
 | `nazar-story` / `nazar-pitch` | Case studies and decks that never repeat a layout: one idea per page, every front and back, Behance panels and covers. Composers build fans, couples, rows (true to scale in mm), stacks, bleed heroes, grids and scatters under one light; the handover packager fills client, portfolio and print folders with clean names, checksums and a changed-panels diff | `deck` `composers` `handover` |
-| `nazar-shoot` | Pack-in-scene shots: AI makes only the empty plate, the real render is seated with shadows, light wrap, tone match and grain. Product films for any range: 12 platform presets, cinematic or snap, loops, beat cuts and a WCAG flash check | `composite` `flavour_cycle` |
+| `nazar-shoot` | Product shots planned like a photographer before any prompt: lens, depth of field, light hardness, shadow geometry, glare on the print, floor reflections. AI makes only the empty plate or a blank stand-in; the real render is seated with physics. Product films for any range: 12 platform presets, cinematic (lit like a room: key-light pool, S-curve, shallow depth, no glaze) or snap, loops, beat cuts and a WCAG flash check | `shotplan` `proxy` `composite` `flavour_cycle` |
+| `nazar-research` | The one research path for every kit, run the moment a brief lands: the brand and its world from 12 angles, followed 3 levels deep until nothing new turns up, every source checked sideways (SIFT), the category read as codes, and a reference dataset per kit (packaging pulls every relevant real pack: competitors, leaders, award winners, heritage, the shelf). `harvest` fetches a page's real images itself; a background subagent does the whole run while the intake goes on. The method was itself researched first | `dataset` · `nazar-researcher` agent |
+| `nazar-study` | Learn from the best before making: measure references (blacks, blown whites, falloff, colour lean, grain, weight, empty space, palette), read their light, recipe cards, a target look, then compare your own output to it. Masters, cinematographers, archives and papers included | `look` |
 | `nazar-ooh` · `nazar-web` · `nazar-motion` | Billboards, sites, logos that move | `ooh_check` · `web_audit` · `motion_check` |
 | `nazar-strategy` · `nazar-logo` · `nazar-brand-book` · `nazar-art-direction` · `nazar-prompts` | Method and checklists for positioning, proposals, marks, the identity book, photo and illustration briefs, and AI prompts (only with the client's written yes) | |
 
 A job never uses all of them: Claude reads the brief and pulls only what it needs. **Your prompt leads; kits are add-ons.**
 
 ## It learns from every run
+
+Your runs can teach it too, if you want: `contribute.py` asks once per project. If you say yes, it turns your lessons and the order of steps into a scrubbed preview, with names, contacts, links, prices and paths removed. You read it and send it only if you're happy with it.
 
 Each real test found weaknesses in the skill itself. Each was fixed and logged in the kit's `LESSONS.md` ([the rule](nazar-core/references/improve.md): log it with the evidence, patch with the owner's okay, test on two cases):
 

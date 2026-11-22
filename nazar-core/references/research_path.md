@@ -1,5 +1,7 @@
 # Research path: the full-proof method
 
+> These eight passes are the minimum. The full, recursive version (method, kit profiles, reference dataset, background subagent) is `../../nazar-research/SKILL.md`; every kit's research runs through it.
+
 Kaif's rule: **no reference, no decision.** Research runs between intake rounds 1 and 2, and it's what makes the round-2 options credible. Use WebSearch (several queries in parallel) and fetch the real pages. Save everything to `research/` in the brand repo.
 
 ## Tag every finding

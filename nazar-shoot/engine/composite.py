@@ -134,12 +134,14 @@ def estimate_light(gain, length=0.35, back=0.12):
 # ------------------------------------------------------------------ shaping the product
 
 def keystone(p, persp):
-    """Top edge narrower by `persp` of the width (camera a little above the product)."""
-    if persp <= 0:
+    """Top edge narrower by `persp` of the width; a negative value narrows the base instead.
+    Physics (shotplan.py computes the signed value): an upright product seen from above has its top nearer the lens, so
+    the top is slightly WIDER (negative); a low camera or a pack leaning back narrows the top (positive)."""
+    if abs(persp) < 1e-6:
         return p
     w, h = p.size
-    inset = persp * w / 2
-    dst = [(inset, 0), (w - inset, 0), (w, h), (0, h)]
+    inset = abs(persp) * w / 2
+    dst = [(inset, 0), (w - inset, 0), (w, h), (0, h)] if persp > 0 else [(0, 0), (w, 0), (w - inset, h), (inset, h)]
     src = [(0, 0), (w, 0), (w, h), (0, h)]
     return p.transform((w, h), Image.PERSPECTIVE, _persp_coeffs(dst, src), Image.BICUBIC)
 

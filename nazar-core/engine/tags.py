@@ -7,7 +7,7 @@ nazar-core/engine/tags.py: short prompts with tags. A person tags what is releva
   @name   a saved brand profile: what `studio.py learn` measured (format, grounds, accent, voice, devices) plus the brand's EXACT files
           (backdrops, logo, mascot), so they are never pasted into a prompt again.
   #tag    the kind of job. Only that job's kits and rules are loaded, not every kit: #carousel #post #story #banner #packaging #logo
-          #billboard #web #motion #strategy #pitch #voice.
+          #billboard #web #motion #strategy #pitch #voice #shoot #casestudy #study.
   always  the generic rules (the person's prompt leads, logos never redrawn, AI imagery needs the client's written yes, ...).
 
     python tags.py brand save NAME OUT_FOLDER           # keep a learn run as the profile NAME (in ~/.nazar/brands/NAME)
@@ -52,6 +52,13 @@ TAGS = {
     "motion": dict(job="motion or video", kits=["nazar-motion (motion_check.py)"], rules=[], chain="motion_check on the render"),
     "strategy": dict(job="strategy, naming or positioning", kits=["nazar-strategy"], rules=[], chain="method and checklists"),
     "pitch": dict(job="a proposal or pitch", kits=["nazar-pitch"], rules=[], chain="method and checklists"),
+    "shoot": dict(job="a product shoot or hyper-real product image", kits=["nazar-shoot (shotplan.py, composite.py, proxy.py; references/shot_plan.md, gemini_routes.md)", "nazar-study (look.py: target look and compare)", "nazar-prompts (model translation; written client yes for AI)"],
+                  rules=["Plan before the prompt: camera, lights, reflections, every warning cleared.", "The product's print is never generated: empty plate, proxy stand-in or textures only; stamp AI plates.", "Read the generated plate's real light before compositing; re-plan to the plate."],
+                  chain="story -> target look -> shotplan -> prompt -> generate -> read plate -> composite/proxy -> look.py compare"),
+    "casestudy": dict(job="a case study (Behance, client PDF, awards)", kits=["nazar-story (deck.py, composers.py, references/case_study_playbook.md)", "nazar-study (teardown, look.py set)", "nazar-pitch (handover write-up)"],
+                      rules=["Teardown first; one idea and one device per page; every front and back once.", "Write the project text (title, one line, seven blocks, fields, tags, tools, credits, status)."],
+                      chain="teardown -> flatplan -> build -> owner contact sheet -> look.py set -> project text"),
+    "study": dict(job="back-engineering references into a target look", kits=["nazar-study (look.py, reading_light.md, teardown.md, archives)"], rules=["Study, never copy: references are data; 6-20 from at least 3 makers."], chain="refs -> look.py set -> recipe cards -> TARGET.md"),
     "voice": dict(job="writing or scripts in the person's own voice", kits=["nazar-voiceprint (words and story layers)"], rules=["The person's word that the work is theirs counts; label the pattern by era."], chain="ingest -> analyze -> confirm loop -> PATTERN.md"),
 }
 
@@ -170,6 +177,8 @@ def show(name):
 
 AUTO = [("carousel", r"carousel|swipe|multi-?slide"), ("story", r"\bstor(?:y|ies)\b"), ("banner", r"banner|cover photo|header image"),
         ("post", r"\bposts?\b|\bslides?\b|instagram|tiktok|linkedin|feed|social"),
+        ("shoot", r"product (?:shot|shoot|photo)|photo ?shoot|pack ?shot|hyper.?real|flat.?lay|nano banana"), ("casestudy", r"case stud|behance|award entry"),
+        ("study", r"back.?engineer|reverse.?engineer|recipe card"),
         ("packaging", r"packag|label|carton|dieline|pouch|sachet|\btin\b"), ("logo", r"(?:design|make|create|redo|refresh|draw)\s+(?:a\s+|my\s+|the\s+)?(?:new\s+)?(?:logo|wordmark)|brand book|rebrand"),
         ("billboard", r"billboard|out-of-home|\booh\b|hoarding|signage"), ("web", r"website|landing page|web page"), ("motion", r"animat|motion|video|\bidents?\b"),
         ("strategy", r"naming|tagline|positioning|strategy"), ("pitch", r"proposal|pitch|pricing"), ("voice", r"in my voice|like me|my writing|sound like me")]
