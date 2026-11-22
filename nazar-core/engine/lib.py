@@ -2,7 +2,7 @@
 
 Everything brand-specific lives in brand.json. Pages are plain functions returning a Page (see pages_example.py).
 """
-import json, math, os, re, functools
+import json, math, os, re, sys, functools
 import uharfbuzz as hb
 from fontTools.ttLib import TTFont
 from fontTools.pens.svgPathPen import SVGPathPen
@@ -10,8 +10,14 @@ from fontTools.pens.transformPen import TransformPen
 from fontTools.pens.boundsPen import BoundsPen
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BRAND = json.load(open(os.path.join(HERE, "brand.json")))
-def _path(p): return p if os.path.isabs(p) else os.path.normpath(os.path.join(HERE, p))
+# A project keeps its own brand.json and points here with NAZAR_BRAND=/path/to/brand.json (no engine copy needed).
+# Relative paths inside it (fonts_dir, logos, exports, page modules, osm/, out/) resolve from that file's folder.
+BRAND_FILE = os.path.abspath(os.environ.get("NAZAR_BRAND") or os.path.join(HERE, "brand.json"))
+BRAND_DIR = os.path.dirname(BRAND_FILE)
+BRAND = json.load(open(BRAND_FILE, encoding="utf-8"))
+if BRAND_DIR not in sys.path:
+    sys.path.insert(0, BRAND_DIR)                  # the project's page modules (brand.json "page_modules")
+def _path(p): return p if os.path.isabs(p) else os.path.normpath(os.path.join(BRAND_DIR, p))
 
 PG = BRAND["page"]
 W, H = PG["w"], PG["h"]
@@ -196,7 +202,7 @@ class Proj:
 
 @functools.lru_cache(None)
 def _osm(name):
-    return json.load(open(os.path.join(HERE, "osm", f"{name}.json")))["elements"]
+    return json.load(open(os.path.join(BRAND_DIR, "osm", f"{name}.json")))["elements"]
 
 def map_paths(name, proj, ink=None, ops=None, widths=None, highlight=None, hl_fill=None):
     """Street grid, one path per road class. highlight = set of street names drawn bright."""
@@ -279,5 +285,5 @@ def device_svg(x, y, size, fill, op):
 
 def page_numbers():
     """{pid: page number} from the previous build (run build.py twice so contents are right)."""
-    p = os.path.join(HERE, "out", "pages.json")
+    p = os.path.join(BRAND_DIR, "out", "pages.json")
     return json.load(open(p)) if os.path.exists(p) else {}

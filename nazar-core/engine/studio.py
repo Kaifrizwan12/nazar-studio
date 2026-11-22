@@ -229,7 +229,7 @@ def brief(prompt):
     hits = [(n, k, c) for n, rx, k, c in JOBS if re.search(rx, low)] or [("an unspecified design job", ["nazar-core: read the 'Which kit for which job' table"], "ask the one question that decides the kit")]
     files = sorted({p for p in paths if re.search(r"\.\w{2,5}$", p)})
     folders = sorted({p for p in paths if not re.search(r"\.\w{2,5}$", p)})
-    out = ["ENHANCED BRIEF (from your prompt; correct anything that is wrong)", f"Prompt: {prompt.strip()[:300]}", ""]
+    out = ["ENHANCED BRIEF (from your prompt; correct anything that is wrong)", tags.prompt_line(prompt), ""]
     for n, kits, chain in hits:
         out += [f"Job: {n}", "Kits to read and use (each has a SKILL.md):"] + [f"  - {k}" for k in kits] + [f"Order of work: {chain}", ""]
     out += ["Exact files to place as supplied (never redrawn or recoloured): " + (", ".join(files) if files else "none given: ask which backdrop, logo and mascot files to use"),

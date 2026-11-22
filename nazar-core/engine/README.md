@@ -8,14 +8,14 @@ A small Python renderer: SVG pages → PNG per page + bound PDF + contact sheet.
 .venv/bin/python build.py && .venv/bin/python build.py     # twice: contents pick up real page numbers
 ```
 Output goes to `exports/` (as set in brand.json): `pages/NN_<pid>.png`, `<Brand>_Brand_Book_<year>.pdf`, `sheet.png`.
-Rebuild a few pages: `.venv/bin/python build.py 02 03.1` (page-id prefixes).
+Rebuild a few pages: `.venv/bin/python build.py 02 03.1` (page-id prefixes). In a project: `NAZAR_BRAND=engine/brand.json python .claude/skills/nazar-core/engine/build.py`.
 
 ## Per brand
-1. Copy this folder into the brand repo as `engine/`.
-2. Edit `brand.json`: name, colours (base / light / secondary / secondary_dark / accent, plus names, meanings and shares), fonts by role, logo SVG paths (`mark`, `lockup`, and an optional `device` for the hidden device), sections, page modules, reveal page id.
+1. Keep the engine where it is (the skills folder). In the brand repo, make `engine/brand.json` (start from this folder's `brand.json`) and point the engine at it: `export NAZAR_BRAND=$PWD/engine/brand.json`. Relative paths in it (fonts_dir, logos, exports, page modules, `osm/`, `out/`) resolve from that file's folder, so nothing is written into the skills folder and engine fixes reach every project. Don't copy the engine: a copy misses later fixes, and `qa_views.py` / `chain_check.py` need the sibling kits beside them.
+2. Edit that `brand.json`: name, colours (base / light / secondary / secondary_dark / accent, plus names, meanings and shares), fonts by role, logo SVG paths (`mark`, `lockup`, and an optional `device` for the hidden device), sections, page modules, reveal page id.
 3. Put the client's logo SVGs somewhere in the repo and point to them. **Crop each viewBox tight to the visible mark**, so centring is optical.
 4. Write pages in `pages_a.py`, `pages_b.py` …, using `pages_example.py` as the pattern. Each page is a function returning a `Page`. Add the module names to `page_modules`.
-5. Maps: `./fetch_map.sh <name> <lat> <lon>`, then `map_paths("<name>", Proj(lat, lon))`.
+5. Maps: `./fetch_map.sh <name> <lat> <lon>` (with `NAZAR_BRAND` set, maps land in `osm/` beside the project's brand.json), then `map_paths("<name>", Proj(lat, lon))`.
 
 ## The API in one screen (lib.py)
 | | |

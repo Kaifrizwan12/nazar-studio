@@ -8,6 +8,7 @@ your-project/
   .claude/skills/        the cloned nazar skills (this repo)
 ```
 1. Name the task (section 2), then `python .claude/skills/nazar-core/engine/scaffold.py init "<Brand or working name>" --task <task>[,<task>]` (tasks: identity packaging rebrand social campaign web motion shoot piece; add `--new-brand` when the brand has no identity yet; `scaffold.py tasks` lists the recipes).
+   If the client or brief sets its own folder map, pass it once: `--layout "02=02_brand/strategy,03=02_brand,04=03_packaging,08=04_photo,archive=99_archive"` (keys 00-10 and archive). It is saved in `.claude/nazar.json`, and `archive`, `release` and `status` follow it from then on. The brief's map wins over the default names.
    It creates **only the folders that task needs**, plus a hub `README.md`, `SPEC.md`, `STATUS.md`, a filled-in `CLAUDE.md`, `.gitignore` and `_archive/MANIFEST.md`. It also installs the `nazar-researcher` subagent and lays out `01_research/` for the task's research profiles. It never overwrites an existing file. When a new task arrives, run it again: it adds what's missing.
 2. `git init`. Keep the repo private: it is client work.
 3. Put the client's files in `00_brief/` exactly as received (brief, logo, photos, old packs). Never edit originals.
@@ -52,6 +53,7 @@ Read the prompt and the brief first. Name the task in one line ("a pack range fo
 **Adjust by relevance.** The table is a default, not a rule. A brand that already has a strong identity starts at its task; a brief with a deadline drops the deeper research rounds and says so; a job the table doesn't name borrows the closest recipe. The user's prompt always leads.
 
 ## 3. Practices (learnt the hard way on real work)
+- **Research every deliverable before designing it.** `nazar-research` maps every piece in scope (`dataset.py plan … --deliverables`), each with every world it touches (a house mark and an artist mark are two worlds). A piece whose row is still todo is not designed; `dataset.py report` shows which.
 - **Show before you build big, and before every commit.** Preview stills or a contact sheet first; render films and full decks only after a yes. Commit and push only on a clear yes.
 - **Lock before production.** Name, tagline and idea go into `SPEC.md`. A change after the lock costs a rebuild: say what it touches, once, then do it everywhere (every pack, film, deck page, mockup) and re-run QA.
 - **Versions.** Work happens in `01_versions/vNN_<label>/`. A version that was **sent** is frozen: never rebuild into it. Bump the version string in the build and publish scripts for the next round.

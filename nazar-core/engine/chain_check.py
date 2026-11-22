@@ -17,7 +17,11 @@ from PIL import Image
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
 for p in ("nazar-colour/engine", "nazar-voiceprint/engine", "nazar-social/engine"):
     sys.path.insert(0, os.path.join(ROOT, p))
-import palette_check as pc, analyze, layout, social_lint, score_pattern  # noqa: E402
+try:
+    import palette_check as pc, analyze, layout, social_lint, score_pattern  # noqa: E402
+except ModuleNotFoundError as e:
+    raise SystemExit(f"chain_check.py needs the sibling kits beside nazar-core ({e.name} not found): run it from the skills folder, "
+                     "not from a copied engine. A project keeps only its own brand.json and points the engine at it with NAZAR_BRAND.")
 
 if len(sys.argv) < 4 or sys.argv[1] in ('-h', '--help'):
     sys.exit(__doc__)

@@ -2,7 +2,7 @@
 # Download OpenStreetMap street geometry for one place into osm/<name>.json
 # usage: ./fetch_map.sh <name> <lat> <lon> [half-height-deg=0.014] [half-width-deg=0.022]
 # Credit "© OpenStreetMap contributors" once, on the sources page.
-cd "$(dirname "$0")"; mkdir -p osm
+cd "$(dirname "${NAZAR_BRAND:-$0}")"; mkdir -p osm      # with NAZAR_BRAND, maps live beside the project's brand.json
 NAME=$1 LAT=$2 LON=$3 DH=${4:-0.014} DW=${5:-0.022}
 S=$(python3 -c "print(round($LAT-$DH,4))") N=$(python3 -c "print(round($LAT+$DH,4))")
 W=$(python3 -c "print(round($LON-$DW,4))") E=$(python3 -c "print(round($LON+$DW,4))")

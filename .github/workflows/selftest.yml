@@ -11,3 +11,7 @@ jobs:
       - run: pip install -r nazar-core/engine/requirements.txt
       - run: python3 nazar-core/engine/selftest.py
       - run: python3 nazar-core/engine/test_draw.py /tmp/draw_sheet.png
+      - run: python3 nazar-core/engine/test_tags.py
+      - run: python3 nazar-core/engine/test_brand_env.py
+      - run: python3 nazar-core/engine/scaffold.py --selftest
+      - run: python3 nazar-research/engine/dataset.py --selftest

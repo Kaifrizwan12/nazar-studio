@@ -5,10 +5,10 @@ usage: build.py [page-id-prefix ...]   (no args = whole book; run twice so conte
 import io, os, sys, base64, json
 import cairosvg
 from PIL import Image
-from lib import W, H, M, BRAND, HERE, ACCENT, circle, _path
+from lib import W, H, M, BRAND, BRAND_DIR, HERE, ACCENT, circle, _path
 
 OUT = _path(BRAND["exports"])
-SVGDIR = os.path.join(HERE, "out")
+SVGDIR = os.path.join(BRAND_DIR, "out")
 
 def all_pages():
     pages = []
