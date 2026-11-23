@@ -34,7 +34,7 @@ except Exception as e:                            # still draws, with system-fon
 from dieline import COL, path_d, rect_poly, esc, clamp
 
 # faces for the oblique view: (front, right side, top). None = no top face drawn.
-BOXVIEW = {"rte": ("Front", "Side B", "Top closure"), "ste": ("Front", "Side B", "Top closure"), "sleeve": ("Front", "Side B", None),
+BOXVIEW = {"hinge_lid": ("Front", "Side B", "Lid top"), "rte": ("Front", "Side B", "Top closure"), "ste": ("Front", "Side B", "Top closure"), "sleeve": ("Front", "Side B", None),
            "rsc": ("Front (L)", "Side (W)", None), "hsc": ("Front (L)", "Side (W)", None),
            "mailer": ("Lid front", "Side wall", "Lid (outside)"), "tray": ("Front wall", "End wall", None)}
 PRINCIPAL = ("Front", "Front (L)", "Lid (outside)", "Front wall", "Label", "FRONT")

@@ -39,7 +39,7 @@ A dieline is the one drawing everyone builds from: the die-maker cuts steel rule
 python engine/dieline.py templates/dieline.json                   # all 12 examples + contact sheet
 python engine/dieline.py --style rte --L 60 --W 30 --D 120 --caliper 0.45
 ```
-Styles: `rte` `ste` `sleeve` `tray` `rsc` `hsc` `mailer` `pillow` `rigid` `cone_label` `wrap_label` `pouch` `box_pouch` `flowwrap` `sleeve_grid` (`tray` takes `"header": mm` for counter displays). Every drawing is stamped CONCEPT. The allowances are documented starting rules, not a standard.
+Styles: `rte` `ste` `sleeve` `tray` `rsc` `hsc` `mailer` `pillow` `rigid` `cone_label` `wrap_label` `pouch` `box_pouch` `flowwrap` `sleeve_grid` `hinge_lid` (`tray` takes `"header": mm` for counter displays). Every drawing is stamped CONCEPT. The allowances are documented starting rules, not a standard.
 
 **Design mode (MVP drafts).** Add an `"art"` block to a job and the engine places your design on the dieline: brand tokens and outlined fonts from `../nazar-core/engine/brand.json`, the client's exact logo file, text, bands, patterns that run across folds, copy and barcode placeholders, and windows. Every panel reads the right way up when folded. It writes `<name>_art.png/.pdf/.svg`, a folded oblique view `<name>_box.png`, a white-ink plate `<name>_white.png` for clear and metallised film, and `<name>_art_qa.md` with automatic checks (type size, real contrast, safe areas, overflow, barcode size, net-quantity position, glue, windows near creases or seals, light-sensitive products). Five worked examples are in `templates/dieline.json`. Full guide: `references/design_on_dieline.md`.
 

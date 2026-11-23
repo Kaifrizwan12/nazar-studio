@@ -15,6 +15,7 @@ Styles (see references/styles.md for when to use each):
   cone_label, wrap_label          tapered (frustum) and cylindrical labels
   pouch                           stand-up pouch print layout: seals, gusset, zipper, notch, eye mark
   flowwrap                        chips / snack pillow bag: fin seal, crimped end seals, split back, gussets
+  hinge_lid                       flip-top carton + inner frame, concept (--L front --W depth --D height; lid / hinge in a job)
   sleeve_grid                     shrink-sleeve shrink map from a container profile
 
 Every output is a CONCEPT dieline. The converter's dieline, from their CAD and their board, is the one that
@@ -195,7 +196,7 @@ FLUTE = {"F": 0.8, "E": 1.6, "B": 3.2, "C": 4.0, "A": 4.8, "EB": 4.8, "BC": 7.2}
 
 def dims(p):
     L, W, D = float(p["L"]), float(p["W"]), float(p.get("D", 0))
-    if W > L and p.get("style") in ("rte", "ste", "sleeve", "tray", "rsc", "hsc", "mailer"):
+    if W > L and p.get("style") in ("rte", "ste", "sleeve", "tray", "rsc", "hsc", "mailer", "hinge_lid"):
         L, W = W, L
     t = float(p.get("caliper") or FLUTE.get(str(p.get("flute", "")).upper(), 0.45))
     return L, W, D, t
@@ -662,18 +663,72 @@ def s_box_pouch(d, p):
     d.facts["Box pouch"] = f"W {W} × H {H} × gusset {G} · front/back {W - 2 * cs:.0f} × {H - ts:.0f} printable · gussets {G - 2 * cs:.0f} wide · edge seals {cs} · top seal {ts}"
 
 
+def s_hinge_lid(d, p):
+    """Hinge-lid (flip-top) carton, CONCEPT (ECMA A7x special family; cigarette-style). One wrap blank: glue | side A |
+    front | side B | back, end flaps glued (not tucked). The lid is cut free across the front at `lid` mm from the top,
+    the cut runs diagonally down the sides to the hinge crease on the back at `hinge` mm. A separate inner frame (collar)
+    blank sits inside the body and holds the lid shut by friction. Real hinge-lid blanks are machine-specific: send the
+    converter the code and get their file."""
+    L, W, D, t = dims(p)                       # L = front width, W = depth (side), D = height
+    Lp, Wp, Dp = L + t, W + t, D + 2 * t
+    g = float(p.get("glue_flap", clamp(0.9 * Wp, 8, 18)))
+    sf = safe_of(p)
+    lid = float(p.get("lid", round(0.23 * D, 1))) + t        # front lid line, from the top crease
+    hinge = float(p.get("hinge", round(0.16 * D, 1))) + t    # back hinge crease, from the top crease
+    if hinge >= lid: d.warn.append("Hinge must sit higher than the front lid line (hinge < lid), or the sides cannot open.")
+    xs = [0, Wp, Wp + Lp, 2 * Wp + Lp, 2 * Wp + 2 * Lp]
+    pc = Piece(d, 0, 0, xs[4], Dp)
+    for x in xs[1:4]: d.line("CREASE", (x, 0), (x, Dp))
+    for n, (x0, x1) in zip(["Side A", "Front", "Side B", "Back"], zip(xs, xs[1:])):
+        d.panels.append((n, rect_poly(x0, 0, x1, Dp), sf))
+    pc.attach("left", p_glue(0, Dp, g, float(p.get("glue_taper", 15))))
+    c = max(t, 0.8)
+    Hd = float(p.get("dust", min(0.45 * Lp, 0.85 * Wp)))
+    pc.attach("top", p_dust(xs[0], xs[1], Hd, c, name="End flap")); pc.attach("top", p_dust(xs[2], xs[3], Hd, c, name="End flap"))
+    pc.attach("top", p_flap(xs[3], xs[4], Wp, name="Lid top", safe=sf))
+    U = lambda x0, x1: (xs[4] - x1, xs[4] - x0)
+    pc.attach("bottom", p_dust(*U(xs[0], xs[1]), Hd, c, name="End flap")); pc.attach("bottom", p_dust(*U(xs[2], xs[3]), Hd, c, name="End flap"))
+    pc.attach("bottom", p_flap(*U(xs[3], xs[4]), Wp, name="Base", safe=sf))
+    # the lid: cut across side A (diagonal), front (straight), side B (diagonal); hinge crease across the back
+    d.line("CUT", (xs[0], hinge), (xs[1], lid), (xs[2], lid), (xs[3], hinge))
+    d.line("CREASE", (xs[3], hinge), (xs[4], hinge))
+    d.line("CUT", (-g, hinge), (0, hinge))                    # the glue flap splits with the lid
+    d.labels.append(((xs[1] + xs[2]) / 2, lid - 1.5, "LID LINE (cut)", 2.0, COL["DIM"], "middle", 0))
+    d.labels.append(((xs[3] + xs[4]) / 2, hinge - 1.5, "HINGE (crease)", 2.0, COL["DIM"], "middle", 0))
+    pc.close()
+    # inner frame (collar): front + two wings, a thumb notch on the top edge, set below the lid line
+    ch = float(p.get("collar_h", round(0.34 * D, 1)))
+    cw = L - 2 * t; ww = W - 3 * t
+    ox = xs[4] + float(p.get("gap", 12)) + ww
+    col = Piece(d, ox, 0, ox + cw, ch)
+    col.attach("left", p_flap(0, ch, ww, name="Collar wing", safe=1.5))
+    col.attach("right", p_flap(0, ch, ww, name="Collar wing", safe=1.5))
+    nr = min(8.0, cw / 6)
+    notch = Prof(cw / 2 - nr, cw / 2 + nr); notch.pts = sag_arc(cw / 2 - nr, cw / 2 + nr, -nr * 0.6)
+    col.attach("top", notch)
+    d.panels.append(("Collar front", rect_poly(ox, 0, ox + cw, ch), 2.0))
+    col.close()
+    d.arrows.append((xs[2] + Lp / 2, Dp * 0.6, 0, "GRAIN (default: around the pack; confirm)"))
+    d.notes.append("Hinge-lid CONCEPT: the lid cut runs across the front at the lid line and diagonally down both sides to the hinge crease on the back. End flaps are glued, not tucked. The inner frame (collar) is a separate blank glued inside the body; its top shows when the lid opens.")
+    d.notes.append("Real hinge-lid blanks are drawn for the packer's machine (cigarette makers run dedicated lines). Treat this as the structure brief; the converter's file is the master.")
+    d.facts.update({"Panels (crease to crease)": f"side {Wp:.1f} · front/back {Lp:.1f} · height {Dp:.1f}",
+                    "Lid": f"front lid line {lid:.1f} mm from the top · hinge {hinge:.1f} mm",
+                    "Inner frame": f"{cw:.1f} × {ch:.1f} mm + wings {ww:.1f} mm"})
+
+
 STYLES = {"rte": lambda d, p: s_tube(d, p, "rte"), "ste": lambda d, p: s_tube(d, p, "ste"),
           "sleeve": lambda d, p: s_tube(d, p, "sleeve"), "tray": s_tray, "rsc": s_rsc,
           "hsc": lambda d, p: s_rsc(d, p, half=True), "mailer": s_mailer, "pillow": s_pillow, "rigid": s_rigid,
           "cone_label": s_cone_label, "wrap_label": s_wrap_label, "pouch": s_pouch, "sleeve_grid": s_sleeve_grid,
-          "flowwrap": s_flowwrap, "box_pouch": s_box_pouch}
+          "flowwrap": s_flowwrap, "box_pouch": s_box_pouch, "hinge_lid": s_hinge_lid}
 TITLES = {"rte": "Reverse tuck end (ECMA A20.20-type)", "ste": "Straight tuck end (ECMA A20.20-type)",
           "sleeve": "Sleeve / tube", "tray": "Glued-corner tray", "rsc": "Regular slotted container (FEFCO 0201)",
           "hsc": "Half slotted container (FEFCO 0200)", "mailer": "Tuck-front mailer (FEFCO 0427-type)",
           "pillow": "Pillow pack", "rigid": "Rigid set-up box: blank + wrap", "cone_label": "Tapered (cone) label",
           "wrap_label": "Wrap-around label", "pouch": "Stand-up pouch print layout", "sleeve_grid": "Shrink-sleeve shrink map",
           "flowwrap": "Flow-wrap pillow bag (chips / snack packet)",
-          "box_pouch": "Flat-bottom box pouch print layout"}
+          "box_pouch": "Flat-bottom box pouch print layout",
+          "hinge_lid": "Hinge-lid (flip-top) carton + inner frame, CONCEPT (ECMA A7x special)"}
 
 
 # ----------------------------------------------------------------- output

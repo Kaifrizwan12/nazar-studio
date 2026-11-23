@@ -42,4 +42,4 @@ Blocks are `PanelArt.b_<type>(self, b)` methods in `engine/art.py`. They draw in
 - Update `SKILL.md` (styles list), `references/styles.md` (the engine table) and this file if you change the model.
 
 ## 5. Ideas the engine doesn't do yet (good first extensions)
-Snap-lock and crash-lock bottoms · hinged-lid (flip-top) cartons · Beers / Brightwood trays · counter displays with headers · partitions · hexagonal and octagonal cartons · gable-top and sleeve-with-tray combinations · shrink-sleeve artwork pre-distortion from a full profile · interlocked nesting · CF2 export · spot-colour (separations) PDF export.
+Snap-lock and crash-lock bottoms · Beers / Brightwood trays · counter displays with headers · partitions · hexagonal and octagonal cartons · gable-top and sleeve-with-tray combinations · shrink-sleeve artwork pre-distortion from a full profile · interlocked nesting · CF2 export · spot-colour (separations) PDF export.
