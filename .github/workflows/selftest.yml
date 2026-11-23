@@ -3,11 +3,14 @@ on: [push, pull_request]
 jobs:
   selftest:
     runs-on: macos-latest          # macOS: read_text.py uses the built-in Vision recogniser via swiftc
+    env:
+      DYLD_FALLBACK_LIBRARY_PATH: /opt/homebrew/lib   # cairosvg loads libcairo with dlopen; Homebrew's lib is not on the default path
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - run: brew install cairo       # cairosvg needs the cairo C library; the runner image does not ship it
       - run: pip install -r nazar-core/engine/requirements.txt
       - run: python3 nazar-core/engine/selftest.py
       - run: python3 nazar-core/engine/test_draw.py /tmp/draw_sheet.png

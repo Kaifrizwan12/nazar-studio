@@ -65,6 +65,7 @@ Read the prompt and the brief first. Name the task in one line ("a pack range fo
 - **Presentation rules.** Photos woven into the story, not tacked on at the end; no image carries its own background; structures shown beside their flat dielines; best work forward, no repeated hero; no running footer.
 - **Privacy.** Client names and files never go into the public skills repo. Lessons are written generically.
 - **Disk.** Films and decks are big. Check free space before a full render; render JPG panels when short.
+- **The studio may mold the brief; version it, never overwrite it.** When the owner reframes the brief (a new positioning, a broken fixed point), write a `BRIEF_DELTA.md` with two lists, what changes and what stays (names, safety rules, tokens usually stay), log each knock-on effect in the decisions log, and issue the brief as the next version: the client's pages untouched, amendment pages added after its change log, the old version moved to `_superseded/`. Taglines and ideas that the change unlocks stay marked "pending the owner's pick" in the amendment until chosen.
 - **Log what you learn.** A failure becomes a line in the kit's `LESSONS.md`; a decision becomes a line in `SPEC.md` or `STATUS.md`.
 
 ## 4. Moving files: when and where
