@@ -18,7 +18,7 @@ QA isn't a final skim. It's a set of **methods** (ways of looking) plus **checks
 | **Five seconds** | Glance at the page for 5 s, look away, and say what it was about | Whether the one idea lands |
 | **Real size** | View at the size of use (phone for social, A4 printout, shelf distance for packs) | Legibility, minimum sizes, scale mistakes |
 | **Fresh eyes** | Re-check after other work, last of all | Everything you stopped seeing |
-| **Independent reviewer** | Spawn a fresh agent that did not make the work (no access to your reasoning). Give it the images, a short brief, the references and fixed criteria; ask for 1–10 scores per criterion, the top 5 defects with location and fix, P1/P2/polish, and an overall score. Never tell it what you think is good. | Blind spots of the maker: lookalikes, template/AI look, production traps, weak hierarchy |
+| **Independent reviewer** | Spawn a fresh agent that did not make the work (no access to your reasoning). Give it the images, a short brief, the references and fixed criteria; ask for 1–10 scores per criterion, the top 5 defects with location and fix, P1/P2/polish, and an overall score. Never tell it what you think is good. Verify each claim before acting on it (e.g. "text is upside down" → a targeted test render); log rejected claims with the evidence. | Blind spots of the maker: lookalikes, template/AI look, production traps, weak hierarchy |
 
 ## B. Concept and meaning
 - [ ] The page says **one** thing, and that thing serves the locked idea.

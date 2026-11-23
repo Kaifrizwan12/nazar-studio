@@ -35,6 +35,7 @@ Read `../nazar-core/SKILL.md` first. Structure, dielines and drafting art onto t
 - `references/shelf.md`: shelf research, category codes, findability vs visibility
 - `references/system.md`: range architecture, front-of-pack hierarchy, variant systems, back of pack and mandatory panels
 - `references/views.md`: every-side view sheets per structure (doypack, pillow, side gusset, box pouch); `engine/views.py`
+- `references/render_3d.md`: 3D pack renders in Blender that read as real board, not plastic (pipeline, materials, lens, board-realism checklist, light).
 - `references/back_panels.md`: compact back for narrow pillow bags (grid, type floor, photo bite)
 - `references/structure.md`: formats, substrates, sustainability, structural ideas
 - `references/press_files.md`: one master, two branches (press PDF + mockups), press PDF structure, bleed/scale rules, colour spec, version freeze
