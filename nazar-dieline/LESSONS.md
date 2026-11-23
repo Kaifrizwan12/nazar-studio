@@ -48,3 +48,4 @@
 
 ## 2026-11-21: doypack base, in then out
 - The gusset folds IN then back OUT (a W when empty); filled, weight opens it into a floor. `engine/base_fold.py` draws it from the real print art. See `references/flexibles_labels.md`.
+- 2026-11-23 · A spec job needed a flip-top pack and the engine had none · styles.md said 'ask the converter', but portfolio and speculative jobs have no converter, so the pack had no structure to sit on. · `hinge_lid` concept style (wrap blank, glued ends, lid cut + diagonal sides to a back hinge, separate inner frame), example job `hinge_lid_carton`, docs updated; still stamped CONCEPT.
