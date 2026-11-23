@@ -12,8 +12,8 @@ Use when a pack has to be shown as a real object (mockups, case studies, hero sh
 
 ## Board realism checklist (each item cost a review round)
 - **Hinge-lid (flip-top)**: the cut runs across the front and down the sides only. The back is one panel with a soft hinge crease (taper the gap to 0 at the back; cover the modelling seam and dent the crease in the height map). Never cut across the back.
-- **Die cut**: a visible but modest gap (~0.3 mm) with the lid a hair proud (~0.08 mm) at the front and sides. A new, sealed pack sits flush; a lifted lid lip means a used pack.
-- **Folds**: crease radius ~0.4 mm, not a moulded 0.8 mm+. Soft-touch greys slightly where it stretches over a crease (Bevel-node edge mask). Glued flap edges show the board core as a hairline.
+- **Die cut**: thin card cuts crisp. Show a fine line (~0.15 mm gap), the lid flush, no rounding on the cut edge, the core as a hairline. A proud lid, a wide gap or a rounded cut reads as a thick rigid box. A lifted lid lip means a used pack.
+- **Folds**: crease radius ~0.3 mm for 0.3 mm card, not a moulded 0.8 mm+. Soft-touch greys slightly where it stretches over a crease (Bevel-node edge mask). Glued flap edges show the board core as a hairline.
 - **Panels pillow** ~0.2 mm (front/back) and ~0.1 mm (sides), zero at the edges. A lid can sit a fraction of a degree off.
 - **Foil + emboss**: ~0.1 mm with a crisp edge (a small blur only). A deep, blurred emboss looks like a cast coin.
 - **Text inside a lid**: confirm with a render which inner face actually faces the camera when open (geometry intuition is unreliable). Inner faces are seen mirrored; flip the art in UV space and check.
